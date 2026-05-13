@@ -15,7 +15,7 @@ Design a video streaming platform that:
 3. **Recommendations**: Personalized suggestions using ML
 4. **Scalability**: Serve videos globally
 
-## Architecture
+## Architecture Overview
 
 Netflix operates on a **Cloud-Native Microservices** architecture primarily hosted on AWS. The system is split into two major planes:
 
@@ -33,7 +33,7 @@ Handles the actual video streaming:
 - **Open Connect (CDN)**: Netflix’s custom global network of hardware appliances (OCAs) that store video content close to users at ISPs.
 - **Encoding Pipeline**: Converts raw video into thousands of formats and bitrates to support various devices and network conditions.
 
-## Key Design Decisions
+## Key Decisions
 
 - **Chaos Engineering**: Uses the "Simian Army" (e.g., Chaos Monkey) to intentionally disable services in production to ensure the system can survive failures.
 - **Adaptive Bitrate Streaming (ABR)**: Automatically adjusts video quality in real-time based on the user's current bandwidth.

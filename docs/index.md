@@ -196,4 +196,4 @@ Remember to:
 
 **Ready to master system design? Start with [Fundamentals](fundamentals/scalability.md) →**
 
-*Complete System Design Interview Preparation Guide | Last updated: May 2026*
+*Comprehensive System Design Interview Preparation Guide | Built for Engineers*
