@@ -1,3 +1,20 @@
+/* Remove max-width constraints for the entire content area */
 .wy-nav-content {
     max-width: none !important;
+}
+
+.wy-nav-content-wrap {
+    max-width: none !important;
+}
+
+/* Ensure the main grid also scales */
+.wy-grid-for-nav {
+    max-width: none !important;
+}
+
+/* Optional: reduce padding on large screens if desired */
+@media screen and (min-width: 768px) {
+    .wy-nav-content {
+        padding: 2rem 4rem !important;
+    }
 }
