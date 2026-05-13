@@ -4,10 +4,6 @@ hide:
   - toc
 ---
 
-# System Design Interview Mastery
-
-## Master the Art of Building Scalable Systems
-
 Welcome to your complete System Design Interview Preparation Guide. This comprehensive resource covers everything you need to ace your system design interviews at top tech companies.
 
 ---
