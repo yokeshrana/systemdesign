@@ -11,6 +11,9 @@ theme:
     - python
     - javascript
 
+extra_css:
+  - assets/stylesheets/custom.css
+
 plugins:
   - search
   # - social
