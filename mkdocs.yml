@@ -14,6 +14,10 @@ theme:
 extra_css:
   - assets/stylesheets/custom.css
 
+extra_javascript:
+  - https://unpkg.com/mermaid/dist/mermaid.min.js
+  - assets/javascripts/mermaid-init.js
+
 plugins:
   - search
   # - social
@@ -21,7 +25,11 @@ plugins:
 markdown_extensions:
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.mermaid_format
   - pymdownx.highlight
   - pymdownx.tasklist
   - pymdownx.tabbed:
