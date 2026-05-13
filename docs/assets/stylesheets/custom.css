@@ -12,6 +12,11 @@
     max-width: none !important;
 }
 
+/* Remove the "Built with MkDocs" footer label */
+footer {
+    display: none !important;
+}
+
 /* Optional: reduce padding on large screens if desired */
 @media screen and (min-width: 768px) {
     .wy-nav-content {
