@@ -4,61 +4,12 @@ site_author: yokeshrana
 site_url: https://yokeshrana.github.io/systemdesign/
 
 theme:
-  name: material
-  language: en
-  palette:
-    # Light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: deep blue
-      accent: indigo
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
-    # Dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: deep blue
-      accent: indigo
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
-  
-  font:
-    text: Roboto
-    code: Roboto Mono
-  
-  features:
-    # Navigation
-    - navigation.instant
-    - navigation.instant.prefetch
-    - navigation.instant.progress
-    - navigation.path
-    - navigation.prune
-    - navigation.sections
-    - navigation.tabs
-    - navigation.tabs.sticky
-    - navigation.top
-    - navigation.expand
-    - navigation.footer
-    
-    # Search and Content
-    - search.suggest
-    - search.highlight
-    - search.share
-    - content.code.copy
-    - content.code.select
-    - content.code.annotate
-    - content.action.edit
-    - content.tabs.link
-    - content.tooltips
-    
-    # Table of Contents
-    - toc.follow
-    - toc.integrate
-    
-    # Other features
-    - announce.dismiss
+  name: readthedocs
+  highlightjs: true
+  hljs_languages:
+    - yaml
+    - python
+    - javascript
 
 plugins:
   - search
