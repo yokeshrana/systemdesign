@@ -62,7 +62,7 @@ theme:
 
 plugins:
   - search
-  - social
+  # - social
 
 markdown_extensions:
   - admonition
