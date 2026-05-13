@@ -1,0 +1,110 @@
+site_name: System Design Prep Notes
+site_description: Comprehensive system design interview preparation guide
+site_author: yokeshrana
+site_url: https://yokeshrana.github.io/systemdesign/
+
+theme:
+  name: material
+  language: en
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  
+  font:
+    text: Roboto
+    code: Roboto Mono
+  
+  features:
+    # Navigation
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.path
+    - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.expand
+    - navigation.footer
+    
+    # Search and Content
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
+    - content.action.edit
+    - content.tabs.link
+    - content.tooltips
+    
+    # Table of Contents
+    - toc.follow
+    - toc.integrate
+    
+    # Other features
+    - announce.dismiss
+
+plugins:
+  - search
+  - social
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.tasklist
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Fundamentals:
+    - System Design Basics: fundamentals/basics.md
+    - Scalability: fundamentals/scalability.md
+    - Load Balancing: fundamentals/load-balancing.md
+    - Consistency Models: fundamentals/consistency.md
+    - High Level Design vs Low Level Design: fundamentals/hld-vs-lld.md
+  - Components:
+    - Caching: components/caching.md
+    - Indexing: components/indexing.md
+    - Message Queues: components/message-queues.md
+    - Databases: components/databases.md
+    - Proxies: components/proxies.md
+  - Advanced:
+    - Microservices: advanced/microservices.md
+    - API Design: advanced/api-design.md
+    - Authentication: advanced/authentication.md
+    - Consistent Hashing: advanced/consistent-hashing.md
+    - Database Sharding: advanced/sharding.md
+  - Operations:
+    - Networking & CDN: operations/networking.md
+    - Monitoring & Logging: operations/monitoring.md
+    - Deployment: operations/deployment.md
+  - Case Studies:
+    - Popular Services: case-studies/index.md
+    - Instagram Design: case-studies/instagram.md
+    - Twitter Design: case-studies/twitter.md
+    - URL Shortener: case-studies/url-shortener.md
+    - Uber ETA: case-studies/uber.md
+    - Netflix Design: case-studies/netflix.md
+    - YouTube Design: case-studies/youtube.md
