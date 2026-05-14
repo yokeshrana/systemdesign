@@ -4,7 +4,7 @@ An interactive guide to acing system design interviews. Use the embedded viewer 
 
 ## PDF Viewer
 
-<div id="pdf-container" class="pdf-viewer-container">
+<div id="pdf-container" class="pdf-viewer-container pdf-fullscreen">
   <div class="pdf-controls">
     <button id="prev-page" title="Previous page">← Previous</button>
     <span id="page-info">Loading...</span>
@@ -14,7 +14,7 @@ An interactive guide to acing system design interviews. Use the embedded viewer 
     <a id="download-pdf" href="../../assets/system_design.pdf" download="Grokking_System_Design_Interview.pdf" title="Download PDF">📥 Download</a>
   </div>
   
-  <div id="pdf-viewer" style="width: 100%; height: 600px; border: 1px solid #ddd; background: #f5f5f5; position: relative;">
+  <div id="pdf-viewer" class="pdf-viewer-fullscreen">
     <canvas id="pdf-canvas"></canvas>
   </div>
   

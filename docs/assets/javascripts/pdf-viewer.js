@@ -34,7 +34,7 @@ async function renderPage(pageNum) {
   const canvas = document.getElementById('pdf-canvas');
   const ctx = canvas.getContext('2d');
   
-  const viewport = page.getViewport({ scale: 1.5 });
+  const viewport = page.getViewport({ scale: 2.5 });
   canvas.width = viewport.width;
   canvas.height = viewport.height;
   
