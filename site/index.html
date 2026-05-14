@@ -46,7 +46,7 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#core-topics">Core Topics</a>
+    <li class="toctree-l2"><a class="reference internal" href="#the-default-interview-flow">The Default Interview Flow</a>
     </li>
     </ul>
                 </li>
@@ -96,6 +96,25 @@
                   <li class="toctree-l1"><a class="reference internal" href="advanced/top-k/">Top 'K' Frequent Items</a>
                   </li>
               </ul>
+              <p class="caption"><span class="caption-text">Interview Framework</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="interview-framework/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="interview-framework/requirements-clarification/">1. Requirements Clarification</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="interview-framework/system-interface/">2. System Interface Definition</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="interview-framework/estimation/">3. Back-of-the-Envelope Estimation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="interview-framework/data-model/">4. Data Model Definition</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="interview-framework/high-level-design/">5. High-Level Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="interview-framework/detailed-design/">6. Detailed Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="interview-framework/bottlenecks/">7. Bottlenecks and Scaling</a>
+                  </li>
+              </ul>
               <p class="caption"><span class="caption-text">Operations</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="operations/networking/">Networking & CDN</a>
@@ -117,6 +136,10 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="case-studies/facebook-newsfeed/">Facebook Newsfeed</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="case-studies/facebook-messenger/">Facebook Messenger</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="case-studies/twitter-search/">Twitter Search</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="case-studies/yelp/">Yelp (Proximity Server)</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="case-studies/ticketmaster/">Ticketmaster</a>
@@ -132,6 +155,10 @@
                   <li class="toctree-l1"><a class="reference internal" href="case-studies/netflix/">Netflix Design</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="case-studies/youtube/">YouTube Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="case-studies/typeahead-suggestion/">Typeahead Suggestion</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="case-studies/api-rate-limiter/">API Rate Limiter</a>
                   </li>
               </ul>
       </div>
@@ -159,6 +186,19 @@
               
                 <p>Welcome to your complete System Design Interview Preparation Guide. This comprehensive resource covers everything you need to ace your system design interviews at top tech companies.</p>
 <hr />
+<h2 id="start-here">Start Here<a class="headerlink" href="#start-here" title="Permanent link">&para;</a></h2>
+<p>If you want the fastest path to a strong system design answer, begin with the <a href="interview-framework/">Interview Framework</a>. It gives you the seven-step structure used throughout the rest of this site and in the Grokking-style PDF reference.</p>
+<h3 id="the-default-interview-flow">The Default Interview Flow<a class="headerlink" href="#the-default-interview-flow" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Clarify requirements</li>
+<li>Define the system interface</li>
+<li>Estimate scale</li>
+<li>Define the data model</li>
+<li>Draw the high-level design</li>
+<li>Deep dive into the hard parts</li>
+<li>Close with bottlenecks and scaling</li>
+</ol>
+<p>Use this sequence first, then apply the same flow to the case studies.</p>
 <h2 id="navigation">Navigation<a class="headerlink" href="#navigation" title="Permanent link">&para;</a></h2>
 <h3 id="core-topics">Core Topics<a class="headerlink" href="#core-topics" title="Permanent link">&para;</a></h3>
 <p><strong><a href="fundamentals/scalability/">Fundamentals</a></strong></p>
@@ -178,10 +218,31 @@
 - <a href="advanced/microservices/">Microservices</a> – Service architecture and patterns
 - <a href="advanced/api-design/">API Design</a> – REST, gRPC, GraphQL best practices
 - <a href="advanced/authentication/">Authentication</a> – OAuth, JWT, security patterns</p>
+<h3 id="interview-framework">Interview Framework<a class="headerlink" href="#interview-framework" title="Permanent link">&para;</a></h3>
+<p>Use this seven-step sequence to structure every system design answer before you dive into examples:
+- <a href="interview-framework/">Overview</a>
+- <a href="interview-framework/requirements-clarification/">Requirements Clarification</a>
+- <a href="interview-framework/system-interface/">System Interface Definition</a>
+- <a href="interview-framework/estimation/">Back-of-the-Envelope Estimation</a>
+- <a href="interview-framework/data-model/">Data Model Definition</a>
+- <a href="interview-framework/high-level-design/">High-Level Design</a>
+- <a href="interview-framework/detailed-design/">Detailed Design</a>
+- <a href="interview-framework/bottlenecks/">Bottlenecks and Scaling</a></p>
 <p><strong><a href="operations/monitoring/">Operations</a></strong></p>
 <p>Learn how to ship and maintain systems in production:
 - <a href="operations/monitoring/">Monitoring &amp; Logging</a> – Observability and debugging
 - <a href="operations/deployment/">Deployment</a> – CI/CD, blue-green deployments</p>
+<hr />
+<h2 id="recommended-learning-order">Recommended Learning Order<a class="headerlink" href="#recommended-learning-order" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="interview-framework/">Interview Framework</a></li>
+<li><a href="fundamentals/basics/">System Design Basics</a></li>
+<li><a href="fundamentals/scalability/">Scalability</a></li>
+<li><a href="fundamentals/load-balancing/">Load Balancing</a></li>
+<li><a href="components/caching/">Caching</a></li>
+<li><a href="components/databases/">Databases</a></li>
+<li><a href="case-studies/">Case Studies</a></li>
+</ol>
 <hr />
 <h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
 <h3 id="for-interview-prep-4-6-weeks">For Interview Prep (4-6 weeks)<a class="headerlink" href="#for-interview-prep-4-6-weeks" title="Permanent link">&para;</a></h3>
@@ -203,6 +264,7 @@
 - Prepare system design answers</p>
 <h3 id="for-self-paced-learning">For Self-Paced Learning<a class="headerlink" href="#for-self-paced-learning" title="Permanent link">&para;</a></h3>
 <p>Start here if you're new to system design:
+- Learn the interview flow in <a href="interview-framework/">Interview Framework</a>
 - Begin with <a href="fundamentals/scalability/">Scalability Fundamentals</a>
 - Move to <a href="components/caching/">Core Components</a>
 - Explore <a href="advanced/microservices/">Advanced Patterns</a></p>
@@ -271,6 +333,7 @@
 <h2 id="how-to-use-this-guide">How to Use This Guide<a class="headerlink" href="#how-to-use-this-guide" title="Permanent link">&para;</a></h2>
 <ol>
 <li><strong>Choose Your Path</strong> – Select fundamentals, components, advanced, or operations</li>
+<li><strong>Read the Framework First</strong> – Use the seven interview steps to structure every answer</li>
 <li><strong>Read Actively</strong> – Take notes and draw diagrams</li>
 <li><strong>Understand Trade-offs</strong> – Learn when and why to use each technology</li>
 <li><strong>Practice</strong> – Apply concepts to mock interview questions</li>
@@ -349,5 +412,5 @@
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2026-05-14 04:51:58.500928+00:00
+Build Date UTC : 2026-05-14 07:15:41.491190+00:00
 -->

@@ -92,6 +92,25 @@
                   <li class="toctree-l1"><a class="reference internal" href="../advanced/top-k/">Top 'K' Frequent Items</a>
                   </li>
               </ul>
+              <p class="caption"><span class="caption-text">Interview Framework</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../interview-framework/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../interview-framework/system-interface/">2. System Interface Definition</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../interview-framework/estimation/">3. Back-of-the-Envelope Estimation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../interview-framework/data-model/">4. Data Model Definition</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../interview-framework/high-level-design/">5. High-Level Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../interview-framework/detailed-design/">6. Detailed Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../interview-framework/bottlenecks/">7. Bottlenecks and Scaling</a>
+                  </li>
+              </ul>
               <p class="caption"><span class="caption-text">Operations</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../operations/networking/">Networking & CDN</a>
@@ -125,6 +144,10 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="facebook-newsfeed/">Facebook Newsfeed</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="facebook-messenger/">Facebook Messenger</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="twitter-search/">Twitter Search</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="yelp/">Yelp (Proximity Server)</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="ticketmaster/">Ticketmaster</a>
@@ -140,6 +163,10 @@
                   <li class="toctree-l1"><a class="reference internal" href="netflix/">Netflix Design</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="youtube/">YouTube Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="typeahead-suggestion/">Typeahead Suggestion</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="api-rate-limiter/">API Rate Limiter</a>
                   </li>
               </ul>
       </div>
@@ -168,6 +195,16 @@
               
                 <h1 id="system-design-case-studies">System Design Case Studies<a class="headerlink" href="#system-design-case-studies" title="Permanent link">&para;</a></h1>
 <p>Real-world system design case studies are the best way to understand how fundamental concepts and components come together to solve complex problems at scale.</p>
+<p>Every case study in this section follows the same seven-step interview framework used across the site:</p>
+<ol>
+<li>Requirements clarification</li>
+<li>System interface definition</li>
+<li>Back-of-the-envelope estimation</li>
+<li>Data model definition</li>
+<li>High-level design</li>
+<li>Detailed design</li>
+<li>Bottlenecks and scaling</li>
+</ol>
 <hr />
 <h2 id="social-content-platforms">Social &amp; Content Platforms<a class="headerlink" href="#social-content-platforms" title="Permanent link">&para;</a></h2>
 <p>These services handle massive user bases, high-concurrency feed generation, and huge volumes of user-generated content.</p>
@@ -194,6 +231,7 @@
 2.  <strong>Bottlenecks</strong>: Where will the system fail first as it scales?
 3.  <strong>Key Decisions</strong>: What are the 2-3 unique technical challenges for this specific problem?
 4.  <strong>Back-of-Envelope</strong>: Can you estimate the storage and bandwidth requirements?</p>
+<p>Before reading any specific case study, skim the matching pages in <a href="../interview-framework/">Interview Framework</a> so you can map each example back to the same structure.</p>
               
             </div>
           </div><footer>

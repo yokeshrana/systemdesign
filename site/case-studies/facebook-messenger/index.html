@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="yokeshrana" name="author"/><link href="https://yokeshrana.github.io/systemdesign/case-studies/facebook-messenger/" rel="canonical"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>Facebook Messenger - System Design Prep Notes</title>
+<link href="../../css/theme.css" rel="stylesheet"/>
+<link href="../../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/custom.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "Facebook Messenger";
+        var mkdocs_page_input_path = "case-studies/facebook-messenger.md";
+        var mkdocs_page_url = "/systemdesign/case-studies/facebook-messenger/";
+      </script>
+<!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+<script>hljs.highlightAll();</script>
+</head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../.."> System Design Prep Notes
+        </a><div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" title="Type search term here" type="text"/>
+</form>
+</div>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Fundamentals</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication &amp; Redundancy</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Components</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/microservices/">Microservices</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/api-design/">API Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/authentication/">Authentication</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/consistent-hashing/">Consistent Hashing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/sharding/">Database Sharding</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Interview Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/estimation/">3. Back-of-the-Envelope Estimation</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/data-model/">4. Data Model Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/high-level-design/">5. High-Level Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/detailed-design/">6. Detailed Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/bottlenecks/">7. Bottlenecks and Scaling</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/monitoring/">Monitoring &amp; Logging</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/deployment/">Deployment</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Case Studies</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../">Popular Services</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instagram/">Instagram Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter/">Twitter Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dropbox/">Dropbox / Google Drive</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook-newsfeed/">Facebook Newsfeed</a>
+</li>
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Facebook Messenger</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications">1. Requirements Clarifications</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation-and-constraints">2. Capacity Estimation and Constraints</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#3-system-apis">3. System APIs</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#4-database-design">4. Database Design</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design">5. High Level Design</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-component-design">6. Detailed Component Design</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks">7. Identifying and Resolving Bottlenecks</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-search/">Twitter Search</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../yelp/">Yelp (Proximity Server)</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ticketmaster/">Ticketmaster</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../url-shortener/">URL Shortener</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pastebin/">Pastebin</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../web-crawler/">Web Crawler</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../uber/">Uber ETA</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../netflix/">Netflix Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../youtube/">YouTube Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../typeahead-suggestion/">Typeahead Suggestion</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-rate-limiter/">API Rate Limiter</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../..">System Design Prep Notes</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Docs" class="icon icon-home" href="../.."></a></li>
+<li class="breadcrumb-item">Case Studies</li>
+<li class="breadcrumb-item active">Facebook Messenger</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="facebook-messenger-design">Facebook Messenger Design<a class="headerlink" href="#facebook-messenger-design" title="Permanent link">¶</a></h1>
+<h2 id="1-requirements-clarifications">1. Requirements Clarifications<a class="headerlink" href="#1-requirements-clarifications" title="Permanent link">¶</a></h2>
+<p><strong>Functional Requirements:</strong>
+1. Messenger should support one-on-one conversations between users.
+2. Messenger should keep track of the online/offline statuses of its users.
+3. Messenger should support persistent storage of chat history.</p>
+<p><strong>Non-Functional Requirements:</strong>
+1. Users should have real-time chat experience with minimum latency.
+2. Our system should be highly consistent; users should be able to see the same chat history on all their devices.
+3. Messenger’s high availability is desirable; we can tolerate lower availability in the interest of consistency.</p>
+<p><strong>Extended Requirements:</strong>
+- Group Chats: Messenger should support multiple people talking to each other in a group.
+- Push notifications: Messenger should be able to notify users of new messages when they are offline.</p>
+<h2 id="2-capacity-estimation-and-constraints">2. Capacity Estimation and Constraints<a class="headerlink" href="#2-capacity-estimation-and-constraints" title="Permanent link">¶</a></h2>
+<p>Let’s assume that we have 500 million daily active users and on average each user sends 40 messages daily; this gives us 20 billion messages per day.</p>
+<ul>
+<li><strong>Storage Estimation:</strong> Let’s assume that on average a message is 100 bytes, so to store all the messages for one day we would need 2TB of storage (<code>20 billion messages * 100 bytes =&gt; 2 TB/day</code>). To store five years of chat history, we would need 3.6 petabytes of storage (<code>2 TB * 365 days * 5 years ~= 3.6 PB</code>).</li>
+<li><strong>Bandwidth Estimation:</strong> If our service is getting 2TB of data every day, this will give us 25MB of incoming data for each second (<code>2 TB / 86400 sec ~= 25 MB/s</code>). Since each incoming message needs to go out to another user, we will need the same amount of bandwidth 25MB/s for both upload and download.</li>
+</ul>
+<h2 id="3-system-apis">3. System APIs<a class="headerlink" href="#3-system-apis" title="Permanent link">¶</a></h2>
+<p>We can define APIs to send messages and retrieve messages. For sending a message:</p>
+<p><code>sendMessage(api_dev_key, user_id, receiver_id, message_text, media_ids)</code></p>
+<p><strong>Parameters:</strong>
+- <code>api_dev_key</code> (string): The API developer key of a registered account.
+- <code>user_id</code> (number): The ID of the sender.
+- <code>receiver_id</code> (number): The ID of the receiver.
+- <code>message_text</code> (string): The text of the message.
+- <code>media_ids</code> (number[]): Optional list of media_ids to be associated with the message.</p>
+<p><strong>Returns:</strong> (JSON)
+Returns the message ID and delivery status.</p>
+<h2 id="4-database-design">4. Database Design<a class="headerlink" href="#4-database-design" title="Permanent link">¶</a></h2>
+<p>We need to store users, chats, and messages.</p>
+<p>Which storage system should we use? We need to have a database that can support a very high rate of small updates and also fetch a range of records quickly. </p>
+<p>We cannot use RDBMS like MySQL or NoSQL like MongoDB because we cannot afford to read/write a row from the database every time a user receives/sends a message. This will not only make the basic operations of our service run with high latency, but also create a huge load on databases.</p>
+<p>Both of our requirements can be easily met with a wide-column database solution like <strong>HBase</strong>. HBase is a column-oriented key-value NoSQL database that can store multiple values against one key into multiple columns. HBase groups data together to store new data in a memory buffer and, once the buffer is full, it dumps the data to the disk. This helps in storing a lot of small data quickly, and fetching rows by the key or scanning ranges of rows.</p>
+<h2 id="5-high-level-design">5. High Level Design<a class="headerlink" href="#5-high-level-design" title="Permanent link">¶</a></h2>
+<p>At a high-level, we will need a chat server that will be the central piece, orchestrating all the communications between users. </p>
+<div class="mermaid">graph TD
+    UserA((User A)) &lt;--&gt;|Send/Receive| ChatServer[Chat Server]
+    UserB((User B)) &lt;--&gt;|Send/Receive| ChatServer
+
+    ChatServer --&gt;|Store/Retrieve| DB[(Data Storage - HBase)]
+
+    ChatServer --&gt; Cache[Cache Server]
+</div>
+<p><strong>Detailed Workflow:</strong>
+1. User-A sends a message to User-B through the chat server.
+2. The server receives the message and sends an acknowledgment to User-A.
+3. The server stores the message in its database and sends the message to User-B.
+4. User-B receives the message and sends the acknowledgment to the server.
+5. The server notifies User-A that the message has been delivered successfully to User-B.</p>
+<h2 id="6-detailed-component-design">6. Detailed Component Design<a class="headerlink" href="#6-detailed-component-design" title="Permanent link">¶</a></h2>
+<p><strong>Messages Handling:</strong>
+To get a message from the server, the user can use the <strong>Push model</strong>, where users keep a connection open with the server (e.g., using <strong>WebSockets</strong> or <strong>Long Polling</strong>) and depend upon the server to notify them whenever there are new messages.
+The chat server will find the server that holds the connection for the receiver and pass the message to that server to send it to the receiver. The chat server can then send the acknowledgment to the sender.</p>
+<p><strong>Sequencing:</strong>
+To ensure correct ordering of messages for clients, we need to keep a sequence number with every message for each client. This sequence number will determine the exact ordering of messages for EACH user.</p>
+<p><strong>Managing user’s status:</strong>
+We need to keep track of user’s online/offline status and notify all the relevant users whenever a status change happens. We can broadcast online status with a delay of a few seconds, pull the status of friends periodically, and only send status updates for users visible in the viewport.</p>
+<h2 id="7-identifying-and-resolving-bottlenecks">7. Identifying and Resolving Bottlenecks<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks" title="Permanent link">¶</a></h2>
+<p><strong>Data Partitioning:</strong>
+- <em>Partitioning based on UserID:</em> We can partition based on the hash of the UserID so that we can keep all messages of a user on the same database. We can find the shard number by <code>hash(UserID) % 1000</code>.</p>
+<p><strong>Cache:</strong>
+We can cache a few recent messages (say last 15) in a few recent conversations that are visible in a user’s viewport (say last 5). Since we decided to store all of the user’s messages on one shard, cache for a user should entirely reside on one machine too.</p>
+<p><strong>Load balancing:</strong>
+We will need a load balancer in front of our chat servers; that can map each UserID to a server that holds the connection for the user and then direct the request to that server.</p>
+<p><strong>Fault tolerance and Replication:</strong>
+If a chat server goes down, clients can automatically reconnect to transfer those connections to some other server. Messages should be stored with multiple copies of the data on different servers (or using Reed-Solomon encoding) to distribute and replicate it for fault tolerance.</p>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href="../facebook-newsfeed/" title="Facebook Newsfeed"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../twitter-search/" title="Twitter Search">Next <span class="icon icon-circle-arrow-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href="../facebook-newsfeed/" style="color: #fcfcfc">« Previous</a></span>
+<span><a href="../twitter-search/" style="color: #fcfcfc">Next »</a></span>
+</span>
+</div>
+<script src="../../js/jquery-3.6.0.min.js"></script>
+<script>var base_url = "../..";</script>
+<script src="../../js/theme_extra.js"></script>
+<script src="../../js/theme.js"></script>
+<script src="../../search/main.js"></script>
+<script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

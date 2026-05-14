@@ -1,6 +1,6 @@
 # Case Study: Dropbox / Google Drive
 
-## 1. Requirements
+## 1. Requirements clarifications (Functional & Non-Functional)
 
 ### Functional
 *   Users can upload and download files from any device.
@@ -13,24 +13,24 @@
 *   **Availability:** High availability for file access.
 *   **Efficiency:** Minimize bandwidth usage (incremental updates).
 
-## 2. Capacity Estimation
-*   **Users:** 500M total, 10M daily active users (DAU).
-*   **Storage:** Average 10GB per user $\rightarrow$ 5 Exabytes total storage.
-*   **Traffic:** 100M file uploads/updates per day.
-
-## 3. APIs
+## 2. System interface definition (APIs)
 *   `uploadFile(file_data, metadata)`
 *   `downloadFile(file_id, version)`
 *   `listUpdates(cursor)` (used by clients for sync)
 
-## 4. DB Design
+## 3. Back-of-the-envelope estimation (Capacity Estimation)
+*   **Users:** 500M total, 10M daily active users (DAU).
+*   **Storage:** Average 10GB per user $\rightarrow$ 5 Exabytes total storage.
+*   **Traffic:** 100M file uploads/updates per day.
+
+## 4. Defining data model (Database Schema/Model)
 *   **Metadata DB:** Relational (MySQL/PostgreSQL) for ACID properties.
     *   `User (user_id, name, email)`
     *   `File (file_id, name, path, is_directory, parent_id, latest_version)`
     *   `FileVersion (version_id, file_id, device_id, checksum, size, timestamp)`
 *   **Block Storage:** Amazon S3 or similar object store for actual file chunks.
 
-## 5. HLD with Mermaid
+## 5. High-level design (with Mermaid)
 
 ```mermaid
 graph TD
@@ -44,7 +44,7 @@ graph TD
     H[Sync Service] --> D
 ```
 
-## 6. Detailed Design
+## 6. Detailed design (Deep dive into components)
 
 ### Block Level Storage
 Files are split into fixed-size chunks (e.g., 4MB). Only modified chunks are re-uploaded.
@@ -59,7 +59,7 @@ The client keeps a local database (SQLite) to track file states.
 ### Metadata Cache
 To speed up lookups, metadata for active users is cached in Redis.
 
-## 7. Bottlenecks
+## 7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)
 *   **Metadata DB Scaling:** As the number of files grows into trillions, sharding the Metadata DB becomes necessary.
 *   **Notification Latency:** Ensuring real-time sync across devices requires a robust Long Polling or WebSocket-based notification service.
 *   **Upload Speed:** Use Edge locations (CDNs) to terminate connections closer to the user.

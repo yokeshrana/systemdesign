@@ -8,6 +8,22 @@ Welcome to your complete System Design Interview Preparation Guide. This compreh
 
 ---
 
+## Start Here
+
+If you want the fastest path to a strong system design answer, begin with the [Interview Framework](interview-framework/index.md). It gives you the seven-step structure used throughout the rest of this site and in the Grokking-style PDF reference.
+
+### The Default Interview Flow
+
+1. Clarify requirements
+2. Define the system interface
+3. Estimate scale
+4. Define the data model
+5. Draw the high-level design
+6. Deep dive into the hard parts
+7. Close with bottlenecks and scaling
+
+Use this sequence first, then apply the same flow to the case studies.
+
 ## Navigation
 
 ### Core Topics
@@ -35,11 +51,35 @@ Deep dive into enterprise-scale architecture patterns:
 - [API Design](advanced/api-design.md) – REST, gRPC, GraphQL best practices
 - [Authentication](advanced/authentication.md) – OAuth, JWT, security patterns
 
+### Interview Framework
+
+Use this seven-step sequence to structure every system design answer before you dive into examples:
+- [Overview](interview-framework/index.md)
+- [Requirements Clarification](interview-framework/requirements-clarification.md)
+- [System Interface Definition](interview-framework/system-interface.md)
+- [Back-of-the-Envelope Estimation](interview-framework/estimation.md)
+- [Data Model Definition](interview-framework/data-model.md)
+- [High-Level Design](interview-framework/high-level-design.md)
+- [Detailed Design](interview-framework/detailed-design.md)
+- [Bottlenecks and Scaling](interview-framework/bottlenecks.md)
+
 **[Operations](operations/monitoring.md)**
 
 Learn how to ship and maintain systems in production:
 - [Monitoring & Logging](operations/monitoring.md) – Observability and debugging
 - [Deployment](operations/deployment.md) – CI/CD, blue-green deployments
+
+---
+
+## Recommended Learning Order
+
+1. [Interview Framework](interview-framework/index.md)
+2. [System Design Basics](fundamentals/basics.md)
+3. [Scalability](fundamentals/scalability.md)
+4. [Load Balancing](fundamentals/load-balancing.md)
+5. [Caching](components/caching.md)
+6. [Databases](components/databases.md)
+7. [Case Studies](case-studies/index.md)
 
 ---
 
@@ -70,6 +110,7 @@ Learn how to ship and maintain systems in production:
 ### For Self-Paced Learning
 
 Start here if you're new to system design:
+- Learn the interview flow in [Interview Framework](interview-framework/index.md)
 - Begin with [Scalability Fundamentals](fundamentals/scalability.md)
 - Move to [Core Components](components/caching.md)
 - Explore [Advanced Patterns](advanced/microservices.md)
@@ -160,10 +201,11 @@ Remember to:
 ## How to Use This Guide
 
 1. **Choose Your Path** – Select fundamentals, components, advanced, or operations
-2. **Read Actively** – Take notes and draw diagrams
-3. **Understand Trade-offs** – Learn when and why to use each technology
-4. **Practice** – Apply concepts to mock interview questions
-5. **Review** – Revisit challenging topics before interviews
+2. **Read the Framework First** – Use the seven interview steps to structure every answer
+3. **Read Actively** – Take notes and draw diagrams
+4. **Understand Trade-offs** – Learn when and why to use each technology
+5. **Practice** – Apply concepts to mock interview questions
+6. **Review** – Revisit challenging topics before interviews
 
 ### Search & Navigation
 

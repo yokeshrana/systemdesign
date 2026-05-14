@@ -88,6 +88,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Interview Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/estimation/">3. Back-of-the-Envelope Estimation</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/data-model/">4. Data Model Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/high-level-design/">5. High-Level Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/detailed-design/">6. Detailed Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/bottlenecks/">7. Bottlenecks and Scaling</a>
+</li>
+</ul>
 <p class="caption"><span class="caption-text">Operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
@@ -109,6 +128,10 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../facebook-newsfeed/">Facebook Newsfeed</a>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook-messenger/">Facebook Messenger</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-search/">Twitter Search</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../yelp/">Yelp (Proximity Server)</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../ticketmaster/">Ticketmaster</a>
@@ -119,7 +142,7 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal current" href="./">Web Crawler</a>
 <ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="#1-requirements">1. Requirements</a>
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#functional">Functional</a>
 </li>
@@ -127,25 +150,25 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation">2. Capacity Estimation</a>
+<li class="toctree-l2"><a class="reference internal" href="#2-system-interface-definition-apis">2. System interface definition (APIs)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#3-apis">3. APIs</a>
+<li class="toctree-l2"><a class="reference internal" href="#3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#4-db-design">4. DB Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#5-hld-with-mermaid">5. HLD with Mermaid</a>
+<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design-with-mermaid">5. High-level design (with Mermaid)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design">6. Detailed Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#politeness-distributed-crawling">Politeness &amp; Distributed Crawling</a>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#deduplication">Deduplication</a>
+<li class="toctree-l3"><a class="reference internal" href="#deduplication-strategies">Deduplication Strategies</a>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#dns-caching">DNS Caching</a>
+<li class="toctree-l3"><a class="reference internal" href="#dns-caching-optimization">DNS Caching &amp; Optimization</a>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#7-bottlenecks">7. Bottlenecks</a>
+<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)</a>
 </li>
 </ul>
 </li>
@@ -154,6 +177,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../netflix/">Netflix Design</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../youtube/">YouTube Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../typeahead-suggestion/">Typeahead Suggestion</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-rate-limiter/">API Rate Limiter</a>
 </li>
 </ul>
 </div>
@@ -178,38 +205,41 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="case-study-web-crawler">Case Study: Web Crawler<a class="headerlink" href="#case-study-web-crawler" title="Permanent link">¶</a></h1>
-<h2 id="1-requirements">1. Requirements<a class="headerlink" href="#1-requirements" title="Permanent link">¶</a></h2>
+<h2 id="1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)<a class="headerlink" href="#1-requirements-clarifications-functional-non-functional" title="Permanent link">¶</a></h2>
 <h3 id="functional">Functional<a class="headerlink" href="#functional" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>Crawling:</strong> Scrape text and metadata from billions of web pages.</li>
-<li><strong>Discovery:</strong> Extract URLs from crawled pages and add them to a frontier for future crawling.</li>
-<li><strong>Deduplication:</strong> Avoid crawling the same content multiple times.</li>
-<li><strong>Freshness:</strong> Periodically recrawl pages to detect changes.</li>
+<li><strong>Crawling:</strong> Scalably scrape text and metadata from billions of web pages across the internet.</li>
+<li><strong>Discovery:</strong> Automatically extract new URLs from crawled pages and add them to a frontier for future crawling.</li>
+<li><strong>Deduplication:</strong> Efficiently identify and skip already crawled URLs and near-duplicate content.</li>
+<li><strong>Freshness:</strong> Periodically recrawl pages to ensure the index reflects recent changes and updates.</li>
 </ul>
 <h3 id="non-functional">Non-Functional<a class="headerlink" href="#non-functional" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>Scalability:</strong> Crawl billions of pages per month.</li>
-<li><strong>Politeness:</strong> Do not overwhelm a single server with requests (obey <code>robots.txt</code>).</li>
-<li><strong>Extensibility:</strong> Support new content types (images, PDFs) easily.</li>
+<li><strong>Massive Scalability:</strong> Capable of crawling and processing billions of pages per month.</li>
+<li><strong>Politeness:</strong> Strictly adhere to <code>robots.txt</code> and ensure no single server is overwhelmed by requests.</li>
+<li><strong>Extensibility:</strong> Modular architecture to easily support new content types like images, PDFs, and videos.</li>
+<li><strong>Robustness:</strong> Handle malformed HTML, crawler traps, and slow servers gracefully.</li>
 </ul>
-<h2 id="2-capacity-estimation">2. Capacity Estimation<a class="headerlink" href="#2-capacity-estimation" title="Permanent link">¶</a></h2>
+<h2 id="2-system-interface-definition-apis">2. System interface definition (APIs)<a class="headerlink" href="#2-system-interface-definition-apis" title="Permanent link">¶</a></h2>
+<p>While primarily an internal background system, the crawler exposes several critical internal interfaces:
+*   <code>addSeedUrls(url_list)</code>: Populates the frontier with initial URLs to begin the crawling process.
+*   <code>getCrawlStats(crawl_id)</code>: Provides real-time metrics on crawl progress, success rates, and discovered URLs.
+*   <code>updatePolitenessPolicy(domain, settings)</code>: Allows manual adjustment of crawling frequency for specific domains.</p>
+<h2 id="3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)<a class="headerlink" href="#3-back-of-the-envelope-estimation-capacity-estimation" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>Page Volume:</strong> 15 billion pages per month.</li>
-<li><strong>Throughput:</strong> 15B / (30 days * 24h * 3600s) $\approx$ 5,700 pages/second.</li>
-<li><strong>Storage:</strong> 15B pages * 100KB/page $\approx$ 1.5 Petabytes per month.</li>
+<li><strong>Page Volume:</strong> Assume 15 billion pages need to be crawled per month.</li>
+<li><strong>Throughput:</strong> 15B / (30 days * 24h * 3600s) $\approx$ 5,700 pages processed per second.</li>
+<li><strong>Storage Requirements:</strong> 15B pages * 100KB average size per page $\approx$ 1.5 Petabytes of raw data per month.</li>
+<li><strong>Metadata Storage:</strong> Storing URL hashes, crawl dates, and status for 15B pages requires several terabytes of fast-access storage (e.g., Cassandra).</li>
 </ul>
-<h2 id="3-apis">3. APIs<a class="headerlink" href="#3-apis" title="Permanent link">¶</a></h2>
-<p>Since a crawler is typically an internal background system, it doesn't have public APIs. However, it exposes internal interfaces:
-*   <code>submitSeedURLs(url_list)</code>
-*   <code>getStatus(crawl_id)</code></p>
-<h2 id="4-db-design">4. DB Design<a class="headerlink" href="#4-db-design" title="Permanent link">¶</a></h2>
+<h2 id="4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)<a class="headerlink" href="#4-defining-data-model-database-schemamodel" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>URL Frontier:</strong> A massive distributed queue (e.g., Kafka or custom) to store URLs to be crawled.</li>
-<li><strong>URL Set:</strong> A hash set or Bloom filter of billions of URLs to track which ones have already been visited.</li>
-<li><strong>Document Store:</strong> HDFS or S3 to store the actual HTML/content.</li>
-<li><strong>Metadata DB:</strong> Cassandra or HBase to store page metadata (title, last crawl date, checksum).</li>
+<li><strong>URL Frontier:</strong> A distributed, persistent queue (e.g., Kafka or a custom RabbitMQ implementation) used to prioritize and store URLs waiting to be crawled.</li>
+<li><strong>URL Set (Deduplication):</strong> A massive Bloom filter or a distributed hash set (e.g., Redis) to track billions of visited URLs with minimal memory overhead.</li>
+<li><strong>Document Store:</strong> High-capacity object storage (Amazon S3 or HDFS) for the raw HTML and extracted content.</li>
+<li><strong>Metadata DB:</strong> A wide-column NoSQL database like <strong>Cassandra</strong> or <strong>HBase</strong> to store page-level metadata including titles, checksums, and last-modified headers.</li>
 </ul>
-<h2 id="5-hld-with-mermaid">5. HLD with Mermaid<a class="headerlink" href="#5-hld-with-mermaid" title="Permanent link">¶</a></h2>
+<h2 id="5-high-level-design-with-mermaid">5. High-level design (with Mermaid)<a class="headerlink" href="#5-high-level-design-with-mermaid" title="Permanent link">¶</a></h2>
 <div class="mermaid">graph TD
     A[URL Frontier] --&gt; B[Crawler Workers]
     B --&gt; C[DNS Resolver]
@@ -221,23 +251,25 @@
     H --&gt; A
     I[Robots.txt Cache] --&gt; D
 </div>
-<h2 id="6-detailed-design">6. Detailed Design<a class="headerlink" href="#6-detailed-design" title="Permanent link">¶</a></h2>
+<h2 id="6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)<a class="headerlink" href="#6-detailed-design-deep-dive-into-components" title="Permanent link">¶</a></h2>
 <h3 id="politeness-distributed-crawling">Politeness &amp; Distributed Crawling<a class="headerlink" href="#politeness-distributed-crawling" title="Permanent link">¶</a></h3>
-<p>To avoid DDOSing a website:
-*   <strong>Host-based Queuing:</strong> The Frontier maintains separate queues for different hostnames.
-*   <strong>Worker Affinity:</strong> A worker thread is assigned to a specific hostname queue and waits between requests.</p>
-<h3 id="deduplication">Deduplication<a class="headerlink" href="#deduplication" title="Permanent link">¶</a></h3>
+<p>To maintain a high crawling rate without causing service disruptions for hosts:
+*   <strong>Host-based Queuing:</strong> The Frontier maintains separate sub-queues for each hostname.
+*   <strong>Worker Affinity:</strong> Each worker thread is assigned a specific host queue and implements a configurable delay between consecutive requests to the same domain.
+*   <strong>Robots.txt Caching:</strong> Crawlers maintain an in-memory cache of <code>robots.txt</code> files to avoid redundant fetches before every page request.</p>
+<h3 id="deduplication-strategies">Deduplication Strategies<a class="headerlink" href="#deduplication-strategies" title="Permanent link">¶</a></h3>
 <ol>
-<li><strong>URL Deduplication:</strong> Use a Bloom Filter to quickly check if a URL has been seen.</li>
-<li><strong>Content Deduplication:</strong> Use <strong>Simhash</strong> or regular MD5/SHA-256 on the page content to detect near-duplicates (e.g., same page with different session IDs).</li>
+<li><strong>URL Deduplication:</strong> Before adding any URL to the frontier, it is normalized (e.g., removing session IDs, converting to lowercase) and checked against a Bloom Filter.</li>
+<li><strong>Content Deduplication:</strong> To identify pages with different URLs but identical content, we use <strong>Simhash</strong> or <strong>MinHash</strong> to generate "fingerprints" of the page content. This allows the system to detect near-duplicates effectively.</li>
 </ol>
-<h3 id="dns-caching">DNS Caching<a class="headerlink" href="#dns-caching" title="Permanent link">¶</a></h3>
-<p>DNS resolution can be a bottleneck. Crawlers must maintain a local DNS cache to avoid repeated lookups for the same domain.</p>
-<h2 id="7-bottlenecks">7. Bottlenecks<a class="headerlink" href="#7-bottlenecks" title="Permanent link">¶</a></h2>
+<h3 id="dns-caching-optimization">DNS Caching &amp; Optimization<a class="headerlink" href="#dns-caching-optimization" title="Permanent link">¶</a></h3>
+<p>DNS resolution is a common bottleneck. The system uses a dedicated, high-performance local DNS cache to avoid the latency of external lookups for frequently visited domains.</p>
+<h2 id="7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>Traps:</strong> Infinite loops (e.g., <code>calendar.com/today/next/next...</code>). Solution: Limit URL length and depth.</li>
-<li><strong>Bandwidth:</strong> Crawling 1.5PB/month requires massive network throughput. Deploy crawlers in multiple data centers worldwide.</li>
-<li><strong>Dynamic Content:</strong> Many modern sites use React/Angular. Solution: Use headless browsers (Puppeteer/Selenium), though this is much slower.</li>
+<li><strong>Crawler Traps:</strong> Infinite URL loops (e.g., dynamic calendars) can drain resources. <strong>Resolution:</strong> Implement strict limits on URL length, path depth, and the number of pages crawled per domain.</li>
+<li><strong>Network Bandwidth:</strong> Moving 1.5PB of data per month is intensive. <strong>Resolution:</strong> Distribute crawler nodes across multiple geographic data centers to minimize latency and distribute network load.</li>
+<li><strong>Dynamic and JavaScript-Heavy Sites:</strong> Standard crawlers cannot see content rendered by React/Angular. <strong>Resolution:</strong> Integrate headless browser engines (e.g., Playwright) for targeted crawling of high-value dynamic sites, despite the increased CPU cost.</li>
+<li><strong>Frontier Priority:</strong> Not all pages are equally important. <strong>Resolution:</strong> Implement a scoring algorithm based on page rank or update frequency to prioritize high-value URLs in the frontier.</li>
 </ul>
 </div>
 </div><footer>

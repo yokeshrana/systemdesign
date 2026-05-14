@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="yokeshrana" /><link rel="canonical" href="https://yokeshrana.github.io/systemdesign/interview-framework/requirements-clarification/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>1. Requirements Clarification - System Design Prep Notes</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/stylesheets/custom.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "1. Requirements Clarification";
+        var mkdocs_page_input_path = "interview-framework/requirements-clarification.md";
+        var mkdocs_page_url = "/systemdesign/interview-framework/requirements-clarification/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> System Design Prep Notes
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Fundamentals</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication & Redundancy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Components</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Advanced</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/microservices/">Microservices</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/api-design/">API Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/authentication/">Authentication</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/consistent-hashing/">Consistent Hashing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/sharding/">Database Sharding</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Interview Framework</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">1. Requirements Clarification</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#what-to-clarify">What to Clarify</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#useful-questions">Useful Questions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output-of-this-step">Output of This Step</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#common-mistakes">Common Mistakes</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../system-interface/">2. System Interface Definition</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../estimation/">3. Back-of-the-Envelope Estimation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../data-model/">4. Data Model Definition</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../high-level-design/">5. High-Level Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../detailed-design/">6. Detailed Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../bottlenecks/">7. Bottlenecks and Scaling</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Operations</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking & CDN</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../operations/monitoring/">Monitoring & Logging</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../operations/deployment/">Deployment</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Case Studies</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/twitter/">Twitter Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/dropbox/">Dropbox / Google Drive</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/facebook-newsfeed/">Facebook Newsfeed</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/facebook-messenger/">Facebook Messenger</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/twitter-search/">Twitter Search</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/yelp/">Yelp (Proximity Server)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/ticketmaster/">Ticketmaster</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/url-shortener/">URL Shortener</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/pastebin/">Pastebin</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/web-crawler/">Web Crawler</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/uber/">Uber ETA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/netflix/">Netflix Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/youtube/">YouTube Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/typeahead-suggestion/">Typeahead Suggestion</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/api-rate-limiter/">API Rate Limiter</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">System Design Prep Notes</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Interview Framework</li>
+      <li class="breadcrumb-item active">1. Requirements Clarification</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="1-requirements-clarification">1. Requirements Clarification<a class="headerlink" href="#1-requirements-clarification" title="Permanent link">&para;</a></h1>
+<p>This first step defines the problem before any design work begins. It is where you separate what must be built from what is only nice to have.</p>
+<h2 id="what-to-clarify">What to Clarify<a class="headerlink" href="#what-to-clarify" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Core user flows and the exact scope of the system.</li>
+<li>Functional requirements such as create, read, update, delete, search, feed generation, notifications, or sharing.</li>
+<li>Non-functional requirements such as availability, latency, consistency, scalability, durability, and security.</li>
+<li>Expected users, traffic shape, growth assumptions, and product constraints.</li>
+<li>Explicitly out-of-scope items so the design stays bounded.</li>
+</ul>
+<h2 id="useful-questions">Useful Questions<a class="headerlink" href="#useful-questions" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Who are the users and what are the main use cases?</li>
+<li>What must work in the first version versus later iterations?</li>
+<li>Are there hard latency or availability targets?</li>
+<li>Is strong consistency required, or is eventual consistency acceptable?</li>
+<li>What data must be retained, archived, or deleted?</li>
+</ul>
+<h2 id="output-of-this-step">Output of This Step<a class="headerlink" href="#output-of-this-step" title="Permanent link">&para;</a></h2>
+<ul>
+<li>A short problem statement.</li>
+<li>A list of functional requirements.</li>
+<li>A list of non-functional requirements.</li>
+<li>A clear boundary for what the design will and will not cover.</li>
+</ul>
+<h2 id="common-mistakes">Common Mistakes<a class="headerlink" href="#common-mistakes" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Designing before the scope is fixed.</li>
+<li>Ignoring non-functional requirements.</li>
+<li>Failing to state assumptions.</li>
+<li>Solving for edge cases that are not actually required.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../" class="btn btn-neutral float-left" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../system-interface/" class="btn btn-neutral float-right" title="2. System Interface Definition">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../system-interface/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

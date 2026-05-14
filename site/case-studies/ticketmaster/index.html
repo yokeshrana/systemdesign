@@ -88,6 +88,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Interview Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/estimation/">3. Back-of-the-Envelope Estimation</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/data-model/">4. Data Model Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/high-level-design/">5. High-Level Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/detailed-design/">6. Detailed Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/bottlenecks/">7. Bottlenecks and Scaling</a>
+</li>
+</ul>
 <p class="caption"><span class="caption-text">Operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
@@ -109,11 +128,15 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../facebook-newsfeed/">Facebook Newsfeed</a>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook-messenger/">Facebook Messenger</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-search/">Twitter Search</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../yelp/">Yelp (Proximity Server)</a>
 </li>
 <li class="toctree-l1 current"><a class="reference internal current" href="./">Ticketmaster</a>
 <ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="#1-requirements">1. Requirements</a>
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#functional">Functional</a>
 </li>
@@ -121,15 +144,15 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation">2. Capacity Estimation</a>
+<li class="toctree-l2"><a class="reference internal" href="#2-system-interface-definition-apis">2. System interface definition (APIs)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#3-apis">3. APIs</a>
+<li class="toctree-l2"><a class="reference internal" href="#3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#4-db-design">4. DB Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#5-hld-with-mermaid">5. HLD with Mermaid</a>
+<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design-with-mermaid">5. High-level design (with Mermaid)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design">6. Detailed Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#handling-high-traffic-spikes">Handling High Traffic Spikes</a>
 </li>
@@ -139,7 +162,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#7-bottlenecks">7. Bottlenecks</a>
+<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)</a>
 </li>
 </ul>
 </li>
@@ -154,6 +177,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../netflix/">Netflix Design</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../youtube/">YouTube Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../typeahead-suggestion/">Typeahead Suggestion</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-rate-limiter/">API Rate Limiter</a>
 </li>
 </ul>
 </div>
@@ -178,42 +205,42 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="case-study-ticketmaster">Case Study: Ticketmaster<a class="headerlink" href="#case-study-ticketmaster" title="Permanent link">¶</a></h1>
-<h2 id="1-requirements">1. Requirements<a class="headerlink" href="#1-requirements" title="Permanent link">¶</a></h2>
+<h2 id="1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)<a class="headerlink" href="#1-requirements-clarifications-functional-non-functional" title="Permanent link">¶</a></h2>
 <h3 id="functional">Functional<a class="headerlink" href="#functional" title="Permanent link">¶</a></h3>
 <ul>
-<li>Users can search for events (concerts, sports).</li>
-<li>Users can view a seating map and select seats.</li>
-<li>Users can reserve seats for 5-10 minutes while completing payment.</li>
-<li>Users can purchase tickets.</li>
+<li>Users can search for events (concerts, sports) by name, location, or date.</li>
+<li>Users can view a real-time seating map and select specific seats.</li>
+<li>Users can reserve seats for a limited time (5-10 minutes) while completing payment.</li>
+<li>Users can securely purchase tickets and receive confirmation.</li>
 </ul>
 <h3 id="non-functional">Non-Functional<a class="headerlink" href="#non-functional" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>High Concurrency:</strong> Handle massive spikes when a popular concert goes on sale.</li>
-<li><strong>Fairness:</strong> Tickets should be sold on a first-come, first-served basis.</li>
-<li><strong>Transaction Integrity:</strong> No double-booking of the same seat.</li>
-<li><strong>Latency:</strong> Real-time updates on seat availability.</li>
+<li><strong>High Concurrency:</strong> Must handle massive traffic spikes when popular events go on sale.</li>
+<li><strong>Fairness:</strong> Tickets should be allocated on a first-come, first-served basis.</li>
+<li><strong>Transaction Integrity:</strong> Strict ACID properties to prevent double-booking of the same seat.</li>
+<li><strong>Low Latency:</strong> Real-time updates on seat availability to provide a seamless user experience.</li>
 </ul>
-<h2 id="2-capacity-estimation">2. Capacity Estimation<a class="headerlink" href="#2-capacity-estimation" title="Permanent link">¶</a></h2>
+<h2 id="2-system-interface-definition-apis">2. System interface definition (APIs)<a class="headerlink" href="#2-system-interface-definition-apis" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>Traffic:</strong> 10M page views for a popular event in minutes.</li>
-<li><strong>Booking Rate:</strong> 5,000 tickets per second.</li>
-<li><strong>Storage:</strong> Millions of events, each with thousands of seats.</li>
+<li><code>searchEvents(query, location, date)</code>: Returns a list of events matching the search criteria.</li>
+<li><code>getSeatingMap(event_id)</code>: Retrieves the layout and current status of all seats for a specific event.</li>
+<li><code>reserveSeats(event_id, seat_ids, user_id)</code>: Places a temporary lock on selected seats for the user.</li>
+<li><code>confirmPayment(reservation_id, payment_info)</code>: Finalizes the purchase and converts reservations into confirmed tickets.</li>
 </ul>
-<h2 id="3-apis">3. APIs<a class="headerlink" href="#3-apis" title="Permanent link">¶</a></h2>
+<h2 id="3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)<a class="headerlink" href="#3-back-of-the-envelope-estimation-capacity-estimation" title="Permanent link">¶</a></h2>
 <ul>
-<li><code>searchEvents(query, location, date)</code></li>
-<li><code>getSeatingMap(event_id)</code></li>
-<li><code>reserveSeats(event_id, seat_ids, user_id)</code></li>
-<li><code>confirmPayment(reservation_id, payment_info)</code></li>
+<li><strong>Traffic:</strong> Anticipate 10M+ page views within minutes for high-demand event launches.</li>
+<li><strong>Booking Rate:</strong> Must support at least 5,000 ticket transactions per second.</li>
+<li><strong>Storage:</strong> Millions of events, each potentially having thousands of seats, requiring efficient indexing and storage.</li>
 </ul>
-<h2 id="4-db-design">4. DB Design<a class="headerlink" href="#4-db-design" title="Permanent link">¶</a></h2>
+<h2 id="4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)<a class="headerlink" href="#4-defining-data-model-database-schemamodel" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>Event Table:</strong> <code>event_id, name, venue_id, start_time</code>.</li>
-<li><strong>Seat Table:</strong> <code>seat_id, event_id, row, number, status (Available, Reserved, Sold)</code>.</li>
-<li><strong>Reservation Table:</strong> <code>res_id, user_id, seat_id, expiry_time, status</code>.</li>
-<li><strong>Relational DB (SQL):</strong> Essential for ACID transactions to prevent double-booking.</li>
+<li><strong>Event Table:</strong> <code>event_id (PK), name, venue_id, start_time, description</code>.</li>
+<li><strong>Seat Table:</strong> <code>seat_id (PK), event_id (FK), row, number, status (Available, Reserved, Sold)</code>.</li>
+<li><strong>Reservation Table:</strong> <code>res_id (PK), user_id (FK), seat_id (FK), expiry_time, status</code>.</li>
+<li><strong>Storage Choice:</strong> A <strong>Relational Database (SQL)</strong> is essential to leverage ACID transactions, ensuring that seat status updates are atomic and consistent.</li>
 </ul>
-<h2 id="5-hld-with-mermaid">5. HLD with Mermaid<a class="headerlink" href="#5-hld-with-mermaid" title="Permanent link">¶</a></h2>
+<h2 id="5-high-level-design-with-mermaid">5. High-level design (with Mermaid)<a class="headerlink" href="#5-high-level-design-with-mermaid" title="Permanent link">¶</a></h2>
 <div class="mermaid">graph TD
     A[User] --&gt; B[Load Balancer]
     B --&gt; C[Search Service]
@@ -223,26 +250,28 @@
     C --&gt; G[(Elasticsearch - Event Index)]
     H[Payment Service] --&gt; D
 </div>
-<h2 id="6-detailed-design">6. Detailed Design<a class="headerlink" href="#6-detailed-design" title="Permanent link">¶</a></h2>
+<h2 id="6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)<a class="headerlink" href="#6-detailed-design-deep-dive-into-components" title="Permanent link">¶</a></h2>
 <h3 id="handling-high-traffic-spikes">Handling High Traffic Spikes<a class="headerlink" href="#handling-high-traffic-spikes" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>Virtual Waiting Room:</strong> A queueing system (e.g., using a Token Bucket or specialized service) that allows users into the booking flow at a controlled rate.</li>
-<li><strong>CDN:</strong> Cache event details and seating maps at the edge to reduce load on origin servers.</li>
+<li><strong>Virtual Waiting Room:</strong> Implement a queueing system (e.g., using a Token Bucket algorithm) to throttle incoming requests and allow users into the booking flow at a sustainable rate.</li>
+<li><strong>CDN Integration:</strong> Cache static event details, images, and seating map templates at the edge to significantly reduce load on origin servers.</li>
 </ul>
 <h3 id="seat-reservation-the-locking-mechanism">Seat Reservation (The Locking Mechanism)<a class="headerlink" href="#seat-reservation-the-locking-mechanism" title="Permanent link">¶</a></h3>
 <ol>
-<li>User selects a seat.</li>
-<li>Booking Service attempts to set a lock in Redis with a TTL (Time-To-Live) of 10 mins: <code>SET seat_123 user_456 EX 600 NX</code>.</li>
-<li>If successful, the status in the SQL DB is updated to 'Reserved' within a transaction.</li>
-<li>If the user doesn't pay, the Redis lock expires and a background worker marks the seat as 'Available' in the DB.</li>
+<li><strong>Selection:</strong> When a user selects a seat, the Booking Service attempts to acquire a distributed lock.</li>
+<li><strong>Distributed Lock:</strong> Use Redis with a TTL (Time-To-Live) of 10 minutes: <code>SET seat_123 user_456 EX 600 NX</code>.</li>
+<li><strong>Database Update:</strong> Upon successful locking in Redis, the status in the SQL database is updated to 'Reserved' within a transaction.</li>
+<li><strong>Cleanup:</strong> If the user fails to complete the payment before the TTL, the Redis lock expires, and a background worker reverts the seat status to 'Available' in the database.</li>
 </ol>
 <h3 id="database-sharding">Database Sharding<a class="headerlink" href="#database-sharding" title="Permanent link">¶</a></h3>
-<p>Shard the database by <code>event_id</code>. All seats for a single event will be on the same shard, making transaction management easier.</p>
-<h2 id="7-bottlenecks">7. Bottlenecks<a class="headerlink" href="#7-bottlenecks" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>Database Contention:</strong> Thousands of users trying to book the same 'front row' seats simultaneously. Solution: Use row-level locking or optimistic concurrency control.</li>
-<li><strong>Payment Failure:</strong> If the payment gateway is slow, it ties up reservations. Use asynchronous payment processing with webhooks.</li>
-<li><strong>Scalability of the Waiting Room:</strong> The queue itself must be highly available and distributed.</li>
+<li>Shard the database by <code>event_id</code>. This ensures all seat data for a specific event resides on the same shard, simplifying transaction management and improving performance for localized event queries.</li>
+</ul>
+<h2 id="7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Database Contention:</strong> Thousands of users may compete for the same 'front row' seats simultaneously. <strong>Resolution:</strong> Use row-level locking or optimistic concurrency control to manage simultaneous updates.</li>
+<li><strong>Payment Processing Latency:</strong> Slow payment gateways can stall reservations. <strong>Resolution:</strong> Implement asynchronous payment processing with webhooks for status updates.</li>
+<li><strong>Waiting Room Scalability:</strong> The virtual waiting room itself must be highly available and distributed to avoid becoming a single point of failure. <strong>Resolution:</strong> Use a distributed messaging queue like Kafka or a managed global load balancer.</li>
 </ul>
 </div>
 </div><footer>

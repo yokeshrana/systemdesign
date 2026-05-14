@@ -88,6 +88,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Interview Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/estimation/">3. Back-of-the-Envelope Estimation</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/data-model/">4. Data Model Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/high-level-design/">5. High-Level Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/detailed-design/">6. Detailed Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/bottlenecks/">7. Bottlenecks and Scaling</a>
+</li>
+</ul>
 <p class="caption"><span class="caption-text">Operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
@@ -103,7 +122,7 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal current" href="./">Instagram Design</a>
 <ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications">1. Requirements Clarifications</a>
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#functional-requirements">Functional Requirements</a>
 </li>
@@ -111,15 +130,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation-and-constraints">2. Capacity Estimation and Constraints</a>
-<ul>
-<li class="toctree-l3"><a class="reference internal" href="#traffic-estimates">Traffic Estimates</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#storage-estimates">Storage Estimates</a>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#3-system-apis">3. System APIs</a>
+<li class="toctree-l2"><a class="reference internal" href="#2-system-interface-definition-apis">2. System interface definition (APIs)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#upload-post">Upload Post</a>
 </li>
@@ -127,7 +138,15 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#4-database-design">4. Database Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#traffic-estimates">Traffic Estimates</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#storage-estimates">Storage Estimates</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a>
 <ul>
@@ -141,9 +160,9 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design">5. High Level Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design-with-mermaid">5. High-level design (with Mermaid)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#6-detailed-component-design">6. Detailed Component Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#news-feed-generation">News Feed Generation</a>
 </li>
@@ -151,7 +170,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks">7. Identifying and Resolving Bottlenecks</a>
+<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#data-sharding">Data Sharding</a>
 </li>
@@ -171,6 +190,10 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../facebook-newsfeed/">Facebook Newsfeed</a>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook-messenger/">Facebook Messenger</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-search/">Twitter Search</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../yelp/">Yelp (Proximity Server)</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../ticketmaster/">Ticketmaster</a>
@@ -186,6 +209,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../netflix/">Netflix Design</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../youtube/">YouTube Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../typeahead-suggestion/">Typeahead Suggestion</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-rate-limiter/">API Rate Limiter</a>
 </li>
 </ul>
 </div>
@@ -211,7 +238,7 @@
 <div class="section" itemprop="articleBody">
 <h1 id="case-study-designing-a-photo-sharing-service-instagram">Case Study: Designing a Photo-Sharing Service (Instagram)<a class="headerlink" href="#case-study-designing-a-photo-sharing-service-instagram" title="Permanent link">¶</a></h1>
 <p>This guide provides a comprehensive system design for a large-scale photo-sharing service, focusing on content delivery, feed generation, and high availability.</p>
-<h2 id="1-requirements-clarifications">1. Requirements Clarifications<a class="headerlink" href="#1-requirements-clarifications" title="Permanent link">¶</a></h2>
+<h2 id="1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)<a class="headerlink" href="#1-requirements-clarifications-functional-non-functional" title="Permanent link">¶</a></h2>
 <h3 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Media Upload</strong>: Users can upload photos and videos.</li>
@@ -229,7 +256,26 @@
 <li><strong>Scalability</strong>: Support 500 million Daily Active Users (DAU).</li>
 </ul>
 <hr/>
-<h2 id="2-capacity-estimation-and-constraints">2. Capacity Estimation and Constraints<a class="headerlink" href="#2-capacity-estimation-and-constraints" title="Permanent link">¶</a></h2>
+<h2 id="2-system-interface-definition-apis">2. System interface definition (APIs)<a class="headerlink" href="#2-system-interface-definition-apis" title="Permanent link">¶</a></h2>
+<p>We can use GraphQL or REST. Below are the core RESTful endpoints.</p>
+<h3 id="upload-post">Upload Post<a class="headerlink" href="#upload-post" title="Permanent link">¶</a></h3>
+<p><div class="highlight"><pre><span></span><code><span class="err">POST /api/v1/post</span>
+<span class="err">Content-Type: multipart/form-data</span>
+
+<span class="err">{</span>
+<span class="err">  "user_id": "string",</span>
+<span class="err">  "media_data": "file",</span>
+<span class="err">  "location": "string (optional)",</span>
+<span class="err">  "caption": "string (optional)"</span>
+<span class="err">}</span>
+</code></pre></div>
+<strong>Returns</strong>: <code>201 Created</code> with the <code>post_id</code>.</p>
+<h3 id="get-news-feed">Get News Feed<a class="headerlink" href="#get-news-feed" title="Permanent link">¶</a></h3>
+<p><div class="highlight"><pre><span></span><code><span class="err">GET /api/v1/feed?user_id={user_id}&amp;count={count}&amp;offset={offset}</span>
+</code></pre></div>
+<strong>Returns</strong>: A JSON list of post objects, including media URLs and metadata.</p>
+<hr/>
+<h2 id="3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)<a class="headerlink" href="#3-back-of-the-envelope-estimation-capacity-estimation" title="Permanent link">¶</a></h2>
 <h3 id="traffic-estimates">Traffic Estimates<a class="headerlink" href="#traffic-estimates" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Total Users</strong>: 1 Billion.</li>
@@ -245,26 +291,7 @@
 <li><strong>Metadata Storage</strong>: User data, follows, and post metadata will require several Terabytes of structured storage.</li>
 </ul>
 <hr/>
-<h2 id="3-system-apis">3. System APIs<a class="headerlink" href="#3-system-apis" title="Permanent link">¶</a></h2>
-<p>We can use GraphQL or REST. Below are the core RESTful endpoints.</p>
-<h3 id="upload-post">Upload Post<a class="headerlink" href="#upload-post" title="Permanent link">¶</a></h3>
-<p><div class="highlight"><pre><span></span><code><span class="err">POST /api/v1/post</span>
-<span class="err">Content-Type: multipart/form-data</span>
-
-<span class="err">{</span>
-<span class="err">  "user_id": "string",</span>
-<span class="err">  "media_data": "file",</span>
-<span class="err">  "location": "string (optional)",</span>
-<span class="err">  "caption": "string (optional)"</span>
-<span class="err">}</span>
-</code></pre></div>
-<strong>Returns</strong>: <code>201 Created</code> with the <code>post_id</code>.</p>
-<h3 id="get-news-feed">Get News Feed<a class="headerlink" href="#get-news-feed" title="Permanent link">¶</a></h3>
-<p><div class="highlight"><pre><span></span><code><span class="err">GET /api/v1/feed?user_id={id}&amp;count={count}&amp;offset={offset}</span>
-</code></pre></div>
-<strong>Returns</strong>: A JSON list of post objects, including media URLs and metadata.</p>
-<hr/>
-<h2 id="4-database-design">4. Database Design<a class="headerlink" href="#4-database-design" title="Permanent link">¶</a></h2>
+<h2 id="4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)<a class="headerlink" href="#4-defining-data-model-database-schemamodel" title="Permanent link">¶</a></h2>
 <p>A hybrid approach is required to handle relational data and high-velocity interactions.</p>
 <h3 id="schema">Schema<a class="headerlink" href="#schema" title="Permanent link">¶</a></h3>
 <h4 id="users-table-sql-sharded-postgresql">Users Table (SQL - Sharded PostgreSQL)<a class="headerlink" href="#users-table-sql-sharded-postgresql" title="Permanent link">¶</a></h4>
@@ -342,7 +369,7 @@
 - <code>user_id</code> (Clustering Key)
 - <code>timestamp</code></p>
 <hr/>
-<h2 id="5-high-level-design">5. High Level Design<a class="headerlink" href="#5-high-level-design" title="Permanent link">¶</a></h2>
+<h2 id="5-high-level-design-with-mermaid">5. High-level design (with Mermaid)<a class="headerlink" href="#5-high-level-design-with-mermaid" title="Permanent link">¶</a></h2>
 <div class="mermaid">graph TD
     User((Users)) --&gt; LB[Load Balancer]
     LB --&gt; API[API Gateway]
@@ -362,7 +389,7 @@
     FollowS --&gt; GraphDB[(Graph DB/SQL)]
 </div>
 <hr/>
-<h2 id="6-detailed-component-design">6. Detailed Component Design<a class="headerlink" href="#6-detailed-component-design" title="Permanent link">¶</a></h2>
+<h2 id="6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)<a class="headerlink" href="#6-detailed-design-deep-dive-into-components" title="Permanent link">¶</a></h2>
 <h3 id="news-feed-generation">News Feed Generation<a class="headerlink" href="#news-feed-generation" title="Permanent link">¶</a></h3>
 <p>This is the most complex part of the system. There are three main strategies:</p>
 <ol>
@@ -391,7 +418,7 @@
 <li><strong>Delivery</strong>: A <strong>CDN (Content Delivery Network)</strong> is used to cache media at edge locations close to users, drastically reducing latency.</li>
 </ul>
 <hr/>
-<h2 id="7-identifying-and-resolving-bottlenecks">7. Identifying and Resolving Bottlenecks<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks" title="Permanent link">¶</a></h2>
+<h2 id="7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks" title="Permanent link">¶</a></h2>
 <h3 id="data-sharding">Data Sharding<a class="headerlink" href="#data-sharding" title="Permanent link">¶</a></h3>
 <p>Since a single DB instance cannot hold all post metadata, we shard the data.
 - <strong>Shard by UserID</strong>: All posts for a user live on one shard.

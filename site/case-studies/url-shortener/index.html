@@ -88,6 +88,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Interview Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/estimation/">3. Back-of-the-Envelope Estimation</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/data-model/">4. Data Model Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/high-level-design/">5. High-Level Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/detailed-design/">6. Detailed Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/bottlenecks/">7. Bottlenecks and Scaling</a>
+</li>
+</ul>
 <p class="caption"><span class="caption-text">Operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
@@ -109,13 +128,17 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../facebook-newsfeed/">Facebook Newsfeed</a>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook-messenger/">Facebook Messenger</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-search/">Twitter Search</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../yelp/">Yelp (Proximity Server)</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../ticketmaster/">Ticketmaster</a>
 </li>
 <li class="toctree-l1 current"><a class="reference internal current" href="./">URL Shortener</a>
 <ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications">1. Requirements Clarifications</a>
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#functional-requirements">Functional Requirements</a>
 </li>
@@ -123,7 +146,9 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation-and-constraints">2. Capacity Estimation and Constraints</a>
+<li class="toctree-l2"><a class="reference internal" href="#2-system-interface-definition-apis">2. System interface definition (APIs)</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#traffic-estimates">Traffic Estimates</a>
 </li>
@@ -133,49 +158,25 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#3-system-apis">3. System APIs</a>
-<ul>
-<li class="toctree-l3"><a class="reference internal" href="#create-url">Create URL</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#delete-url">Delete URL</a>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#4-database-design">4. Database Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a>
-<ul>
-<li class="toctree-l4"><a class="reference internal" href="#url-table-nosql">URL Table (NoSQL)</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#user-table-sqlnosql">User Table (SQL/NoSQL)</a>
 </li>
 </ul>
 </li>
-</ul>
+<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design-with-mermaid">5. High-level design (with Mermaid)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design">5. High Level Design</a>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#6-detailed-component-design">6. Detailed Component Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#encoding-and-uniqueness">Encoding and Uniqueness</a>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#key-generation-service-kgs">Key Generation Service (KGS)</a>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#redirection-301-vs-302">Redirection (301 vs 302)</a>
+<li class="toctree-l3"><a class="reference internal" href="#redirection-logic">Redirection Logic</a>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks">7. Identifying and Resolving Bottlenecks</a>
-<ul>
-<li class="toctree-l3"><a class="reference internal" href="#data-sharding">Data Sharding</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#caching">Caching</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#load-balancing">Load Balancing</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#cleanup-and-expiration">Cleanup and Expiration</a>
-</li>
-</ul>
+<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)</a>
 </li>
 </ul>
 </li>
@@ -188,6 +189,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../netflix/">Netflix Design</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../youtube/">YouTube Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../typeahead-suggestion/">Typeahead Suggestion</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-rate-limiter/">API Rate Limiter</a>
 </li>
 </ul>
 </div>
@@ -211,150 +216,58 @@
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
-<h1 id="case-study-designing-a-url-shortening-service-bitly">Case Study: Designing a URL Shortening Service (Bitly)<a class="headerlink" href="#case-study-designing-a-url-shortening-service-bitly" title="Permanent link">¶</a></h1>
-<p>This guide provides a comprehensive system design for a URL shortening service, focusing on scalability, high availability, and low latency.</p>
-<h2 id="1-requirements-clarifications">1. Requirements Clarifications<a class="headerlink" href="#1-requirements-clarifications" title="Permanent link">¶</a></h2>
+<h1 id="case-study-url-shortener">Case Study: URL Shortener<a class="headerlink" href="#case-study-url-shortener" title="Permanent link">¶</a></h1>
+<h2 id="1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)<a class="headerlink" href="#1-requirements-clarifications-functional-non-functional" title="Permanent link">¶</a></h2>
 <h3 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>URL Shortening</strong>: Given a long URL, the service should generate a shorter and unique alias.</li>
-<li><strong>Redirection</strong>: When users access the short link, the service should redirect them to the original long URL.</li>
-<li><strong>Custom Aliases</strong>: Users should be able to specify a custom alias (e.g., <code>bit.ly/my-custom-link</code>).</li>
-<li><strong>Expiration</strong>: Short links should have a default expiration time; users can optionally specify an expiration date.</li>
-<li><strong>Analytics</strong>: The service should track metrics like click counts, visitor location, and referrer.</li>
+<li><strong>URL Shortening:</strong> Generate a shorter, unique alias for any given long URL.</li>
+<li><strong>Redirection:</strong> Redirect users to the original long URL when they access the short link.</li>
+<li><strong>Custom Aliases:</strong> Allow users to specify a custom alias for their links.</li>
+<li><strong>Expiration:</strong> Support default and user-defined expiration times for links.</li>
+<li><strong>Analytics:</strong> Track basic metrics such as click counts, visitor location, and referrer.</li>
 </ul>
 <h3 id="non-functional-requirements">Non-Functional Requirements<a class="headerlink" href="#non-functional-requirements" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>High Availability</strong>: The system must be available 24/7; if the service is down, all redirections will fail.</li>
-<li><strong>Low Latency</strong>: Redirection should happen with minimal delay (sub-100ms).</li>
-<li><strong>Uniqueness</strong>: Shortened links must be unique and non-guessable.</li>
-<li><strong>Scalability</strong>: The system should handle billions of records and millions of requests per second.</li>
+<li><strong>High Availability:</strong> The system must be available 24/7; redirection failure is not acceptable.</li>
+<li><strong>Low Latency:</strong> Redirection should be performed with minimal delay (sub-100ms).</li>
+<li><strong>Uniqueness:</strong> Shortened links must be unique and non-guessable.</li>
+<li><strong>Scalability:</strong> The system should handle billions of records and millions of concurrent requests.</li>
 </ul>
-<hr/>
-<h2 id="2-capacity-estimation-and-constraints">2. Capacity Estimation and Constraints<a class="headerlink" href="#2-capacity-estimation-and-constraints" title="Permanent link">¶</a></h2>
-<p>The system is <strong>read-heavy</strong>. Let's assume a 100:1 read-to-write ratio.</p>
+<h2 id="2-system-interface-definition-apis">2. System interface definition (APIs)<a class="headerlink" href="#2-system-interface-definition-apis" title="Permanent link">¶</a></h2>
+<ul>
+<li><code>shortenUrl(api_dev_key, original_url, custom_alias=None, expire_date=None)</code>: Returns the generated short URL or an error code.</li>
+<li><code>getUrl(short_url)</code>: Retrieves the original long URL for redirection.</li>
+<li><code>deleteUrl(api_dev_key, url_key)</code>: Deletes a shortened URL and releases the alias.</li>
+</ul>
+<h2 id="3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)<a class="headerlink" href="#3-back-of-the-envelope-estimation-capacity-estimation" title="Permanent link">¶</a></h2>
 <h3 id="traffic-estimates">Traffic Estimates<a class="headerlink" href="#traffic-estimates" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>New URLs (Write)</strong>: 500 million per month.</li>
-<li><strong>URL Redirections (Read)</strong>: 500M * 100 = 50 billion per month.</li>
-<li><strong>Queries Per Second (QPS)</strong>:<ul>
-<li>Write QPS: $500M / (30 \times 24 \times 3600) \approx 200$ URLs/sec.</li>
-<li>Read QPS: $200 \times 100 = 20,000$ requests/sec.</li>
-</ul>
-</li>
+<li>Assume a 100:1 read-to-write ratio.</li>
+<li><strong>Writes:</strong> 500 million new URLs per month.</li>
+<li><strong>Reads:</strong> 50 billion redirections per month.</li>
+<li><strong>Write QPS:</strong> ~200 URLs/sec.</li>
+<li><strong>Read QPS:</strong> ~20,000 requests/sec.</li>
 </ul>
 <h3 id="storage-estimates">Storage Estimates<a class="headerlink" href="#storage-estimates" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>Total years</strong>: 10 years.</li>
-<li><strong>Total URLs</strong>: $500M \times 12 \text{ months} \times 10 \text{ years} = 60 \text{ billion}$.</li>
-<li><strong>Size per record</strong>: Assume ~500 bytes per URL mapping (long URL, short ID, user ID, timestamps).</li>
-<li><strong>Total Storage</strong>: $60B \times 500 \text{ bytes} \approx 30 \text{ Terabytes}$.</li>
+<li><strong>Total Period:</strong> 10 years.</li>
+<li><strong>Total URLs:</strong> 60 billion.</li>
+<li><strong>Record Size:</strong> ~500 bytes per mapping.</li>
+<li><strong>Total Storage:</strong> ~30 Terabytes.</li>
 </ul>
 <h3 id="bandwidth-estimates">Bandwidth Estimates<a class="headerlink" href="#bandwidth-estimates" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>Write Bandwidth</strong>: $200 \text{ requests/sec} \times 500 \text{ bytes} = 100 \text{ KB/s}$.</li>
-<li><strong>Read Bandwidth</strong>: $20,000 \text{ requests/sec} \times 500 \text{ bytes} \approx 10 \text{ MB/s}$.</li>
+<li><strong>Write Bandwidth:</strong> ~100 KB/s.</li>
+<li><strong>Read Bandwidth:</strong> ~10 MB/s.</li>
 </ul>
-<hr/>
-<h2 id="3-system-apis">3. System APIs<a class="headerlink" href="#3-system-apis" title="Permanent link">¶</a></h2>
-<p>We can use REST APIs to expose the functionality of our service.</p>
-<h3 id="create-url">Create URL<a class="headerlink" href="#create-url" title="Permanent link">¶</a></h3>
-<p><div class="highlight"><pre><span></span><code><span class="err">POST /api/v1/shorten</span>
-<span class="err">Content-Type: application/json</span>
-
-<span class="err">{</span>
-<span class="err">  "api_dev_key": "string",</span>
-<span class="err">  "original_url": "string",</span>
-<span class="err">  "custom_alias": "string (optional)",</span>
-<span class="err">  "user_name": "string (optional)",</span>
-<span class="err">  "expire_date": "timestamp (optional)"</span>
-<span class="err">}</span>
-</code></pre></div>
-<strong>Returns</strong>: The generated short URL or an error code (e.g., if custom alias is taken).</p>
-<h3 id="delete-url">Delete URL<a class="headerlink" href="#delete-url" title="Permanent link">¶</a></h3>
-<p><div class="highlight"><pre><span></span><code><span class="err">DELETE /api/v1/delete</span>
-<span class="err">Content-Type: application/json</span>
-
-<span class="err">{</span>
-<span class="err">  "api_dev_key": "string",</span>
-<span class="err">  "url_key": "string"</span>
-<span class="err">}</span>
-</code></pre></div>
-<strong>Returns</strong>: Confirmation of deletion.</p>
-<hr/>
-<h2 id="4-database-design">4. Database Design<a class="headerlink" href="#4-database-design" title="Permanent link">¶</a></h2>
-<p>Since we need to store billions of records and perform simple key-value lookups, a <strong>NoSQL</strong> database like <strong>Cassandra</strong> or <strong>DynamoDB</strong> is ideal for the URL mappings. Relational databases might be harder to scale horizontally at this volume.</p>
+<h2 id="4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)<a class="headerlink" href="#4-defining-data-model-database-schemamodel" title="Permanent link">¶</a></h2>
+<p>Since the system requires billions of records and simple key-value lookups, a <strong>NoSQL</strong> database like <strong>Cassandra</strong> or <strong>DynamoDB</strong> is preferred for horizontal scalability.</p>
 <h3 id="schema">Schema<a class="headerlink" href="#schema" title="Permanent link">¶</a></h3>
-<h4 id="url-table-nosql">URL Table (NoSQL)<a class="headerlink" href="#url-table-nosql" title="Permanent link">¶</a></h4>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Column Name</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;"><strong>short_hash</strong> (PK)</td>
-<td style="text-align: left;">varchar(16)</td>
-<td style="text-align: left;">The short alias (e.g., '8j2m1L')</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>original_url</strong></td>
-<td style="text-align: left;">varchar(2048)</td>
-<td style="text-align: left;">The long URL to redirect to</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>user_id</strong></td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">ID of the user who created it</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>created_at</strong></td>
-<td style="text-align: left;">timestamp</td>
-<td style="text-align: left;">Creation time</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>expire_at</strong></td>
-<td style="text-align: left;">timestamp</td>
-<td style="text-align: left;">When the link expires</td>
-</tr>
-</tbody>
-</table>
-<h4 id="user-table-sqlnosql">User Table (SQL/NoSQL)<a class="headerlink" href="#user-table-sqlnosql" title="Permanent link">¶</a></h4>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Column Name</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;"><strong>user_id</strong> (PK)</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">Unique ID</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>name</strong></td>
-<td style="text-align: left;">varchar(64)</td>
-<td style="text-align: left;">User name</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>email</strong></td>
-<td style="text-align: left;">varchar(128)</td>
-<td style="text-align: left;">User email</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>api_key</strong></td>
-<td style="text-align: left;">varchar(64)</td>
-<td style="text-align: left;">For rate limiting and auth</td>
-</tr>
-</tbody>
-</table>
-<hr/>
-<h2 id="5-high-level-design">5. High Level Design<a class="headerlink" href="#5-high-level-design" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>URL Table:</strong> <code>short_hash (PK), original_url, user_id, created_at, expire_at</code>.</li>
+<li><strong>User Table:</strong> <code>user_id (PK), name, email, api_key</code>.</li>
+</ul>
+<h2 id="5-high-level-design-with-mermaid">5. High-level design (with Mermaid)<a class="headerlink" href="#5-high-level-design-with-mermaid" title="Permanent link">¶</a></h2>
 <div class="mermaid">graph TD
     User((Users)) --&gt; LB[Load Balancer]
     LB --&gt; Web[Web Servers]
@@ -368,40 +281,34 @@
     Web --&gt; Analytics[Analytics Worker]
     Analytics --&gt; TSDB[(Time-Series DB)]
 </div>
-<hr/>
-<h2 id="6-detailed-component-design">6. Detailed Component Design<a class="headerlink" href="#6-detailed-component-design" title="Permanent link">¶</a></h2>
+<h2 id="6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)<a class="headerlink" href="#6-detailed-design-deep-dive-into-components" title="Permanent link">¶</a></h2>
 <h3 id="encoding-and-uniqueness">Encoding and Uniqueness<a class="headerlink" href="#encoding-and-uniqueness" title="Permanent link">¶</a></h3>
-<p>We use <strong>Base62</strong> encoding ([0-9, a-z, A-Z]). 
-- A 6-character short link gives $62^6 \approx 56.8$ billion unique IDs.
-- A 7-character short link gives $62^7 \approx 3.5$ trillion unique IDs.
-Given our 60B requirement over 10 years, <strong>7 characters</strong> is safer.</p>
-<h3 id="key-generation-service-kgs">Key Generation Service (KGS)<a class="headerlink" href="#key-generation-service-kgs" title="Permanent link">¶</a></h3>
-<p>To avoid collisions in a distributed environment, we use a KGS:
-1. A separate microservice pre-generates unique keys and stores them in a "Key-DB".
-2. When a web server needs a key, it requests one from KGS.
-3. To handle high load, KGS loads a range of keys into memory. <strong>Apache Zookeeper</strong> is used to coordinate range assignments to different KGS instances, ensuring no two instances hand out the same key.</p>
-<h3 id="redirection-301-vs-302">Redirection (301 vs 302)<a class="headerlink" href="#redirection-301-vs-302" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>301 (Permanent)</strong>: Browser caches the result. Subsequent hits don't reach our server. Best for performance but limits analytics.</li>
-<li><strong>302 (Temporary)</strong>: Browser always hits our server. Essential for accurate, real-time analytics tracking.</li>
+<li>We use <strong>Base62</strong> encoding ([0-9, a-z, A-Z]).</li>
+<li>A 7-character short link provides $62^7 \approx 3.5$ trillion unique IDs, which safely covers our 10-year requirement of 60 billion URLs.</li>
 </ul>
-<hr/>
-<h2 id="7-identifying-and-resolving-bottlenecks">7. Identifying and Resolving Bottlenecks<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks" title="Permanent link">¶</a></h2>
-<h3 id="data-sharding">Data Sharding<a class="headerlink" href="#data-sharding" title="Permanent link">¶</a></h3>
-<p>To scale the database, we can shard based on the <code>short_hash</code>. 
-- <strong>Hash-based Sharding</strong>: Compute <code>hash(short_hash) % number_of_shards</code> to determine which server stores the data. This distributes load evenly.</p>
-<h3 id="caching">Caching<a class="headerlink" href="#caching" title="Permanent link">¶</a></h3>
-<p>We can use <strong>Redis</strong> or <strong>Memcached</strong> to store the most frequently accessed URLs.
-- <strong>Policy</strong>: LRU (Least Recently Used) is effective here.
-- <strong>Hit Ratio</strong>: Even a small cache can handle 20% of the most popular links (80/20 rule), significantly reducing DB load.</p>
-<h3 id="load-balancing">Load Balancing<a class="headerlink" href="#load-balancing" title="Permanent link">¶</a></h3>
-<p>LBs should be placed at three layers:
-1. Between User and Web Servers.
-2. Between Web Servers and Database.
-3. Between Web Servers and Cache.
-Round Robin or Least Connection strategies can be used.</p>
-<h3 id="cleanup-and-expiration">Cleanup and Expiration<a class="headerlink" href="#cleanup-and-expiration" title="Permanent link">¶</a></h3>
-<p>A separate background cleanup service scans the database for expired links and removes them to reclaim storage. This is better than doing it on-read to minimize latency.</p>
+<h3 id="key-generation-service-kgs">Key Generation Service (KGS)<a class="headerlink" href="#key-generation-service-kgs" title="Permanent link">¶</a></h3>
+<p>To prevent collisions in a distributed environment:
+1.  A dedicated KGS pre-generates unique keys and stores them in a "Key-DB".
+2.  Web servers request keys from KGS in blocks to reduce network overhead.
+3.  <strong>Apache Zookeeper</strong> coordinates range assignments to different KGS instances, ensuring no overlap.</p>
+<h3 id="redirection-logic">Redirection Logic<a class="headerlink" href="#redirection-logic" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>302 (Temporary Redirect):</strong> The browser always hits our server first. This is essential for accurate, real-time analytics tracking.</li>
+<li><strong>301 (Permanent Redirect):</strong> The browser caches the result. While faster for the user, it prevents us from tracking subsequent clicks.</li>
+</ul>
+<h2 id="7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Database Scaling:</strong> Shard the database based on the <code>short_hash</code>. Use consistent hashing to distribute the load evenly across shards and minimize reshuffling when adding new nodes.</li>
+<li><strong>Caching Strategy:</strong> Use <strong>Redis</strong> with an LRU (Least Recently Used) eviction policy to store the most frequently accessed URL mappings. Even a small cache can handle a significant portion of the traffic (80/20 rule).</li>
+<li><strong>Load Balancing:</strong> Deploy load balancers at multiple layers:<ol>
+<li>Between User and Web Servers.</li>
+<li>Between Web Servers and Database.</li>
+<li>Between Web Servers and Cache.</li>
+</ol>
+</li>
+<li><strong>Cleanup and Expiration:</strong> A background service should periodically scan the database for expired links and remove them. This offloads the cleanup work from the main request path, maintaining low latency for users.</li>
+</ul>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">

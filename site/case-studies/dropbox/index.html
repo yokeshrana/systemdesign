@@ -88,6 +88,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Interview Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/estimation/">3. Back-of-the-Envelope Estimation</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/data-model/">4. Data Model Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/high-level-design/">5. High-Level Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/detailed-design/">6. Detailed Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/bottlenecks/">7. Bottlenecks and Scaling</a>
+</li>
+</ul>
 <p class="caption"><span class="caption-text">Operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
@@ -107,7 +126,7 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal current" href="./">Dropbox / Google Drive</a>
 <ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="#1-requirements">1. Requirements</a>
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#functional">Functional</a>
 </li>
@@ -115,15 +134,15 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation">2. Capacity Estimation</a>
+<li class="toctree-l2"><a class="reference internal" href="#2-system-interface-definition-apis">2. System interface definition (APIs)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#3-apis">3. APIs</a>
+<li class="toctree-l2"><a class="reference internal" href="#3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#4-db-design">4. DB Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#5-hld-with-mermaid">5. HLD with Mermaid</a>
+<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design-with-mermaid">5. High-level design (with Mermaid)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design">6. Detailed Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#block-level-storage">Block Level Storage</a>
 </li>
@@ -133,11 +152,15 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#7-bottlenecks">7. Bottlenecks</a>
+<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)</a>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../facebook-newsfeed/">Facebook Newsfeed</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook-messenger/">Facebook Messenger</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-search/">Twitter Search</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../yelp/">Yelp (Proximity Server)</a>
 </li>
@@ -154,6 +177,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../netflix/">Netflix Design</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../youtube/">YouTube Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../typeahead-suggestion/">Typeahead Suggestion</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-rate-limiter/">API Rate Limiter</a>
 </li>
 </ul>
 </div>
@@ -178,7 +205,7 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="case-study-dropbox-google-drive">Case Study: Dropbox / Google Drive<a class="headerlink" href="#case-study-dropbox-google-drive" title="Permanent link">¶</a></h1>
-<h2 id="1-requirements">1. Requirements<a class="headerlink" href="#1-requirements" title="Permanent link">¶</a></h2>
+<h2 id="1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)<a class="headerlink" href="#1-requirements-clarifications-functional-non-functional" title="Permanent link">¶</a></h2>
 <h3 id="functional">Functional<a class="headerlink" href="#functional" title="Permanent link">¶</a></h3>
 <ul>
 <li>Users can upload and download files from any device.</li>
@@ -192,19 +219,19 @@
 <li><strong>Availability:</strong> High availability for file access.</li>
 <li><strong>Efficiency:</strong> Minimize bandwidth usage (incremental updates).</li>
 </ul>
-<h2 id="2-capacity-estimation">2. Capacity Estimation<a class="headerlink" href="#2-capacity-estimation" title="Permanent link">¶</a></h2>
-<ul>
-<li><strong>Users:</strong> 500M total, 10M daily active users (DAU).</li>
-<li><strong>Storage:</strong> Average 10GB per user $\rightarrow$ 5 Exabytes total storage.</li>
-<li><strong>Traffic:</strong> 100M file uploads/updates per day.</li>
-</ul>
-<h2 id="3-apis">3. APIs<a class="headerlink" href="#3-apis" title="Permanent link">¶</a></h2>
+<h2 id="2-system-interface-definition-apis">2. System interface definition (APIs)<a class="headerlink" href="#2-system-interface-definition-apis" title="Permanent link">¶</a></h2>
 <ul>
 <li><code>uploadFile(file_data, metadata)</code></li>
 <li><code>downloadFile(file_id, version)</code></li>
 <li><code>listUpdates(cursor)</code> (used by clients for sync)</li>
 </ul>
-<h2 id="4-db-design">4. DB Design<a class="headerlink" href="#4-db-design" title="Permanent link">¶</a></h2>
+<h2 id="3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)<a class="headerlink" href="#3-back-of-the-envelope-estimation-capacity-estimation" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Users:</strong> 500M total, 10M daily active users (DAU).</li>
+<li><strong>Storage:</strong> Average 10GB per user $\rightarrow$ 5 Exabytes total storage.</li>
+<li><strong>Traffic:</strong> 100M file uploads/updates per day.</li>
+</ul>
+<h2 id="4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)<a class="headerlink" href="#4-defining-data-model-database-schemamodel" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>Metadata DB:</strong> Relational (MySQL/PostgreSQL) for ACID properties.<ul>
 <li><code>User (user_id, name, email)</code></li>
@@ -214,7 +241,7 @@
 </li>
 <li><strong>Block Storage:</strong> Amazon S3 or similar object store for actual file chunks.</li>
 </ul>
-<h2 id="5-hld-with-mermaid">5. HLD with Mermaid<a class="headerlink" href="#5-hld-with-mermaid" title="Permanent link">¶</a></h2>
+<h2 id="5-high-level-design-with-mermaid">5. High-level design (with Mermaid)<a class="headerlink" href="#5-high-level-design-with-mermaid" title="Permanent link">¶</a></h2>
 <div class="mermaid">graph TD
     A[Mobile/Desktop Client] --&gt; B[Load Balancer]
     B --&gt; C[API Servers]
@@ -225,7 +252,7 @@
     C --&gt; G
     H[Sync Service] --&gt; D
 </div>
-<h2 id="6-detailed-design">6. Detailed Design<a class="headerlink" href="#6-detailed-design" title="Permanent link">¶</a></h2>
+<h2 id="6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)<a class="headerlink" href="#6-detailed-design-deep-dive-into-components" title="Permanent link">¶</a></h2>
 <h3 id="block-level-storage">Block Level Storage<a class="headerlink" href="#block-level-storage" title="Permanent link">¶</a></h3>
 <p>Files are split into fixed-size chunks (e.g., 4MB). Only modified chunks are re-uploaded.
 *   <strong>Deduplication:</strong> Checksums (SHA-256) are used to identify identical blocks across the entire system to save space.</p>
@@ -236,7 +263,7 @@
 *   <strong>Differential Sync:</strong> Only sends the delta (modified blocks).</p>
 <h3 id="metadata-cache">Metadata Cache<a class="headerlink" href="#metadata-cache" title="Permanent link">¶</a></h3>
 <p>To speed up lookups, metadata for active users is cached in Redis.</p>
-<h2 id="7-bottlenecks">7. Bottlenecks<a class="headerlink" href="#7-bottlenecks" title="Permanent link">¶</a></h2>
+<h2 id="7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>Metadata DB Scaling:</strong> As the number of files grows into trillions, sharding the Metadata DB becomes necessary.</li>
 <li><strong>Notification Latency:</strong> Ensuring real-time sync across devices requires a robust Long Polling or WebSocket-based notification service.</li>

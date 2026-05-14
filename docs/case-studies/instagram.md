@@ -2,7 +2,7 @@
 
 This guide provides a comprehensive system design for a large-scale photo-sharing service, focusing on content delivery, feed generation, and high availability.
 
-## 1. Requirements Clarifications
+## 1. Requirements clarifications (Functional & Non-Functional)
 
 ### Functional Requirements
 - **Media Upload**: Users can upload photos and videos.
@@ -20,23 +20,7 @@ This guide provides a comprehensive system design for a large-scale photo-sharin
 
 ---
 
-## 2. Capacity Estimation and Constraints
-
-### Traffic Estimates
-- **Total Users**: 1 Billion.
-- **Daily Active Users (DAU)**: 500 Million.
-- **New Posts**: Assume 1 million new posts per day.
-- **Read/Write Ratio**: Extremely read-heavy (users view far more than they post).
-
-### Storage Estimates
-- **Avg Photo Size**: 5 MB.
-- **Daily Storage (Photos)**: $1M \times 5MB = 5 \text{ Terabytes/day}$.
-- **5-Year Storage**: $5TB \times 365 \times 5 \approx 9 \text{ Petabytes}$.
-- **Metadata Storage**: User data, follows, and post metadata will require several Terabytes of structured storage.
-
----
-
-## 3. System APIs
+## 2. System interface definition (APIs)
 
 We can use GraphQL or REST. Below are the core RESTful endpoints.
 
@@ -56,13 +40,29 @@ Content-Type: multipart/form-data
 
 ### Get News Feed
 ```http
-GET /api/v1/feed?user_id={id}&count={count}&offset={offset}
+GET /api/v1/feed?user_id={user_id}&count={count}&offset={offset}
 ```
 **Returns**: A JSON list of post objects, including media URLs and metadata.
 
 ---
 
-## 4. Database Design
+## 3. Back-of-the-envelope estimation (Capacity Estimation)
+
+### Traffic Estimates
+- **Total Users**: 1 Billion.
+- **Daily Active Users (DAU)**: 500 Million.
+- **New Posts**: Assume 1 million new posts per day.
+- **Read/Write Ratio**: Extremely read-heavy (users view far more than they post).
+
+### Storage Estimates
+- **Avg Photo Size**: 5 MB.
+- **Daily Storage (Photos)**: $1M \times 5MB = 5 \text{ Terabytes/day}$.
+- **5-Year Storage**: $5TB \times 365 \times 5 \approx 9 \text{ Petabytes}$.
+- **Metadata Storage**: User data, follows, and post metadata will require several Terabytes of structured storage.
+
+---
+
+## 4. Defining data model (Database Schema/Model)
 
 A hybrid approach is required to handle relational data and high-velocity interactions.
 
@@ -93,7 +93,7 @@ A hybrid approach is required to handle relational data and high-velocity intera
 
 ---
 
-## 5. High Level Design
+## 5. High-level design (with Mermaid)
 
 ```mermaid
 graph TD
@@ -117,7 +117,7 @@ graph TD
 
 ---
 
-## 6. Detailed Component Design
+## 6. Detailed design (Deep dive into components)
 
 ### News Feed Generation
 This is the most complex part of the system. There are three main strategies:
@@ -141,7 +141,7 @@ This is the most complex part of the system. There are three main strategies:
 
 ---
 
-## 7. Identifying and Resolving Bottlenecks
+## 7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)
 
 ### Data Sharding
 Since a single DB instance cannot hold all post metadata, we shard the data.

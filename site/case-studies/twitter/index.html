@@ -88,6 +88,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Interview Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/estimation/">3. Back-of-the-Envelope Estimation</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/data-model/">4. Data Model Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/high-level-design/">5. High-Level Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/detailed-design/">6. Detailed Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/bottlenecks/">7. Bottlenecks and Scaling</a>
+</li>
+</ul>
 <p class="caption"><span class="caption-text">Operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
@@ -105,7 +124,7 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal current" href="./">Twitter Design</a>
 <ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications">1. Requirements Clarifications</a>
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#functional-requirements">Functional Requirements</a>
 </li>
@@ -113,15 +132,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation-and-constraints">2. Capacity Estimation and Constraints</a>
-<ul>
-<li class="toctree-l3"><a class="reference internal" href="#traffic-estimates">Traffic Estimates</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#storage-estimates">Storage Estimates</a>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#3-system-apis">3. System APIs</a>
+<li class="toctree-l2"><a class="reference internal" href="#2-system-interface-definition-apis">2. System interface definition (APIs)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#tweet-service">Tweet Service</a>
 </li>
@@ -131,7 +142,15 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#4-database-design">4. Database Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#traffic-estimates">Traffic Estimates</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#storage-estimates">Storage Estimates</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#users-table-sql-mysqlvitess">Users Table (SQL - MySQL/Vitess)</a>
 </li>
@@ -141,9 +160,9 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design">5. High Level Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design-with-mermaid">5. High-level design (with Mermaid)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#6-detailed-component-design">6. Detailed Component Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#timeline-fan-out-core-mechanism">Timeline Fan-out (Core Mechanism)</a>
 </li>
@@ -151,7 +170,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks">7. Identifying and Resolving Bottlenecks</a>
+<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#sharding">Sharding</a>
 </li>
@@ -166,6 +185,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../dropbox/">Dropbox / Google Drive</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../facebook-newsfeed/">Facebook Newsfeed</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook-messenger/">Facebook Messenger</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-search/">Twitter Search</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../yelp/">Yelp (Proximity Server)</a>
 </li>
@@ -182,6 +205,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../netflix/">Netflix Design</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../youtube/">YouTube Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../typeahead-suggestion/">Typeahead Suggestion</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-rate-limiter/">API Rate Limiter</a>
 </li>
 </ul>
 </div>
@@ -206,7 +233,7 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="twitter-system-design">Twitter System Design<a class="headerlink" href="#twitter-system-design" title="Permanent link">¶</a></h1>
-<h2 id="1-requirements-clarifications">1. Requirements Clarifications<a class="headerlink" href="#1-requirements-clarifications" title="Permanent link">¶</a></h2>
+<h2 id="1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)<a class="headerlink" href="#1-requirements-clarifications-functional-non-functional" title="Permanent link">¶</a></h2>
 <h3 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Post Tweets:</strong> Users can post new tweets (text up to 280 chars, images, videos).</li>
@@ -226,7 +253,24 @@
 <li><strong>Eventual Consistency:</strong> It's okay if a tweet takes a few seconds to appear in all followers' timelines.</li>
 </ul>
 <hr/>
-<h2 id="2-capacity-estimation-and-constraints">2. Capacity Estimation and Constraints<a class="headerlink" href="#2-capacity-estimation-and-constraints" title="Permanent link">¶</a></h2>
+<h2 id="2-system-interface-definition-apis">2. System interface definition (APIs)<a class="headerlink" href="#2-system-interface-definition-apis" title="Permanent link">¶</a></h2>
+<h3 id="tweet-service">Tweet Service<a class="headerlink" href="#tweet-service" title="Permanent link">¶</a></h3>
+<ul>
+<li><code>postTweet(user_id, tweet_text, media_ids[])</code> -&gt; Returns <code>tweet_id</code>.</li>
+<li><code>deleteTweet(user_id, tweet_id)</code> -&gt; Returns Success/Failure.</li>
+</ul>
+<h3 id="timeline-service">Timeline Service<a class="headerlink" href="#timeline-service" title="Permanent link">¶</a></h3>
+<ul>
+<li><code>getHomeTimeline(user_id, count, last_tweet_id)</code> -&gt; Returns list of Tweet objects.</li>
+<li><code>getUserTimeline(user_id, count, last_tweet_id)</code> -&gt; Returns list of Tweet objects.</li>
+</ul>
+<h3 id="social-graph-service">Social Graph Service<a class="headerlink" href="#social-graph-service" title="Permanent link">¶</a></h3>
+<ul>
+<li><code>follow(follower_id, followee_id)</code></li>
+<li><code>unfollow(follower_id, followee_id)</code></li>
+</ul>
+<hr/>
+<h2 id="3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)<a class="headerlink" href="#3-back-of-the-envelope-estimation-capacity-estimation" title="Permanent link">¶</a></h2>
 <h3 id="traffic-estimates">Traffic Estimates<a class="headerlink" href="#traffic-estimates" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>DAU (Daily Active Users):</strong> 300 Million.</li>
@@ -249,24 +293,7 @@
 </li>
 </ul>
 <hr/>
-<h2 id="3-system-apis">3. System APIs<a class="headerlink" href="#3-system-apis" title="Permanent link">¶</a></h2>
-<h3 id="tweet-service">Tweet Service<a class="headerlink" href="#tweet-service" title="Permanent link">¶</a></h3>
-<ul>
-<li><code>postTweet(userId, tweetText, mediaIds[])</code> -&gt; Returns <code>tweetId</code>.</li>
-<li><code>deleteTweet(userId, tweetId)</code> -&gt; Returns Success/Failure.</li>
-</ul>
-<h3 id="timeline-service">Timeline Service<a class="headerlink" href="#timeline-service" title="Permanent link">¶</a></h3>
-<ul>
-<li><code>getHomeTimeline(userId, count, lastTweetId)</code> -&gt; Returns list of Tweet objects.</li>
-<li><code>getUserTimeline(userId, count, lastTweetId)</code> -&gt; Returns list of Tweet objects.</li>
-</ul>
-<h3 id="social-graph-service">Social Graph Service<a class="headerlink" href="#social-graph-service" title="Permanent link">¶</a></h3>
-<ul>
-<li><code>follow(followerId, followeeId)</code></li>
-<li><code>unfollow(followerId, followeeId)</code></li>
-</ul>
-<hr/>
-<h2 id="4-database-design">4. Database Design<a class="headerlink" href="#4-database-design" title="Permanent link">¶</a></h2>
+<h2 id="4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)<a class="headerlink" href="#4-defining-data-model-database-schemamodel" title="Permanent link">¶</a></h2>
 <p>We use a combination of SQL for structured metadata and NoSQL/Key-Value stores for timelines.</p>
 <h3 id="users-table-sql-mysqlvitess">Users Table (SQL - MySQL/Vitess)<a class="headerlink" href="#users-table-sql-mysqlvitess" title="Permanent link">¶</a></h3>
 <table>
@@ -366,7 +393,7 @@
 </table>
 <p><em>Indexing: Composite Index on (follower_id, created_at) for fast retrieval of followees.</em></p>
 <hr/>
-<h2 id="5-high-level-design">5. High Level Design<a class="headerlink" href="#5-high-level-design" title="Permanent link">¶</a></h2>
+<h2 id="5-high-level-design-with-mermaid">5. High-level design (with Mermaid)<a class="headerlink" href="#5-high-level-design-with-mermaid" title="Permanent link">¶</a></h2>
 <div class="mermaid">graph TD
     User((User)) --&gt; LB[Load Balancer]
     LB --&gt; API[API Gateway]
@@ -388,7 +415,7 @@
     TimelineS --&gt; DB
 </div>
 <hr/>
-<h2 id="6-detailed-component-design">6. Detailed Component Design<a class="headerlink" href="#6-detailed-component-design" title="Permanent link">¶</a></h2>
+<h2 id="6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)<a class="headerlink" href="#6-detailed-design-deep-dive-into-components" title="Permanent link">¶</a></h2>
 <h3 id="timeline-fan-out-core-mechanism">Timeline Fan-out (Core Mechanism)<a class="headerlink" href="#timeline-fan-out-core-mechanism" title="Permanent link">¶</a></h3>
 <p>The process of delivering tweets to followers is called "Fan-out".
 1. <strong>Push Model (Fan-out on Write):</strong>
@@ -406,7 +433,7 @@
 <p>To ensure tweets are unique and roughly time-sorted across distributed machines:
 - 64-bit ID: <code>1 bit (unused) | 41 bits (timestamp) | 10 bits (machine ID) | 12 bits (sequence number)</code>.</p>
 <hr/>
-<h2 id="7-identifying-and-resolving-bottlenecks">7. Identifying and Resolving Bottlenecks<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks" title="Permanent link">¶</a></h2>
+<h2 id="7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks" title="Permanent link">¶</a></h2>
 <h3 id="sharding">Sharding<a class="headerlink" href="#sharding" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Tweets DB:</strong> Shard by <code>user_id</code> to keep all tweets of a user on one shard (fast User Timeline). However, this can cause "hot shards" for celebrities.</li>

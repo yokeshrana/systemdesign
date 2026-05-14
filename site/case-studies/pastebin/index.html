@@ -88,6 +88,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Interview Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/estimation/">3. Back-of-the-Envelope Estimation</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/data-model/">4. Data Model Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/high-level-design/">5. High-Level Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/detailed-design/">6. Detailed Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/bottlenecks/">7. Bottlenecks and Scaling</a>
+</li>
+</ul>
 <p class="caption"><span class="caption-text">Operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
@@ -109,6 +128,10 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../facebook-newsfeed/">Facebook Newsfeed</a>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook-messenger/">Facebook Messenger</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-search/">Twitter Search</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../yelp/">Yelp (Proximity Server)</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../ticketmaster/">Ticketmaster</a>
@@ -117,7 +140,7 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal current" href="./">Pastebin</a>
 <ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="#1-requirements">1. Requirements</a>
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#functional">Functional</a>
 </li>
@@ -125,25 +148,29 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation">2. Capacity Estimation</a>
+<li class="toctree-l2"><a class="reference internal" href="#2-system-interface-definition-apis">2. System interface definition (APIs)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#3-apis">3. APIs</a>
+<li class="toctree-l2"><a class="reference internal" href="#3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#4-db-design">4. DB Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#5-hld-with-mermaid">5. HLD with Mermaid</a>
+</ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design">6. Detailed Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design-with-mermaid">5. High-level design (with Mermaid)</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#key-generation-service-kgs">Key Generation Service (KGS)</a>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#handling-expiration">Handling Expiration</a>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#caching">Caching</a>
+<li class="toctree-l3"><a class="reference internal" href="#caching-strategy">Caching Strategy</a>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#7-bottlenecks">7. Bottlenecks</a>
+<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)</a>
 </li>
 </ul>
 </li>
@@ -154,6 +181,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../netflix/">Netflix Design</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../youtube/">YouTube Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../typeahead-suggestion/">Typeahead Suggestion</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-rate-limiter/">API Rate Limiter</a>
 </li>
 </ul>
 </div>
@@ -178,42 +209,45 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="case-study-pastebin">Case Study: Pastebin<a class="headerlink" href="#case-study-pastebin" title="Permanent link">¶</a></h1>
-<h2 id="1-requirements">1. Requirements<a class="headerlink" href="#1-requirements" title="Permanent link">¶</a></h2>
+<h2 id="1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)<a class="headerlink" href="#1-requirements-clarifications-functional-non-functional" title="Permanent link">¶</a></h2>
 <h3 id="functional">Functional<a class="headerlink" href="#functional" title="Permanent link">¶</a></h3>
 <ul>
-<li>Users can "paste" text and get a unique URL.</li>
-<li>Users can set expiration times for pastes (e.g., 1 hour, 1 day, never).</li>
-<li>Pastes can be public or private.</li>
-<li>(Optional) Support for syntax highlighting and custom aliases.</li>
+<li><strong>Paste Creation:</strong> Users can input text data and receive a unique, shortened URL to access it.</li>
+<li><strong>Expiration:</strong> Users can set expiration times for their pastes (e.g., 1 hour, 1 day, or never).</li>
+<li><strong>Privacy Control:</strong> Pastes can be set as public or private.</li>
+<li><strong>Custom Aliases:</strong> Support for optional custom aliases for the generated URLs.</li>
 </ul>
 <h3 id="non-functional">Non-Functional<a class="headerlink" href="#non-functional" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>Scalability:</strong> Support millions of new pastes daily.</li>
-<li><strong>Availability:</strong> High availability for reading pastes.</li>
-<li><strong>Low Latency:</strong> Pastes should be accessible instantly.</li>
-<li><strong>Durability:</strong> Data should not be lost unless it expires.</li>
+<li><strong>High Scalability:</strong> Must support millions of new pastes created daily and an even larger volume of reads.</li>
+<li><strong>High Availability:</strong> The system must be highly available for reading existing pastes.</li>
+<li><strong>Low Latency:</strong> Paste creation and retrieval should be nearly instantaneous.</li>
+<li><strong>Data Durability:</strong> Data should be stored reliably and only removed upon expiration.</li>
 </ul>
-<h2 id="2-capacity-estimation">2. Capacity Estimation<a class="headerlink" href="#2-capacity-estimation" title="Permanent link">¶</a></h2>
+<h2 id="2-system-interface-definition-apis">2. System interface definition (APIs)<a class="headerlink" href="#2-system-interface-definition-apis" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>Write Traffic:</strong> 1 million pastes/day $\approx$ 12 pastes/sec.</li>
-<li><strong>Read Traffic:</strong> 10 million reads/day $\rightarrow$ 120 reads/sec.</li>
-<li><strong>Storage:</strong> 1M pastes/day * 10KB (avg) $\approx$ 10GB/day $\approx$ 3.6TB/year.</li>
+<li><code>createPaste(api_dev_key, paste_data, custom_url=None, expiration_time=None)</code>: Creates a new paste and returns the unique URL.</li>
+<li><code>getPaste(paste_key)</code>: Retrieves the text content associated with the given key.</li>
+<li><code>deletePaste(api_dev_key, paste_key)</code>: Deletes the specified paste if the user has the required permissions.</li>
 </ul>
-<h2 id="3-apis">3. APIs<a class="headerlink" href="#3-apis" title="Permanent link">¶</a></h2>
+<h2 id="3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)<a class="headerlink" href="#3-back-of-the-envelope-estimation-capacity-estimation" title="Permanent link">¶</a></h2>
 <ul>
-<li><code>createPaste(api_dev_key, paste_data, custom_url, expiration_time)</code></li>
-<li><code>getPaste(paste_key)</code></li>
-<li><code>deletePaste(api_dev_key, paste_key)</code></li>
+<li><strong>Write Traffic:</strong> 1 million pastes per day $\approx$ 12 writes per second.</li>
+<li><strong>Read Traffic:</strong> 10 million reads per day $\approx$ 120 reads per second.</li>
+<li><strong>Storage Requirements:</strong> 1M pastes/day * 10KB (avg size) $\approx$ 10GB/day. This totals to $\approx$ 3.6TB per year.</li>
+<li><strong>Bandwidth:</strong> 12 writes/sec * 10KB $\approx$ 120KB/s for ingress; 120 reads/sec * 10KB $\approx$ 1.2MB/s for egress.</li>
 </ul>
-<h2 id="4-db-design">4. DB Design<a class="headerlink" href="#4-db-design" title="Permanent link">¶</a></h2>
+<h2 id="4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)<a class="headerlink" href="#4-defining-data-model-database-schemamodel" title="Permanent link">¶</a></h2>
+<p>To handle scalability and keep the metadata separated from the content, we use a two-tiered storage approach.</p>
+<h3 id="schema">Schema<a class="headerlink" href="#schema" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>Metadata DB:</strong> <code>paste_key (PK), user_id, expiration_date, created_at, access_type (public/private)</code>.<ul>
-<li>Use a NoSQL DB (e.g., MongoDB or Cassandra) for easy scaling.</li>
+<li><strong>Metadata DB (NoSQL):</strong> <code>paste_key (PK), user_id, expiration_date, created_at, access_type (public/private), object_storage_path</code>.<ul>
+<li>A NoSQL database like <strong>Cassandra</strong> or <strong>MongoDB</strong> is ideal for horizontal scaling and handling high-frequency metadata updates.</li>
 </ul>
 </li>
-<li><strong>Paste Content Storage:</strong> Object Store (Amazon S3) or HDFS for the actual text data to keep the database lean.</li>
+<li><strong>Paste Content Storage:</strong> An <strong>Object Store</strong> (such as Amazon S3 or a distributed file system like HDFS) stores the actual large text blobs, keeping the metadata database lean and performant.</li>
 </ul>
-<h2 id="5-hld-with-mermaid">5. HLD with Mermaid<a class="headerlink" href="#5-hld-with-mermaid" title="Permanent link">¶</a></h2>
+<h2 id="5-high-level-design-with-mermaid">5. High-level design (with Mermaid)<a class="headerlink" href="#5-high-level-design-with-mermaid" title="Permanent link">¶</a></h2>
 <div class="mermaid">graph TD
     A[Client] --&gt; B[Load Balancer]
     B --&gt; C[Application Server]
@@ -223,24 +257,28 @@
     G[Cleanup Service] --&gt; E
     G --&gt; D
 </div>
-<h2 id="6-detailed-design">6. Detailed Design<a class="headerlink" href="#6-detailed-design" title="Permanent link">¶</a></h2>
+<h2 id="6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)<a class="headerlink" href="#6-detailed-design-deep-dive-into-components" title="Permanent link">¶</a></h2>
 <h3 id="key-generation-service-kgs">Key Generation Service (KGS)<a class="headerlink" href="#key-generation-service-kgs" title="Permanent link">¶</a></h3>
-<p>To ensure unique and short URLs (e.g., <code>pastebin.com/a7b2c9</code>), we pre-generate random strings.
-*   <strong>Why?</strong> Generating a key at write-time and checking the DB for duplicates is slow.
-*   <strong>How?</strong> A dedicated service pre-calculates keys and stores them in a "Key DB". When a paste is created, it simply grabs an unused key.</p>
+<p>To ensure every paste gets a unique, short URL (e.g., <code>pastebin.com/a7b2c9</code>) without collision:
+*   <strong>Pre-generation:</strong> A dedicated service pre-calculates unique random strings and stores them in a "Key DB".
+*   <strong>Efficiency:</strong> When a new paste is created, the application server fetches a key from the KGS rather than checking the main database for duplicates, which significantly reduces write latency.
+*   <strong>Management:</strong> Apache Zookeeper can be used to manage key ranges and ensure no two application servers use the same key.</p>
 <h3 id="handling-expiration">Handling Expiration<a class="headerlink" href="#handling-expiration" title="Permanent link">¶</a></h3>
 <ul>
-<li>A background <strong>Cleanup Service</strong> periodically scans the Metadata DB for expired entries.</li>
-<li>It deletes the metadata and the corresponding file in S3.</li>
-<li>To avoid heavy DB scans, we can use a TTL index (if supported by the DB).</li>
+<li><strong>Cleanup Service:</strong> A background process periodically scans the Metadata DB for expired entries.</li>
+<li><strong>Deletion Path:</strong> Once an expired paste is identified, the service removes the metadata from the database and deletes the corresponding file from the Object Store.</li>
+<li><strong>Optimization:</strong> Using TTL (Time-To-Live) indexes in the database can automate parts of this process.</li>
 </ul>
-<h3 id="caching">Caching<a class="headerlink" href="#caching" title="Permanent link">¶</a></h3>
-<p>Since reads outnumber writes 10:1, use Redis to cache the most frequently accessed pastes.</p>
-<h2 id="7-bottlenecks">7. Bottlenecks<a class="headerlink" href="#7-bottlenecks" title="Permanent link">¶</a></h2>
+<h3 id="caching-strategy">Caching Strategy<a class="headerlink" href="#caching-strategy" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>KGS Single Point of Failure:</strong> If KGS goes down, writes fail. Solution: Use a standby KGS and keep a local buffer of keys on app servers.</li>
-<li><strong>Storage Growth:</strong> 3.6TB/year is manageable, but for 10 years, it's 36TB. Tiered storage (moving old pastes to cheaper storage) is necessary.</li>
-<li><strong>Spam:</strong> Public pastes can be used for malicious content. Implement rate limiting and content filtering.</li>
+<li>Since the system is read-heavy (10:1 read-to-write ratio), caching is critical.</li>
+<li>Use <strong>Redis</strong> or <strong>Memcached</strong> to store the most frequently accessed pastes in memory.</li>
+</ul>
+<h2 id="7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>KGS Single Point of Failure:</strong> If the KGS becomes unavailable, new pastes cannot be created. <strong>Resolution:</strong> Maintain a standby KGS and allow application servers to buffer a small number of keys locally.</li>
+<li><strong>Storage Growth:</strong> Accumulating several terabytes per year requires a long-term strategy. <strong>Resolution:</strong> Implement tiered storage, moving older or less frequently accessed pastes to "cold storage" (e.g., S3 Glacier) before eventual deletion.</li>
+<li><strong>Security and Abuse:</strong> Public platforms are susceptible to spam and malicious content. <strong>Resolution:</strong> Implement robust rate limiting per API key/IP and use automated content filtering to identify and flag suspicious pastes.</li>
 </ul>
 </div>
 </div><footer>

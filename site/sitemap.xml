@@ -41,7 +41,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://yokeshrana.github.io/systemdesign/case-studies/api-rate-limiter/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://yokeshrana.github.io/systemdesign/case-studies/dropbox/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://yokeshrana.github.io/systemdesign/case-studies/facebook-messenger/</loc>
          <lastmod>2026-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -71,7 +81,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://yokeshrana.github.io/systemdesign/case-studies/twitter-search/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://yokeshrana.github.io/systemdesign/case-studies/twitter/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://yokeshrana.github.io/systemdesign/case-studies/typeahead-suggestion/</loc>
          <lastmod>2026-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -157,6 +177,46 @@
     </url>
     <url>
          <loc>https://yokeshrana.github.io/systemdesign/fundamentals/scalability/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://yokeshrana.github.io/systemdesign/interview-framework/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://yokeshrana.github.io/systemdesign/interview-framework/bottlenecks/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://yokeshrana.github.io/systemdesign/interview-framework/data-model/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://yokeshrana.github.io/systemdesign/interview-framework/detailed-design/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://yokeshrana.github.io/systemdesign/interview-framework/estimation/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://yokeshrana.github.io/systemdesign/interview-framework/high-level-design/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://yokeshrana.github.io/systemdesign/interview-framework/requirements-clarification/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://yokeshrana.github.io/systemdesign/interview-framework/system-interface/</loc>
          <lastmod>2026-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>

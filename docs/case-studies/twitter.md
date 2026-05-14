@@ -1,6 +1,6 @@
 # Twitter System Design
 
-## 1. Requirements Clarifications
+## 1. Requirements clarifications (Functional & Non-Functional)
 
 ### Functional Requirements
 - **Post Tweets:** Users can post new tweets (text up to 280 chars, images, videos).
@@ -18,7 +18,23 @@
 
 ---
 
-## 2. Capacity Estimation and Constraints
+## 2. System interface definition (APIs)
+
+### Tweet Service
+- `postTweet(user_id, tweet_text, media_ids[])` -> Returns `tweet_id`.
+- `deleteTweet(user_id, tweet_id)` -> Returns Success/Failure.
+
+### Timeline Service
+- `getHomeTimeline(user_id, count, last_tweet_id)` -> Returns list of Tweet objects.
+- `getUserTimeline(user_id, count, last_tweet_id)` -> Returns list of Tweet objects.
+
+### Social Graph Service
+- `follow(follower_id, followee_id)`
+- `unfollow(follower_id, followee_id)`
+
+---
+
+## 3. Back-of-the-envelope estimation (Capacity Estimation)
 
 ### Traffic Estimates
 - **DAU (Daily Active Users):** 300 Million.
@@ -39,23 +55,7 @@
 
 ---
 
-## 3. System APIs
-
-### Tweet Service
-- `postTweet(userId, tweetText, mediaIds[])` -> Returns `tweetId`.
-- `deleteTweet(userId, tweetId)` -> Returns Success/Failure.
-
-### Timeline Service
-- `getHomeTimeline(userId, count, lastTweetId)` -> Returns list of Tweet objects.
-- `getUserTimeline(userId, count, lastTweetId)` -> Returns list of Tweet objects.
-
-### Social Graph Service
-- `follow(followerId, followeeId)`
-- `unfollow(followerId, followeeId)`
-
----
-
-## 4. Database Design
+## 4. Defining data model (Database Schema/Model)
 
 We use a combination of SQL for structured metadata and NoSQL/Key-Value stores for timelines.
 
@@ -87,7 +87,7 @@ We use a combination of SQL for structured metadata and NoSQL/Key-Value stores f
 
 ---
 
-## 5. High Level Design
+## 5. High-level design (with Mermaid)
 
 ```mermaid
 graph TD
@@ -113,7 +113,7 @@ graph TD
 
 ---
 
-## 6. Detailed Component Design
+## 6. Detailed design (Deep dive into components)
 
 ### Timeline Fan-out (Core Mechanism)
 The process of delivering tweets to followers is called "Fan-out".
@@ -135,7 +135,7 @@ To ensure tweets are unique and roughly time-sorted across distributed machines:
 
 ---
 
-## 7. Identifying and Resolving Bottlenecks
+## 7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)
 
 ### Sharding
 - **Tweets DB:** Shard by `user_id` to keep all tweets of a user on one shard (fast User Timeline). However, this can cause "hot shards" for celebrities.

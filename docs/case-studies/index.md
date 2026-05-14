@@ -2,6 +2,16 @@
 
 Real-world system design case studies are the best way to understand how fundamental concepts and components come together to solve complex problems at scale.
 
+Every case study in this section follows the same seven-step interview framework used across the site:
+
+1. Requirements clarification
+2. System interface definition
+3. Back-of-the-envelope estimation
+4. Data model definition
+5. High-level design
+6. Detailed design
+7. Bottlenecks and scaling
+
 ---
 
 ## Social & Content Platforms
@@ -34,3 +44,5 @@ When reviewing these designs, focus on:
 2.  **Bottlenecks**: Where will the system fail first as it scales?
 3.  **Key Decisions**: What are the 2-3 unique technical challenges for this specific problem?
 4.  **Back-of-Envelope**: Can you estimate the storage and bandwidth requirements?
+
+Before reading any specific case study, skim the matching pages in [Interview Framework](../interview-framework/index.md) so you can map each example back to the same structure.

@@ -88,6 +88,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Interview Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/estimation/">3. Back-of-the-Envelope Estimation</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/data-model/">4. Data Model Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/high-level-design/">5. High-Level Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/detailed-design/">6. Detailed Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/bottlenecks/">7. Bottlenecks and Scaling</a>
+</li>
+</ul>
 <p class="caption"><span class="caption-text">Operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
@@ -109,9 +128,13 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../facebook-newsfeed/">Facebook Newsfeed</a>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook-messenger/">Facebook Messenger</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-search/">Twitter Search</a>
+</li>
 <li class="toctree-l1 current"><a class="reference internal current" href="./">Yelp (Proximity Server)</a>
 <ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="#1-requirements">1. Requirements</a>
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#functional">Functional</a>
 </li>
@@ -119,15 +142,15 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation">2. Capacity Estimation</a>
+<li class="toctree-l2"><a class="reference internal" href="#2-system-interface-definition-apis">2. System interface definition (APIs)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#3-apis">3. APIs</a>
+<li class="toctree-l2"><a class="reference internal" href="#3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#4-db-design">4. DB Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#5-hld-with-mermaid">5. HLD with Mermaid</a>
+<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design-with-mermaid">5. High-level design (with Mermaid)</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design">6. Detailed Design</a>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)</a>
 <ul>
 <li class="toctree-l3"><a class="reference internal" href="#geospatial-indexing">Geospatial Indexing</a>
 </li>
@@ -137,7 +160,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#7-bottlenecks">7. Bottlenecks</a>
+<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)</a>
 </li>
 </ul>
 </li>
@@ -154,6 +177,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../netflix/">Netflix Design</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../youtube/">YouTube Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../typeahead-suggestion/">Typeahead Suggestion</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-rate-limiter/">API Rate Limiter</a>
 </li>
 </ul>
 </div>
@@ -178,7 +205,7 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="case-study-yelp-proximity-server">Case Study: Yelp (Proximity Server)<a class="headerlink" href="#case-study-yelp-proximity-server" title="Permanent link">¶</a></h1>
-<h2 id="1-requirements">1. Requirements<a class="headerlink" href="#1-requirements" title="Permanent link">¶</a></h2>
+<h2 id="1-requirements-clarifications-functional-non-functional">1. Requirements clarifications (Functional &amp; Non-Functional)<a class="headerlink" href="#1-requirements-clarifications-functional-non-functional" title="Permanent link">¶</a></h2>
 <h3 id="functional">Functional<a class="headerlink" href="#functional" title="Permanent link">¶</a></h3>
 <ul>
 <li>Users can search for nearby places (restaurants, theaters) within a given radius.</li>
@@ -191,20 +218,20 @@
 <li><strong>Scalability:</strong> Support 500M points of interest (POI) and 50k search requests per second.</li>
 <li><strong>Availability:</strong> System must be highly available.</li>
 </ul>
-<h2 id="2-capacity-estimation">2. Capacity Estimation<a class="headerlink" href="#2-capacity-estimation" title="Permanent link">¶</a></h2>
+<h2 id="2-system-interface-definition-apis">2. System interface definition (APIs)<a class="headerlink" href="#2-system-interface-definition-apis" title="Permanent link">¶</a></h2>
+<ul>
+<li><code>search(lat, long, radius, category, filter)</code></li>
+<li><code>getBusinessDetails(business_id)</code></li>
+<li><code>addReview(business_id, user_id, rating, comment)</code></li>
+</ul>
+<h2 id="3-back-of-the-envelope-estimation-capacity-estimation">3. Back-of-the-envelope estimation (Capacity Estimation)<a class="headerlink" href="#3-back-of-the-envelope-estimation-capacity-estimation" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>POI Count:</strong> 500M businesses.</li>
 <li><strong>Daily Active Users:</strong> 30M.</li>
 <li><strong>Search Volume:</strong> 100M searches per day.</li>
 <li><strong>Storage:</strong> 500M POI * 1KB/POI $\approx$ 500GB for business data.</li>
 </ul>
-<h2 id="3-apis">3. APIs<a class="headerlink" href="#3-apis" title="Permanent link">¶</a></h2>
-<ul>
-<li><code>search(lat, long, radius, category, filter)</code></li>
-<li><code>getBusinessDetails(business_id)</code></li>
-<li><code>addReview(business_id, user_id, rating, comment)</code></li>
-</ul>
-<h2 id="4-db-design">4. DB Design<a class="headerlink" href="#4-db-design" title="Permanent link">¶</a></h2>
+<h2 id="4-defining-data-model-database-schemamodel">4. Defining data model (Database Schema/Model)<a class="headerlink" href="#4-defining-data-model-database-schemamodel" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>Business Table:</strong> Relational (MySQL/PostgreSQL).<ul>
 <li><code>business_id (PK), name, address, latitude, longitude, category</code>.</li>
@@ -213,7 +240,7 @@
 <li><strong>Review Table:</strong> <code>review_id, business_id, user_id, rating, timestamp</code>.</li>
 <li><strong>Geospatial Index:</strong> Specialized index for location-based queries.</li>
 </ul>
-<h2 id="5-hld-with-mermaid">5. HLD with Mermaid<a class="headerlink" href="#5-hld-with-mermaid" title="Permanent link">¶</a></h2>
+<h2 id="5-high-level-design-with-mermaid">5. High-level design (with Mermaid)<a class="headerlink" href="#5-high-level-design-with-mermaid" title="Permanent link">¶</a></h2>
 <div class="mermaid">graph TD
     A[Client App] --&gt; B[Load Balancer]
     B --&gt; C[Search Service]
@@ -223,7 +250,7 @@
     D --&gt; F
     G[Review Service] --&gt; H[(Review DB)]
 </div>
-<h2 id="6-detailed-design">6. Detailed Design<a class="headerlink" href="#6-detailed-design" title="Permanent link">¶</a></h2>
+<h2 id="6-detailed-design-deep-dive-into-components">6. Detailed design (Deep dive into components)<a class="headerlink" href="#6-detailed-design-deep-dive-into-components" title="Permanent link">¶</a></h2>
 <h3 id="geospatial-indexing">Geospatial Indexing<a class="headerlink" href="#geospatial-indexing" title="Permanent link">¶</a></h3>
 <p>Standard DB queries <code>WHERE lat BETWEEN ... AND long BETWEEN ...</code> are slow for large datasets.
 1.  <strong>Geohashing:</strong> Divides the earth into a grid. Each cell is represented by a base32 string. Nearby locations share common prefixes.
@@ -237,7 +264,7 @@
 </ul>
 <h3 id="caching">Caching<a class="headerlink" href="#caching" title="Permanent link">¶</a></h3>
 <p>Cache popular search results (e.g., "Best Pizza in NYC") using Redis.</p>
-<h2 id="7-bottlenecks">7. Bottlenecks<a class="headerlink" href="#7-bottlenecks" title="Permanent link">¶</a></h2>
+<h2 id="7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>Read-Heavy Traffic:</strong> Proximity searches are very frequent. Use read-replicas for the Business DB.</li>
 <li><strong>QuadTree Rebuilding:</strong> If many new businesses are added, the tree might become unbalanced. Periodic background rebalancing is needed.</li>
@@ -246,7 +273,7 @@
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
-<a class="btn btn-neutral float-left" href="../facebook-newsfeed/" title="Facebook Newsfeed"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-left" href="../twitter-search/" title="Twitter Search"><span class="icon icon-circle-arrow-left"></span> Previous</a>
 <a class="btn btn-neutral float-right" href="../ticketmaster/" title="Ticketmaster">Next <span class="icon icon-circle-arrow-right"></span></a>
 </div>
 <hr/>
@@ -262,7 +289,7 @@
 </div>
 <div aria-label="Versions" class="rst-versions" role="note">
 <span class="rst-current-version" data-toggle="rst-current-version">
-<span><a href="../facebook-newsfeed/" style="color: #fcfcfc">« Previous</a></span>
+<span><a href="../twitter-search/" style="color: #fcfcfc">« Previous</a></span>
 <span><a href="../ticketmaster/" style="color: #fcfcfc">Next »</a></span>
 </span>
 </div>

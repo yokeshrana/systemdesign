@@ -57,6 +57,15 @@ nav:
     - Consistent Hashing: advanced/consistent-hashing.md
     - Database Sharding: advanced/sharding.md
     - Top 'K' Frequent Items: advanced/top-k.md
+  - Interview Framework:
+    - Overview: interview-framework/index.md
+    - 1. Requirements Clarification: interview-framework/requirements-clarification.md
+    - 2. System Interface Definition: interview-framework/system-interface.md
+    - 3. Back-of-the-Envelope Estimation: interview-framework/estimation.md
+    - 4. Data Model Definition: interview-framework/data-model.md
+    - 5. High-Level Design: interview-framework/high-level-design.md
+    - 6. Detailed Design: interview-framework/detailed-design.md
+    - 7. Bottlenecks and Scaling: interview-framework/bottlenecks.md
   - Operations:
     - Networking & CDN: operations/networking.md
     - Monitoring & Logging: operations/monitoring.md
