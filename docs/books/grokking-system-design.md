@@ -11,7 +11,7 @@ An interactive guide to acing system design interviews. Use the embedded viewer 
     <button id="next-page" title="Next page">Next →</button>
     <button id="toggle-bookmarks" title="Show/hide bookmarks">🔖 Bookmarks</button>
     <button id="bookmark-page" title="Bookmark this page">⭐ Bookmark</button>
-    <a id="download-pdf" href="../assets/system_design.pdf" download="Grokking_System_Design_Interview.pdf" title="Download PDF">📥 Download</a>
+    <a id="download-pdf" href="../../assets/system_design.pdf" download="Grokking_System_Design_Interview.pdf" title="Download PDF">📥 Download</a>
   </div>
   
   <div id="pdf-viewer" style="width: 100%; height: 600px; border: 1px solid #ddd; background: #f5f5f5; position: relative;">
@@ -26,7 +26,7 @@ An interactive guide to acing system design interviews. Use the embedded viewer 
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="../assets/javascripts/pdf-viewer.js"></script>
+<script src="../../assets/javascripts/pdf-viewer.js"></script>
 
 ## How to Use
 
