@@ -3,6 +3,7 @@
 ## 1. Requirements clarifications (Functional & Non-Functional)
 
 ### Functional Requirements
+
 *   **URL Shortening:** Generate a shorter, unique alias for any given long URL.
 *   **Redirection:** Redirect users to the original long URL when they access the short link.
 *   **Custom Aliases:** Allow users to specify a custom alias for their links.
@@ -10,6 +11,7 @@
 *   **Analytics:** Track basic metrics such as click counts, visitor location, and referrer.
 
 ### Non-Functional Requirements
+
 *   **High Availability:** The system must be available 24/7; redirection failure is not acceptable.
 *   **Low Latency:** Redirection should be performed with minimal delay (sub-100ms).
 *   **Uniqueness:** Shortened links must be unique and non-guessable.
@@ -24,6 +26,7 @@
 ## 3. Back-of-the-envelope estimation (Capacity Estimation)
 
 ### Traffic Estimates
+
 *   Assume a 100:1 read-to-write ratio.
 *   **Writes:** 500 million new URLs per month.
 *   **Reads:** 50 billion redirections per month.
@@ -31,12 +34,14 @@
 *   **Read QPS:** ~20,000 requests/sec.
 
 ### Storage Estimates
+
 *   **Total Period:** 10 years.
 *   **Total URLs:** 60 billion.
 *   **Record Size:** ~500 bytes per mapping.
 *   **Total Storage:** ~30 Terabytes.
 
 ### Bandwidth Estimates
+
 *   **Write Bandwidth:** ~100 KB/s.
 *   **Read Bandwidth:** ~10 MB/s.
 
@@ -45,6 +50,7 @@
 Since the system requires billions of records and simple key-value lookups, a **NoSQL** database like **Cassandra** or **DynamoDB** is preferred for horizontal scalability.
 
 ### Schema
+
 *   **URL Table:** `short_hash (PK), original_url, user_id, created_at, expire_at`.
 *   **User Table:** `user_id (PK), name, email, api_key`.
 
@@ -68,16 +74,19 @@ graph TD
 ## 6. Detailed design (Deep dive into components)
 
 ### Encoding and Uniqueness
+
 *   We use **Base62** encoding ([0-9, a-z, A-Z]).
 *   A 7-character short link provides $62^7 \approx 3.5$ trillion unique IDs, which safely covers our 10-year requirement of 60 billion URLs.
 
 ### Key Generation Service (KGS)
 To prevent collisions in a distributed environment:
+
 1.  A dedicated KGS pre-generates unique keys and stores them in a "Key-DB".
 2.  Web servers request keys from KGS in blocks to reduce network overhead.
 3.  **Apache Zookeeper** coordinates range assignments to different KGS instances, ensuring no overlap.
 
 ### Redirection Logic
+
 *   **302 (Temporary Redirect):** The browser always hits our server first. This is essential for accurate, real-time analytics tracking.
 *   **301 (Permanent Redirect):** The browser caches the result. While faster for the user, it prevents us from tracking subsequent clicks.
 
@@ -118,6 +127,7 @@ URL shortener interviews are usually about key generation, uniqueness, and fast 
     - **301 (Permanent)**: Client caches in browser; subsequent clicks skip server entirely. Analytics lose visibility; redirects can't change.
 
     **Trade-off**:
+
     - **Use 302**: When you need analytics (click tracking), flexibility to change destination later, or short-lived redirects.
     - **Use 301**: When redirect target is truly permanent and you don't need tracking.
 

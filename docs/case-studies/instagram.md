@@ -5,6 +5,7 @@ This guide provides a comprehensive system design for a large-scale photo-sharin
 ## 1. Requirements clarifications (Functional & Non-Functional)
 
 ### Functional Requirements
+
 - **Media Upload**: Users can upload photos and videos.
 - **Follow System**: Users can follow other users.
 - **News Feed**: Users can view a feed of photos/videos from people they follow.
@@ -12,6 +13,7 @@ This guide provides a comprehensive system design for a large-scale photo-sharin
 - **Search**: Users can search for other users or posts by hashtags/locations.
 
 ### Non-Functional Requirements
+
 - **High Availability**: The system must be highly available (99.99%).
 - **Reliability**: Any uploaded photo or video should never be lost.
 - **Low Latency**: The news feed generation and media viewing should be near-instant (sub-200ms).
@@ -49,12 +51,14 @@ GET /api/v1/feed?user_id={user_id}&count={count}&offset={offset}
 ## 3. Back-of-the-envelope estimation (Capacity Estimation)
 
 ### Traffic Estimates
+
 - **Total Users**: 1 Billion.
 - **Daily Active Users (DAU)**: 500 Million.
 - **New Posts**: Assume 1 million new posts per day.
 - **Read/Write Ratio**: Extremely read-heavy (users view far more than they post).
 
 ### Storage Estimates
+
 - **Avg Photo Size**: 5 MB.
 - **Daily Storage (Photos)**: $1M \times 5MB = 5 \text{ Terabytes/day}$.
 - **5-Year Storage**: $5TB \times 365 \times 5 \approx 9 \text{ Petabytes}$.
@@ -87,6 +91,7 @@ A hybrid approach is required to handle relational data and high-velocity intera
 
 #### Likes Table (NoSQL - Cassandra)
 *Chosen for high write throughput and scalability.*
+
 - `post_id` (Partition Key)
 - `user_id` (Clustering Key)
 - `timestamp`
@@ -135,6 +140,7 @@ This is the most complex part of the system. There are three main strategies:
    - **Celebrities**: Use the **Pull** model. Followers of celebrities fetch celebrity posts at query time and merge them with their pre-cached feed.
 
 ### Media Storage and Delivery
+
 - **Storage**: Photos/Videos are stored in **Amazon S3** (or similar object storage).
 - **Optimization**: Images are resized into different resolutions (Thumbnail, Mobile, Desktop) upon upload.
 - **Delivery**: A **CDN (Content Delivery Network)** is used to cache media at edge locations close to users, drastically reducing latency.
@@ -145,18 +151,22 @@ This is the most complex part of the system. There are three main strategies:
 
 ### Data Sharding
 Since a single DB instance cannot hold all post metadata, we shard the data.
+
 - **Shard by UserID**: All posts for a user live on one shard.
 - **Pros**: Fast to fetch a user's profile.
 - **Cons**: "Hot" users can overwhelm a single shard.
 
 ### Caching Strategy
+
 - **Redis/Memcached**: Store the News Feed for the last 72 hours for active users.
 - **Write-around Cache**: For metadata to keep the database from being the bottleneck on reads.
 
 ### Handling "Hot" Content
+
 - Popular posts (viral content) are cached aggressively in global CDNs and regional caches to prevent origin server overload.
 
 ### Load Balancing
+
 - Use multiple LBs at different layers: Global (DNS-based) and Local (Layer 7 software LBs like NGINX).
 
 ## Interviewer Lens

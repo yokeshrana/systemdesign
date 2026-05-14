@@ -3,12 +3,14 @@
 ## 1. Requirements clarifications (Functional & Non-Functional)
 
 ### Functional
+
 *   **Paste Creation:** Users can input text data and receive a unique, shortened URL to access it.
 *   **Expiration:** Users can set expiration times for their pastes (e.g., 1 hour, 1 day, or never).
 *   **Privacy Control:** Pastes can be set as public or private.
 *   **Custom Aliases:** Support for optional custom aliases for the generated URLs.
 
 ### Non-Functional
+
 *   **High Scalability:** Must support millions of new pastes created daily and an even larger volume of reads.
 *   **High Availability:** The system must be highly available for reading existing pastes.
 *   **Low Latency:** Paste creation and retrieval should be nearly instantaneous.
@@ -32,6 +34,7 @@
 To handle scalability and keep the metadata separated from the content, we use a two-tiered storage approach.
 
 ### Schema
+
 *   **Metadata DB (NoSQL):** `paste_key (PK), user_id, expiration_date, created_at, access_type (public/private), object_storage_path`.
     *   A NoSQL database like **Cassandra** or **MongoDB** is ideal for horizontal scaling and handling high-frequency metadata updates.
 *   **Paste Content Storage:** An **Object Store** (such as Amazon S3 or a distributed file system like HDFS) stores the actual large text blobs, keeping the metadata database lean and performant.
@@ -53,16 +56,19 @@ graph TD
 
 ### Key Generation Service (KGS)
 To ensure every paste gets a unique, short URL (e.g., `pastebin.com/a7b2c9`) without collision:
+
 *   **Pre-generation:** A dedicated service pre-calculates unique random strings and stores them in a "Key DB".
 *   **Efficiency:** When a new paste is created, the application server fetches a key from the KGS rather than checking the main database for duplicates, which significantly reduces write latency.
 *   **Management:** Apache Zookeeper can be used to manage key ranges and ensure no two application servers use the same key.
 
 ### Handling Expiration
+
 *   **Cleanup Service:** A background process periodically scans the Metadata DB for expired entries.
 *   **Deletion Path:** Once an expired paste is identified, the service removes the metadata from the database and deletes the corresponding file from the Object Store.
 *   **Optimization:** Using TTL (Time-To-Live) indexes in the database can automate parts of this process.
 
 ### Caching Strategy
+
 *   Since the system is read-heavy (10:1 read-to-write ratio), caching is critical.
 *   Use **Redis** or **Memcached** to store the most frequently accessed pastes in memory.
 

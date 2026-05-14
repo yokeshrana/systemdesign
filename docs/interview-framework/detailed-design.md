@@ -44,6 +44,7 @@ When and how to cache data:
 | **Refresh-Ahead** | Refresh before expiry | Reduced miss latency | Unnecessary refreshes |
 
 **Cache Invalidation**: "Two hard things in CS: cache invalidation and naming."
+
 - TTL-based: Expiry via timeout.
 - Event-based: Invalidate on database changes.
 - LRU/LFU: Evict least recently/frequently used.
@@ -82,6 +83,7 @@ How to partition data across nodes:
 ## Database Optimization
 
 ### SQL Tuning
+
 - Schema: CHAR for fixed-length, INT for numbers, DECIMAL for currency.
 - Indexes: Index WHERE, JOIN, ORDER BY, GROUP BY columns.
 - Joins: Denormalize to avoid expensive joins if read-heavy.
@@ -89,6 +91,7 @@ How to partition data across nodes:
 - Replication: Use read replicas for scale reads.
 
 ### NoSQL Optimization
+
 - Denormalization: Duplicate across documents if access patterns demand.
 - Indexes: Create secondary indexes for fast lookups.
 - Batch Operations: Insert/update multiple items to reduce roundtrips.

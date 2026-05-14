@@ -3,9 +3,11 @@
 ## 1. Requirements Clarifications
 
 **Functional Requirements:**
+
 - As the user types in their query, our service should suggest top 10 terms starting with whatever the user has typed.
 
 **Non-Functional Requirements:**
+
 - The suggestions should appear in real-time. The user should be able to see the suggestions within 200ms.
 - High availability and scalability.
 
@@ -21,6 +23,7 @@ Assume that only 20% of these will be unique. Let’s assume we will have 100 mi
 `suggest(api_dev_key, prefix, maximum_results_to_return)`
 
 **Parameters:**
+
 - `api_dev_key` (string): The API developer key.
 - `prefix` (string): The characters entered by the user.
 - `maximum_results_to_return` (number): Number of suggestions to return (e.g., 10).
@@ -58,6 +61,7 @@ To find top suggestions, we can store the count of searches that terminated at e
 Updating the trie for every query is extremely resource-intensive. One solution is to update our trie offline after a certain interval using a Map-Reduce (MR) setup to process all the logging data periodically (e.g., every hour).
 
 **Data Partitioning:**
+
 - *Range Based Partitioning:* Store phrases in separate partitions based on their first letter (e.g., A-E in one server, F-J in another). This can lead to unbalanced servers.
 - *Partition based on the maximum capacity:* Partition the trie based on the maximum memory capacity of the servers.
 - *Partition based on the hash of the term:* Each term will be passed to a hash function, which will generate a server number and store the term there. We must ask all servers and then aggregate the results.
@@ -71,6 +75,7 @@ Caching the top searched terms will be extremely helpful. We can have separate c
 We should have replicas for our trie servers. We can use a master-slave configuration; if the master dies, the slave can take over.
 
 **Typeahead Client Optimizations:**
+
 1. The client should only try hitting the server if the user has not pressed any key for 50ms.
 2. If the user is constantly typing, the client can cancel the in-progress requests.
 3. Clients can pre-fetch some data from the server.

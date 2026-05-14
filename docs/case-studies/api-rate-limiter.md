@@ -3,11 +3,13 @@
 ## 1. Requirements Clarifications
 
 **Functional Requirements:**
+
 - Limit the number of requests an entity can send to an API within a time window, e.g., 15 requests per second.
 - The APIs are accessible through a cluster, so the rate limit should be considered across different servers. 
 - The user should get an error message (HTTP 429 - Too many requests) whenever the defined threshold is crossed.
 
 **Non-Functional Requirements:**
+
 - The system should be highly available. The rate limiter should always work since it protects our service from external attacks.
 - Our rate limiter should not introduce substantial latencies affecting the user experience.
 
@@ -24,6 +26,7 @@ The rate limiter itself is usually an internal service or middleware rather than
 `isAllowed(api_dev_key, user_id, api_endpoint)`
 
 **Parameters:**
+
 - `api_dev_key` (string): The API developer key.
 - `user_id` (string): The user making the request.
 - `api_endpoint` (string): The endpoint being accessed.
@@ -34,6 +37,7 @@ Returns true if the request is within the limit, otherwise false.
 ## 4. Database Design
 
 We need an extremely fast, in-memory data store. A NoSQL key-value store like **Redis** is ideal because:
+
 - It operates in memory, providing sub-millisecond latencies.
 - It supports advanced data structures like Hashes and Sorted Sets.
 - It provides atomic operations and time-to-live (TTL) for keys.
@@ -56,12 +60,14 @@ graph TD
 ## 6. Detailed Component Design
 
 **Algorithms for Rate Limiting:**
+
 1. *Fixed Window Algorithm:* Simple, but has the "boundary problem" where a user can send twice the allowed rate if they time requests around the minute boundary.
 2. *Sliding Window Algorithm:* Uses a Redis Sorted Set to store timestamps of each request. Solves the boundary problem but is memory-intensive.
 3. *Sliding Window with Counters (Hybrid):* Keep a count for each minute and calculate the sum of all counters in the past hour. We store counters in a Redis Hash. When a request increments a counter, it also sets the hash to expire an hour later. This uses 86% less memory than the simple sliding window.
 
 **Atomicity and Concurrency:**
 In a distributed environment, the “read-and-then-write” behavior can create a race condition. If two processes concurrently read the count before updating, they might both allow a request that should be throttled.
+
 - *Solution:* Use Redis locks (Redlock) or use Redis `INCR` operations which are inherently atomic.
 
 ## 7. Identifying and Resolving Bottlenecks
@@ -70,6 +76,7 @@ In a distributed environment, the “read-and-then-write” behavior can create 
 We can shard based on the `UserID` using Consistent Hashing to distribute the user’s data across multiple Redis nodes. We can also use a **Write-back cache** in the Rate Limiter servers, updating all counters in local cache first and syncing to permanent storage at fixed intervals to ensure minimum latency.
 
 **Should we rate limit by IP or by user?**
+
 - *IP:* Easy to implement but problematic when multiple users share a single public IP (e.g., internet cafe). Also, IPv6 makes it trivial for attackers to cycle through addresses.
 - *User:* More accurate, but a hacker can perform a denial of service attack against a user by entering wrong credentials up to the limit.
 - *Hybrid:* The best approach is to do both per-IP and per-user rate limiting.

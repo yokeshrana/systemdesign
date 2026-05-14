@@ -37,11 +37,13 @@ Availability measured in "nines":
 ## Failover Patterns
 
 ### Active-Passive
+
 - Primary handles all traffic, passive is standby.
 - Failure → passive takes over (10-30 sec downtime).
 - Simple, used with master-slave databases.
 
 ### Active-Active
+
 - Both servers handle traffic, balanced by DNS/load balancer.
 - Failure → degraded service (no downtime).
 - Complex, needs master-master databases or distributed consensus.

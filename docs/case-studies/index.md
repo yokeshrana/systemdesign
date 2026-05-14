@@ -60,6 +60,7 @@ These studies focus on specialized data structures (geospatial indexing) and hig
 ### How to Study Case Studies
 
 When reviewing these designs, focus on:
+
 1.  **Trade-offs**: Why was one database chosen over another?
 2.  **Bottlenecks**: Where will the system fail first as it scales?
 3.  **Key Decisions**: What are the 2-3 unique technical challenges for this specific problem?

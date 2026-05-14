@@ -3,11 +3,13 @@
 ## 1. Requirements Clarifications
 
 **Functional Requirements:**
+
 - Twitter users can update their status whenever they like. Each status (called tweet) consists of plain text.
 - Our goal is to design a system that allows searching over all the user tweets.
 - The search query will consist of multiple words combined with AND/OR.
 
 **Non-Functional Requirements:**
+
 - The system needs to be highly available.
 - Search should return results in real-time (minimal latency).
 - Scalability is paramount, given the massive read and write volume.
@@ -26,6 +28,7 @@ We can have SOAP or REST APIs to expose functionality of our service:
 `search(api_dev_key, search_terms, maximum_results_to_return, sort, page_token)`
 
 **Parameters:**
+
 - `api_dev_key` (string): The API developer key of a registered account.
 - `search_terms` (string): A string containing the search terms.
 - `maximum_results_to_return` (number): Number of tweets to return.

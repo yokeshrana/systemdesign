@@ -3,12 +3,14 @@
 ## 1. Requirements clarifications (Functional & Non-Functional)
 
 ### Functional
+
 *   Users can search for events (concerts, sports) by name, location, or date.
 *   Users can view a real-time seating map and select specific seats.
 *   Users can reserve seats for a limited time (5-10 minutes) while completing payment.
 *   Users can securely purchase tickets and receive confirmation.
 
 ### Non-Functional
+
 *   **High Concurrency:** Must handle massive traffic spikes when popular events go on sale.
 *   **Fairness:** Tickets should be allocated on a first-come, first-served basis.
 *   **Transaction Integrity:** Strict ACID properties to prevent double-booking of the same seat.
@@ -50,16 +52,19 @@ graph TD
 ## 6. Detailed design (Deep dive into components)
 
 ### Handling High Traffic Spikes
+
 *   **Virtual Waiting Room:** Implement a queueing system (e.g., using a Token Bucket algorithm) to throttle incoming requests and allow users into the booking flow at a sustainable rate.
 *   **CDN Integration:** Cache static event details, images, and seating map templates at the edge to significantly reduce load on origin servers.
 
 ### Seat Reservation (The Locking Mechanism)
+
 1.  **Selection:** When a user selects a seat, the Booking Service attempts to acquire a distributed lock.
 2.  **Distributed Lock:** Use Redis with a TTL (Time-To-Live) of 10 minutes: `SET seat_123 user_456 EX 600 NX`.
 3.  **Database Update:** Upon successful locking in Redis, the status in the SQL database is updated to 'Reserved' within a transaction.
 4.  **Cleanup:** If the user fails to complete the payment before the TTL, the Redis lock expires, and a background worker reverts the seat status to 'Available' in the database.
 
 ### Database Sharding
+
 *   Shard the database by `event_id`. This ensures all seat data for a specific event resides on the same shard, simplifying transaction management and improving performance for localized event queries.
 
 ## 7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)

@@ -3,16 +3,19 @@
 ## 1. Requirements Clarifications
 
 **Functional Requirements:**
+
 1. Messenger should support one-on-one conversations between users.
 2. Messenger should keep track of the online/offline statuses of its users.
 3. Messenger should support persistent storage of chat history.
 
 **Non-Functional Requirements:**
+
 1. Users should have real-time chat experience with minimum latency.
 2. Our system should be highly consistent; users should be able to see the same chat history on all their devices.
 3. Messenger’s high availability is desirable; we can tolerate lower availability in the interest of consistency.
 
 **Extended Requirements:**
+
 - Group Chats: Messenger should support multiple people talking to each other in a group.
 - Push notifications: Messenger should be able to notify users of new messages when they are offline.
 
@@ -30,6 +33,7 @@ We can define APIs to send messages and retrieve messages. For sending a message
 `sendMessage(api_dev_key, user_id, receiver_id, message_text, media_ids)`
 
 **Parameters:**
+
 - `api_dev_key` (string): The API developer key of a registered account.
 - `user_id` (number): The ID of the sender.
 - `receiver_id` (number): The ID of the receiver.
@@ -64,6 +68,7 @@ graph TD
 ```
 
 **Detailed Workflow:**
+
 1. User-A sends a message to User-B through the chat server.
 2. The server receives the message and sends an acknowledgment to User-A.
 3. The server stores the message in its database and sends the message to User-B.
@@ -85,6 +90,7 @@ We need to keep track of user’s online/offline status and notify all the relev
 ## 7. Identifying and Resolving Bottlenecks
 
 **Data Partitioning:**
+
 - *Partitioning based on UserID:* We can partition based on the hash of the UserID so that we can keep all messages of a user on the same database. We can find the shard number by `hash(UserID) % 1000`.
 
 **Cache:**

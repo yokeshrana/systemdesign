@@ -3,12 +3,14 @@
 ## 1. Requirements clarifications (Functional & Non-Functional)
 
 ### Functional
+
 *   **Crawling:** Scalably scrape text and metadata from billions of web pages across the internet.
 *   **Discovery:** Automatically extract new URLs from crawled pages and add them to a frontier for future crawling.
 *   **Deduplication:** Efficiently identify and skip already crawled URLs and near-duplicate content.
 *   **Freshness:** Periodically recrawl pages to ensure the index reflects recent changes and updates.
 
 ### Non-Functional
+
 *   **Massive Scalability:** Capable of crawling and processing billions of pages per month.
 *   **Politeness:** Strictly adhere to `robots.txt` and ensure no single server is overwhelmed by requests.
 *   **Extensibility:** Modular architecture to easily support new content types like images, PDFs, and videos.
@@ -17,6 +19,7 @@
 ## 2. System interface definition (APIs)
 
 While primarily an internal background system, the crawler exposes several critical internal interfaces:
+
 *   `addSeedUrls(url_list)`: Populates the frontier with initial URLs to begin the crawling process.
 *   `getCrawlStats(crawl_id)`: Provides real-time metrics on crawl progress, success rates, and discovered URLs.
 *   `updatePolitenessPolicy(domain, settings)`: Allows manual adjustment of crawling frequency for specific domains.
@@ -54,11 +57,13 @@ graph TD
 
 ### Politeness & Distributed Crawling
 To maintain a high crawling rate without causing service disruptions for hosts:
+
 *   **Host-based Queuing:** The Frontier maintains separate sub-queues for each hostname.
 *   **Worker Affinity:** Each worker thread is assigned a specific host queue and implements a configurable delay between consecutive requests to the same domain.
 *   **Robots.txt Caching:** Crawlers maintain an in-memory cache of `robots.txt` files to avoid redundant fetches before every page request.
 
 ### Deduplication Strategies
+
 1.  **URL Deduplication:** Before adding any URL to the frontier, it is normalized (e.g., removing session IDs, converting to lowercase) and checked against a Bloom Filter.
 2.  **Content Deduplication:** To identify pages with different URLs but identical content, we use **Simhash** or **MinHash** to generate "fingerprints" of the page content. This allows the system to detect near-duplicates effectively.
 
