@@ -1,56 +1,130 @@
-# YouTube Design
+# YouTube System Design
 
-## Problem Statement
+## 1. Requirements Clarifications
 
-Design a video-sharing platform that:
-- Supports video uploads (up to 4K/8K)
-- Provides smooth video streaming globally
-- Tracks views, likes, and comments
-- Supports video search and recommendations
+### Functional Requirements
+- **Upload Videos:** Users can upload videos.
+- **View Videos:** Users can watch videos on various devices (Desktop, Mobile, TV).
+- **Search:** Search for videos by title.
+- **Stats:** Track views, likes, and dislikes.
+- **Comments:** Users can add comments to videos.
 
-## Key Challenges
+### Non-Functional Requirements
+- **Low Latency:** Streaming should start instantly with minimal buffering.
+- **High Availability:** The service must be accessible 24/7.
+- **Reliability:** Uploaded videos must not be lost.
+- **Scalability:** Handle millions of concurrent viewers and thousands of uploads per minute.
 
-1. **Video Transcoding**: Converting high-resolution uploads into dozens of formats and bitrates for different devices.
-2. **Storage and Bandwidth**: Storing petabytes of data and serving it with minimal buffering.
-3. **Availability**: Videos should be available globally with low latency.
-4. **Search and Discovery**: Real-time search indexing and personalized recommendations.
+---
 
-## Architecture Overview
+## 2. Capacity Estimation and Constraints
+
+### Traffic Estimates
+- **Total Users:** 2 Billion.
+- **DAU:** 500 Million.
+- **Upload Rate:** 5 videos per second on average.
+- **View Rate:** 200 videos per second.
+- **Read/Write Ratio:** 40:1.
+
+### Storage & Bandwidth
+- **Storage:**
+    - 5 videos/sec * 86,400 sec/day = 432,000 videos/day.
+    - Avg video size (compressed multiple formats): 500 MB.
+    - Daily Storage: 432,000 * 500 MB ≈ 216 TB/day.
+- **Bandwidth:**
+    - Incoming: 5 * 50MB (raw) = 250 MB/sec.
+    - Outgoing: 200 views/sec * 10MB (avg streamed) = 2 GB/sec.
+
+---
+
+## 3. System APIs
+
+### Video Service
+- `uploadVideo(userId, title, description, tags, category, videoFile)` -> Returns `videoId` and `uploadUrl`.
+- `getVideoMetadata(videoId)` -> Returns Video object.
+
+### Streaming Service
+- `streamVideo(videoId, offset, codec, resolution)` -> Returns Video Stream (Chunks).
+
+### Interaction Service
+- `addComment(userId, videoId, text)`
+- `rateVideo(userId, videoId, rating)` (Like/Dislike).
+
+---
+
+## 4. Database Design
+
+### Metadata DB (SQL - MySQL/Vitess)
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `video_id` | VARCHAR(16) (PK) | Unique Video ID |
+| `user_id` | BIGINT (FK) | Uploader ID |
+| `title` | VARCHAR(128) | Video Title |
+| `description` | TEXT | Description |
+| `url` | VARCHAR(255) | GCS/S3 Path |
+| `thumbnail_url` | VARCHAR(255) | Thumbnail path |
+| `created_at` | TIMESTAMP | Upload time |
+
+### Comments DB (NoSQL - Cassandra)
+*Chosen for high write throughput and scalability.*
+- Partition Key: `video_id`
+- Clustering Key: `created_at`, `comment_id`
+
+### Video Stats (Redis/BigTable)
+- Key: `video_id`, Value: `{views, likes, dislikes}`.
+
+---
+
+## 5. High Level Design
 
 ```mermaid
 graph TD
-    User((Users)) --> LB[Load Balancer]
-    LB --> Upload[Upload Service]
-    LB --> Search[Search/Discovery]
-    LB --> View[View/Streaming]
+    User((User)) --> LB[Load Balancer]
+    LB --> API[API Gateway]
     
-    Upload --> GCS[Object Storage - GCS/S3]
-    GCS --> Transcoder[Transcoding Service]
-    Transcoder --> TranscodedGCS[Transcoded Video Store]
+    API --> UploadS[Upload Service]
+    API --> StreamS[Streaming Service]
+    API --> SearchS[Search Service]
     
-    TranscodedGCS --> CDN[CDN - Google Global Cache]
+    UploadS --> RawStore[(Raw Video Store - S3)]
+    RawStore --> Transcoder[Transcoding Service]
+    Transcoder --> FinalStore[(Transcoded Store - S3)]
+    
+    FinalStore --> CDN[CDN - Cloudfront/Akamai]
     CDN --> User
     
-    Search --> ES[(Elasticsearch/BigTable)]
-    View --> MetaDB[(Metadata DB - MySQL/Vitess)]
+    StreamS --> MetaDB[(Metadata DB - MySQL)]
+    SearchS --> ES[(Elasticsearch)]
 ```
 
-## Data Model
+---
 
-**Videos Metadata (MySQL/Vitess)**
-- video_id (PK), user_id, title, description, thumbnail_url, duration, visibility_status
+## 6. Detailed Component Design
 
-**Video Analytics (BigTable)**
-- video_id, views_count, likes_count, dislikes_count
+### Video Transcoding (Encoding)
+When a video is uploaded, it must be processed to support various devices and network speeds.
+- **Workflow (DAG):**
+    1. **Splitting:** The video is split into small chunks (e.g., 4-10 seconds).
+    2. **Transcoding:** Each chunk is encoded into multiple resolutions (144p, 360p, 720p, 1080p, 4K) and formats (H.264, VP9).
+    3. **Merging:** Metadata for chunks is stored.
+- **Adaptive Bitrate Streaming (ABR):** Protocols like **DASH** (Dynamic Adaptive Streaming over HTTP) or **HLS** allow the client to switch resolutions dynamically based on current bandwidth.
 
-**Comments (Cassandra)**
-- comment_id, video_id, user_id, text, created_at
+### CDN and Edge Caching
+- 90% of traffic is served via CDNs.
+- Popular videos are cached at edge locations close to users.
+- Less popular videos are fetched from the origin server (S3).
 
-## Key Decisions
+---
 
-- **Chunked Uploads**: Large video files are split into small chunks (e.g., 4MB). If an upload is interrupted, the client only needs to resume from the last successful chunk.
-- **Adaptive Bitrate Streaming (ABR)**: Uses protocols like **DASH** or **HLS**. The video player automatically detects the user's bandwidth and switches between different bitrates (e.g., 360p, 720p, 1080p) during playback.
-- **Global CDN Strategy**: Most of the bandwidth is served from the edge. YouTube uses its own global network of points of presence (PoPs) to cache video content as close to the user as possible.
-- **Database Sharding (Vitess)**: To handle billions of rows of metadata, YouTube uses **Vitess**, a clustering system for horizontal scaling of MySQL through sharding.
-- **Video Transcoding DAG**: Transcoding is a complex workflow (extract audio, generate thumbnails, encode various resolutions). This is managed using a Directed Acyclic Graph (DAG) and a distributed task queue to ensure reliability and scalability.
-- **Read-Heavy Metadata**: Frequently accessed metadata (video title, view count) is cached in **Redis** or **Memcached** to reduce database load.
+## 7. Identifying and Resolving Bottlenecks
+
+### Database Sharding
+- **By Video ID:** Sharding the metadata DB by `video_id` ensures even distribution of traffic.
+- **Read Replicas:** Use read replicas for the metadata DB to handle the heavy read load for video info and search.
+
+### Video Deduplication
+- Use hashing (e.g., MD5 or SHA-256) on video chunks to identify and remove duplicate uploads, saving petabytes of storage.
+
+### Throttling & Queueing
+- **Message Queues (Kafka):** Used to decouple the upload service from the transcoding service. If transcoding lags, the queue absorbs the burst.
+- **Priority Queue:** Give higher transcoding priority to "Trending" or "Verified" creators.

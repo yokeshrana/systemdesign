@@ -1,69 +1,150 @@
-# Twitter Design
+# Twitter System Design
 
-## Problem Statement
+## 1. Requirements Clarifications
 
-Design a social media platform that allows users to:
-- Post short text-based messages (Tweets)
-- Follow other users
-- View a timeline of tweets from followed users
-- Search for tweets and hashtags
-- View trending topics
+### Functional Requirements
+- **Post Tweets:** Users can post new tweets (text up to 280 chars, images, videos).
+- **Timeline:**
+    - **Home Timeline:** View a feed of tweets from all people the user follows.
+    - **User Timeline:** View a feed of tweets posted by a specific user.
+- **Following:** Users can follow/unfollow other users.
+- **Search:** Search tweets by keywords or hashtags.
 
-## Key Challenges
+### Non-Functional Requirements
+- **High Availability:** The system must be highly available (Prioritize availability over consistency).
+- **Low Latency:** Home timeline generation should be < 200ms.
+- **Scalability:** System should handle 500M+ tweets per day and 300M DAU.
+- **Eventual Consistency:** It's okay if a tweet takes a few seconds to appear in all followers' timelines.
 
-1. **Fan-out on Write**: Delivering a single tweet to millions of followers' timelines in real-time.
-2. **High Read Volume**: 100x more reads than writes; timeline generation must be extremely fast.
-3. **Availability vs. Consistency**: Prioritizing availability for timeline delivery (Eventually Consistent).
-4. **Distributed ID Generation**: Generating unique, time-sorted IDs for billions of tweets.
+---
 
-## Architecture Overview
+## 2. Capacity Estimation and Constraints
+
+### Traffic Estimates
+- **DAU (Daily Active Users):** 300 Million.
+- **Tweets per day:** Assume 500 Million.
+- **Read/Write Ratio:** Twitter is read-heavy. Assume 100:1 (100 reads for every 1 write).
+- **Read Queries:** 500M * 100 = 50 Billion reads/day.
+- **QPS (Writes):** 500M / 86400s ≈ 6,000 tweets/sec.
+- **QPS (Reads):** 50B / 86400s ≈ 600,000 queries/sec.
+
+### Storage Estimates
+- **Avg Tweet Size:** 280 bytes (text) + 200 bytes (metadata) ≈ 500 bytes.
+- **Daily Storage:** 500M * 500 bytes = 250 GB/day.
+- **5-Year Storage:** 250 GB * 365 * 5 ≈ 450 TB.
+- **Media Storage:** If 20% of tweets have images (avg 200KB) and 5% have videos (avg 2MB):
+    - Images: 100M * 200KB = 20 TB/day.
+    - Videos: 25M * 2MB = 50 TB/day.
+    - Total Media: ~70 TB/day.
+
+---
+
+## 3. System APIs
+
+### Tweet Service
+- `postTweet(userId, tweetText, mediaIds[])` -> Returns `tweetId`.
+- `deleteTweet(userId, tweetId)` -> Returns Success/Failure.
+
+### Timeline Service
+- `getHomeTimeline(userId, count, lastTweetId)` -> Returns list of Tweet objects.
+- `getUserTimeline(userId, count, lastTweetId)` -> Returns list of Tweet objects.
+
+### Social Graph Service
+- `follow(followerId, followeeId)`
+- `unfollow(followerId, followeeId)`
+
+---
+
+## 4. Database Design
+
+We use a combination of SQL for structured metadata and NoSQL/Key-Value stores for timelines.
+
+### Users Table (SQL - MySQL/Vitess)
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `user_id` | BIGINT (PK) | Unique User ID |
+| `username` | VARCHAR(32) | Unique Handle |
+| `email` | VARCHAR(255) | User Email |
+| `created_at` | TIMESTAMP | Account Creation Time |
+
+### Tweets Table (SQL - MySQL/Vitess)
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `tweet_id` | BIGINT (PK) | Unique Tweet ID (Snowflake) |
+| `user_id` | BIGINT (FK) | ID of the creator |
+| `content` | VARCHAR(280) | Tweet text |
+| `lat`, `long` | DOUBLE | Location (Optional) |
+| `created_at` | TIMESTAMP | Creation time |
+
+### Follows Table (SQL)
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `follower_id` | BIGINT | Person who follows |
+| `followee_id` | BIGINT | Person being followed |
+| `created_at` | TIMESTAMP | When following started |
+
+*Indexing: Composite Index on (follower_id, created_at) for fast retrieval of followees.*
+
+---
+
+## 5. High Level Design
 
 ```mermaid
 graph TD
-    User((Users)) --> LB[Load Balancer]
+    User((User)) --> LB[Load Balancer]
     LB --> API[API Gateway]
     
     API --> TweetS[Tweet Service]
     API --> TimelineS[Timeline Service]
     API --> SocialS[Social Graph Service]
-    API --> SearchS[Search Service]
-
-    TweetS --> Snowflake[ID Generator - Snowflake]
-    TweetS --> DB[(Tweet DB - MySQL/Vitess)]
-    TweetS --> RedisCache[(Tweet Cache - Redis)]
     
-    SocialS --> GraphDB[(Social Graph - FlocksDB/MySQL)]
-    
-    TimelineS --> TimelineCache[(Timeline Cache - Redis)]
-    
-    SearchS --> InvertedIndex[(Inverted Index - ES/Lucene)]
-    
+    TweetS --> Snowflake[ID Generator]
+    TweetS --> DB[(Tweet DB - MySQL)]
     TweetS --> MQ{Message Queue - Kafka}
+    
+    SocialS --> GraphDB[(Graph DB - FlocksDB)]
+    
     MQ --> Fanout[Fanout Workers]
-    Fanout --> TimelineCache
+    Fanout --> Redis[(Timeline Cache - Redis)]
+    
+    TimelineS --> Redis
+    TimelineS --> DB
 ```
 
-## Data Model
+---
 
-**Users Table (MySQL)**
-- user_id (PK), username, email, created_at, profile_metadata
+## 6. Detailed Component Design
 
-**Tweets Table (MySQL)**
-- tweet_id (PK), user_id (FK), text, created_at, reply_to, retweets_count
+### Timeline Fan-out (Core Mechanism)
+The process of delivering tweets to followers is called "Fan-out".
+1. **Push Model (Fan-out on Write):**
+   - When a user tweets, we push the tweet ID to all followers' pre-computed timelines in Redis.
+   - **Pros:** Fast reads (O(1) to fetch timeline).
+   - **Cons:** Slow writes for "Celebrities" (e.g., millions of followers).
+2. **Pull Model (Fan-out on Read):**
+   - Timelines are generated only when the user requests them.
+   - **Pros:** Efficient for celebrities.
+   - **Cons:** Slow reads for everyone else (O(N) where N is number of followees).
+3. **Hybrid Model (Optimized):**
+   - **Regular Users:** Use the Push Model.
+   - **Celebrities (> 100k followers):** Use the Pull Model. Their tweets are merged into the follower's timeline at read-time.
 
-**Follows Table (MySQL)**
-- follower_id, followee_id, created_at (Composite PK)
+### ID Generation (Snowflake)
+To ensure tweets are unique and roughly time-sorted across distributed machines:
+- 64-bit ID: `1 bit (unused) | 41 bits (timestamp) | 10 bits (machine ID) | 12 bits (sequence number)`.
 
-**User Timeline (Redis)**
-- List of `tweet_id`s for each user, capped at ~1000 items.
+---
 
-## Key Decisions
+## 7. Identifying and Resolving Bottlenecks
 
-- **ID Generation (Snowflake)**: Uses a 64-bit ID comprising a timestamp, worker ID, and sequence number. This ensures IDs are unique, roughly time-sorted, and can be generated in a distributed manner without a central bottleneck.
-- **Timeline Generation**:
-  - **Regular Users (Push/Fan-out on Write)**: When a user tweets, it is pushed to the Redis timelines of all followers.
-  - **Celebrities (Pull/Fan-out on Read)**: Tweets from users with millions of followers are not pushed. Instead, followers' timelines fetch these tweets at read-time and merge them with their pre-computed Redis timeline.
-- **Storage Strategy**:
-  - **MySQL with Vitess**: Used for structured data like users and tweets, providing horizontal scaling through sharding.
-  - **Redis Clusters**: Essential for serving timelines with sub-millisecond latency.
-- **Search**: Uses an inverted index to support keyword and hashtag searches, updated asynchronously via Kafka.
+### Sharding
+- **Tweets DB:** Shard by `user_id` to keep all tweets of a user on one shard (fast User Timeline). However, this can cause "hot shards" for celebrities.
+- **Alternative:** Shard by `tweet_id` (Snowflake IDs) for uniform distribution, using a separate mapping/indexing service for user-to-tweet lookups.
+
+### Caching
+- **Redis Clusters:** Store the last 1000 tweet IDs for every active user's home timeline.
+- **CDN:** Cache media files (images/videos) at the edge.
+
+### Monitoring & Load Balancing
+- **Load Balancers:** Use Layer 7 LBs (Application level) to route traffic based on URL.
+- **Rate Limiting:** Protect APIs from scraping and DDoS.
