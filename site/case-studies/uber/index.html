@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="yokeshrana" name="author"/><link href="https://yokeshrana.github.io/systemdesign/case-studies/uber/" rel="canonical"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>Uber ETA - System Design Prep Notes</title>
+<link href="../../css/theme.css" rel="stylesheet"/>
+<link href="../../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/custom.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "Uber ETA";
+        var mkdocs_page_input_path = "case-studies/uber.md";
+        var mkdocs_page_url = "/systemdesign/case-studies/uber/";
+      </script>
+<!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+<script>hljs.highlightAll();</script>
+</head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../.."> System Design Prep Notes
+        </a><div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" title="Type search term here" type="text"/>
+</form>
+</div>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Fundamentals</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication &amp; Redundancy</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Components</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/microservices/">Microservices</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/api-design/">API Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/authentication/">Authentication</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/consistent-hashing/">Consistent Hashing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/sharding/">Database Sharding</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/monitoring/">Monitoring &amp; Logging</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/deployment/">Deployment</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Case Studies</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../">Popular Services</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instagram/">Instagram Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter/">Twitter Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dropbox/">Dropbox / Google Drive</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook-newsfeed/">Facebook Newsfeed</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../yelp/">Yelp (Proximity Server)</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ticketmaster/">Ticketmaster</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../url-shortener/">URL Shortener</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pastebin/">Pastebin</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../web-crawler/">Web Crawler</a>
+</li>
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Uber ETA</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications">1. Requirements Clarifications</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#functional-requirements">Functional Requirements</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#non-functional-requirements">Non-Functional Requirements</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation-and-constraints">2. Capacity Estimation and Constraints</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#traffic-assumptions">Traffic Assumptions</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#storage-bandwidth">Storage &amp; Bandwidth</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#3-system-apis">3. System APIs</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#rider-apis">Rider APIs</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#driver-apis">Driver APIs</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#4-database-design">4. Database Design</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#data-stores">Data Stores</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#schema-relational">Schema (Relational)</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design">5. High Level Design</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-component-design">6. Detailed Component Design</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#geospatial-indexing-quadtrees-vs-google-s2">Geospatial Indexing: QuadTrees vs. Google S2</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#matching-algorithm">Matching Algorithm</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks">7. Identifying and Resolving Bottlenecks</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#sharding-and-partitioning">Sharding and Partitioning</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#caching-strategy">Caching Strategy</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#reliability">Reliability</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../netflix/">Netflix Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../youtube/">YouTube Design</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../..">System Design Prep Notes</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Docs" class="icon icon-home" href="../.."></a></li>
+<li class="breadcrumb-item">Case Studies</li>
+<li class="breadcrumb-item active">Uber ETA</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="uber-system-design-case-study">Uber System Design Case Study<a class="headerlink" href="#uber-system-design-case-study" title="Permanent link">¶</a></h1>
+<p>This case study provides a comprehensive overview of the system architecture for a ride-hailing service like Uber. It follows a structured approach to address the complexities of real-time geospatial tracking, high-scale matching, and system resilience.</p>
+<h2 id="1-requirements-clarifications">1. Requirements Clarifications<a class="headerlink" href="#1-requirements-clarifications" title="Permanent link">¶</a></h2>
+<h3 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Rider:</strong><ul>
+<li>View nearby drivers in real-time.</li>
+<li>Request a ride with source and destination.</li>
+<li>Track the driver's location and receive ETAs.</li>
+<li>Rate and tip the driver after the trip completes.</li>
+</ul>
+</li>
+<li><strong>Driver:</strong><ul>
+<li>Update location every few seconds.</li>
+<li>Accept or reject ride requests.</li>
+<li>Navigate to the rider and then to the destination.</li>
+</ul>
+</li>
+<li><strong>System:</strong><ul>
+<li>Efficiently match riders with the most suitable drivers.</li>
+<li>Handle payments and billing.</li>
+</ul>
+</li>
+</ul>
+<h3 id="non-functional-requirements">Non-Functional Requirements<a class="headerlink" href="#non-functional-requirements" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>High Availability:</strong> The system must be available 24/7; a failure in one region should not impact others.</li>
+<li><strong>Low Latency:</strong> Matching should happen in under 1 second. Location updates must be reflected quickly.</li>
+<li><strong>Scalability:</strong> Support millions of concurrent riders and drivers.</li>
+<li><strong>High Reliability:</strong> Trip data and financial transactions must be durable and consistent.</li>
+</ul>
+<hr/>
+<h2 id="2-capacity-estimation-and-constraints">2. Capacity Estimation and Constraints<a class="headerlink" href="#2-capacity-estimation-and-constraints" title="Permanent link">¶</a></h2>
+<h3 id="traffic-assumptions">Traffic Assumptions<a class="headerlink" href="#traffic-assumptions" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Total Users:</strong> 500 million.</li>
+<li><strong>Active Drivers:</strong> 5 million.</li>
+<li><strong>Daily Active Users (DAU):</strong> 50 million.</li>
+<li><strong>Daily Trips:</strong> 20 million.</li>
+<li><strong>Peak Trips per second:</strong> ~2,000 requests/sec.</li>
+</ul>
+<h3 id="storage-bandwidth">Storage &amp; Bandwidth<a class="headerlink" href="#storage-bandwidth" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Location Updates:</strong> 5M drivers updating every 4 seconds = 1.25M updates/sec.</li>
+<li><strong>Data Size per update:</strong> (DriverID + Lat + Long) ≈ 32 bytes.</li>
+<li><strong>Total Bandwidth (Location):</strong> 1.25M * 32 bytes ≈ 40 MB/sec.</li>
+<li><strong>Trip History:</strong> 20M trips/day. Each trip record ≈ 1KB. 20GB/day. 5 years ≈ 36.5 TB.</li>
+</ul>
+<hr/>
+<h2 id="3-system-apis">3. System APIs<a class="headerlink" href="#3-system-apis" title="Permanent link">¶</a></h2>
+<h3 id="rider-apis">Rider APIs<a class="headerlink" href="#rider-apis" title="Permanent link">¶</a></h3>
+<ul>
+<li><code>POST /v1/ride/request</code>: Initiates a ride request.<ul>
+<li><em>Parameters:</em> <code>rider_id</code>, <code>source_lat</code>, <code>source_long</code>, <code>dest_lat</code>, <code>dest_long</code>, <code>payment_method</code>.</li>
+</ul>
+</li>
+<li><code>GET /v1/ride/{trip_id}</code>: Polls for ride status and driver location.</li>
+</ul>
+<h3 id="driver-apis">Driver APIs<a class="headerlink" href="#driver-apis" title="Permanent link">¶</a></h3>
+<ul>
+<li><code>PUT /v1/driver/location</code>: Streams current GPS coordinates.<ul>
+<li><em>Payload:</em> <code>driver_id</code>, <code>lat</code>, <code>long</code>, <code>status (Available/Busy)</code>.</li>
+</ul>
+</li>
+<li><code>PATCH /v1/ride/{trip_id}/accept</code>: Driver accepts a specific ride request.</li>
+</ul>
+<hr/>
+<h2 id="4-database-design">4. Database Design<a class="headerlink" href="#4-database-design" title="Permanent link">¶</a></h2>
+<h3 id="data-stores">Data Stores<a class="headerlink" href="#data-stores" title="Permanent link">¶</a></h3>
+<ol>
+<li><strong>Relational DB (PostgreSQL):</strong> For ACID-compliant data like User Profiles, Driver Info, and Billing.</li>
+<li><strong>NoSQL DB (Cassandra):</strong> For high-write throughput of Trip History and Logs.</li>
+<li><strong>In-Memory Store (Redis):</strong> For real-time driver locations (high velocity, ephemeral data).</li>
+</ol>
+<h3 id="schema-relational">Schema (Relational)<a class="headerlink" href="#schema-relational" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Users Table:</strong> <code>user_id (UUID)</code>, <code>name</code>, <code>email</code>, <code>rating</code>.</li>
+<li><strong>Drivers Table:</strong> <code>driver_id (UUID)</code>, <code>car_details</code>, <code>rating</code>, <code>is_active (Bool)</code>.</li>
+<li><strong>Trips Table:</strong> <code>trip_id (UUID)</code>, <code>rider_id</code>, <code>driver_id</code>, <code>source_geo</code>, <code>dest_geo</code>, <code>fare</code>, <code>status</code>, <code>timestamp</code>.</li>
+</ul>
+<hr/>
+<h2 id="5-high-level-design">5. High Level Design<a class="headerlink" href="#5-high-level-design" title="Permanent link">¶</a></h2>
+<div class="mermaid">graph TD
+    R[Rider App] --&gt; LB[Load Balancer]
+    D[Driver App] --&gt; LB
+
+    LB --&gt; Gateway[API Gateway]
+
+    Gateway --&gt; Dispatcher[Dispatch Service]
+    Gateway --&gt; RiderS[Rider Service]
+    Gateway --&gt; DriverS[Driver Service]
+
+    D --&gt; WS[WebSocket Server]
+    WS --&gt; LocationS[Location Service]
+
+    LocationS --&gt; Redis[(Redis Cache)]
+    LocationS --&gt; GeoIndex[Geospatial Index]
+
+    Dispatcher --&gt; Matching[Matching Engine]
+    Matching --&gt; GeoIndex
+
+    Dispatcher --&gt; TripS[Trip Service]
+    TripS --&gt; Cassandra[(Cassandra DB)]
+
+    Notification[Notification Service] --&gt; R
+    Notification --&gt; D
+</div>
+<hr/>
+<h2 id="6-detailed-component-design">6. Detailed Component Design<a class="headerlink" href="#6-detailed-component-design" title="Permanent link">¶</a></h2>
+<h3 id="geospatial-indexing-quadtrees-vs-google-s2">Geospatial Indexing: QuadTrees vs. Google S2<a class="headerlink" href="#geospatial-indexing-quadtrees-vs-google-s2" title="Permanent link">¶</a></h3>
+<p>To find drivers near a rider, we cannot perform a standard SQL <code>SELECT * WHERE dist &lt; 5km</code> as it would require a full table scan.
+*   <strong>QuadTrees:</strong> Divides the map into four quadrants recursively until a node contains a limited number of drivers. However, QuadTrees are difficult to re-balance dynamically when drivers move.
+*   <strong>Google S2 / H3:</strong> Projects the Earth onto a cube and uses Hilbert Curves to map 2D coordinates to a 1D index (Cell ID). This allows "proximity" to be calculated via simple bitwise operations, making it extremely efficient for distributed systems.</p>
+<h3 id="matching-algorithm">Matching Algorithm<a class="headerlink" href="#matching-algorithm" title="Permanent link">¶</a></h3>
+<p>When a request arrives, the <strong>Matching Engine</strong> queries the <strong>Geo-Index</strong> for available drivers in the same or neighboring S2 cells. It doesn't just pick the closest; it filters by:
+1.  Driver's current heading (towards the rider).
+2.  Historical ETA accuracy.
+3.  Batching: Waiting a few seconds to optimize multiple requests simultaneously for global efficiency.</p>
+<hr/>
+<h2 id="7-identifying-and-resolving-bottlenecks">7. Identifying and Resolving Bottlenecks<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks" title="Permanent link">¶</a></h2>
+<h3 id="sharding-and-partitioning">Sharding and Partitioning<a class="headerlink" href="#sharding-and-partitioning" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Geographic Sharding:</strong> Data is partitioned by City or Region. A failure in the "London" shard won't affect users in "San Francisco".</li>
+<li><strong>Consistent Hashing:</strong> Used in the Location Service to ensure that location updates for a specific <code>driver_id</code> always land on the same server, preventing race conditions.</li>
+</ul>
+<h3 id="caching-strategy">Caching Strategy<a class="headerlink" href="#caching-strategy" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Location Cache:</strong> Redis stores the latest coordinates of all active drivers with a short TTL.</li>
+<li><strong>Metadata Caching:</strong> User and Driver profiles are cached in Memcached to reduce DB load.</li>
+</ul>
+<h3 id="reliability">Reliability<a class="headerlink" href="#reliability" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Idempotency:</strong> All APIs (especially payments) use idempotency keys to prevent duplicate transactions during retries.</li>
+<li><strong>Circuit Breakers:</strong> Used when communicating with external Payment Gateways to prevent cascading failures.</li>
+</ul>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href="../web-crawler/" title="Web Crawler"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../netflix/" title="Netflix Design">Next <span class="icon icon-circle-arrow-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href="../web-crawler/" style="color: #fcfcfc">« Previous</a></span>
+<span><a href="../netflix/" style="color: #fcfcfc">Next »</a></span>
+</span>
+</div>
+<script src="../../js/jquery-3.6.0.min.js"></script>
+<script>var base_url = "../..";</script>
+<script src="../../js/theme_extra.js"></script>
+<script src="../../js/theme.js"></script>
+<script src="../../search/main.js"></script>
+<script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

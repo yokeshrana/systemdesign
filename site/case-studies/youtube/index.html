@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="yokeshrana" name="author"/><link href="https://yokeshrana.github.io/systemdesign/case-studies/youtube/" rel="canonical"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>YouTube Design - System Design Prep Notes</title>
+<link href="../../css/theme.css" rel="stylesheet"/>
+<link href="../../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/custom.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "YouTube Design";
+        var mkdocs_page_input_path = "case-studies/youtube.md";
+        var mkdocs_page_url = "/systemdesign/case-studies/youtube/";
+      </script>
+<!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+<script>hljs.highlightAll();</script>
+</head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../.."> System Design Prep Notes
+        </a><div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" title="Type search term here" type="text"/>
+</form>
+</div>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Fundamentals</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication &amp; Redundancy</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Components</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/microservices/">Microservices</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/api-design/">API Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/authentication/">Authentication</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/consistent-hashing/">Consistent Hashing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/sharding/">Database Sharding</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/monitoring/">Monitoring &amp; Logging</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/deployment/">Deployment</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Case Studies</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../">Popular Services</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instagram/">Instagram Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter/">Twitter Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dropbox/">Dropbox / Google Drive</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook-newsfeed/">Facebook Newsfeed</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../yelp/">Yelp (Proximity Server)</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ticketmaster/">Ticketmaster</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../url-shortener/">URL Shortener</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pastebin/">Pastebin</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../web-crawler/">Web Crawler</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../uber/">Uber ETA</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../netflix/">Netflix Design</a>
+</li>
+<li class="toctree-l1 current"><a class="reference internal current" href="./">YouTube Design</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications">1. Requirements Clarifications</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#functional-requirements">Functional Requirements</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#non-functional-requirements">Non-Functional Requirements</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation-and-constraints">2. Capacity Estimation and Constraints</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#traffic-estimates">Traffic Estimates</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#storage-bandwidth">Storage &amp; Bandwidth</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#3-system-apis">3. System APIs</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#video-service">Video Service</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#streaming-service">Streaming Service</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#interaction-service">Interaction Service</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#4-database-design">4. Database Design</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#metadata-db-sql-mysqlvitess">Metadata DB (SQL - MySQL/Vitess)</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#comments-db-nosql-cassandra">Comments DB (NoSQL - Cassandra)</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#video-stats-redisbigtable">Video Stats (Redis/BigTable)</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design">5. High Level Design</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-component-design">6. Detailed Component Design</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#video-transcoding-encoding">Video Transcoding (Encoding)</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cdn-and-edge-caching">CDN and Edge Caching</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks">7. Identifying and Resolving Bottlenecks</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#database-sharding">Database Sharding</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#video-deduplication">Video Deduplication</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#throttling-queueing">Throttling &amp; Queueing</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../..">System Design Prep Notes</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Docs" class="icon icon-home" href="../.."></a></li>
+<li class="breadcrumb-item">Case Studies</li>
+<li class="breadcrumb-item active">YouTube Design</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="youtube-system-design">YouTube System Design<a class="headerlink" href="#youtube-system-design" title="Permanent link">¶</a></h1>
+<h2 id="1-requirements-clarifications">1. Requirements Clarifications<a class="headerlink" href="#1-requirements-clarifications" title="Permanent link">¶</a></h2>
+<h3 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Upload Videos:</strong> Users can upload videos.</li>
+<li><strong>View Videos:</strong> Users can watch videos on various devices (Desktop, Mobile, TV).</li>
+<li><strong>Search:</strong> Search for videos by title.</li>
+<li><strong>Stats:</strong> Track views, likes, and dislikes.</li>
+<li><strong>Comments:</strong> Users can add comments to videos.</li>
+</ul>
+<h3 id="non-functional-requirements">Non-Functional Requirements<a class="headerlink" href="#non-functional-requirements" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Low Latency:</strong> Streaming should start instantly with minimal buffering.</li>
+<li><strong>High Availability:</strong> The service must be accessible 24/7.</li>
+<li><strong>Reliability:</strong> Uploaded videos must not be lost.</li>
+<li><strong>Scalability:</strong> Handle millions of concurrent viewers and thousands of uploads per minute.</li>
+</ul>
+<hr/>
+<h2 id="2-capacity-estimation-and-constraints">2. Capacity Estimation and Constraints<a class="headerlink" href="#2-capacity-estimation-and-constraints" title="Permanent link">¶</a></h2>
+<h3 id="traffic-estimates">Traffic Estimates<a class="headerlink" href="#traffic-estimates" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Total Users:</strong> 2 Billion.</li>
+<li><strong>DAU:</strong> 500 Million.</li>
+<li><strong>Upload Rate:</strong> 5 videos per second on average.</li>
+<li><strong>View Rate:</strong> 200 videos per second.</li>
+<li><strong>Read/Write Ratio:</strong> 40:1.</li>
+</ul>
+<h3 id="storage-bandwidth">Storage &amp; Bandwidth<a class="headerlink" href="#storage-bandwidth" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Storage:</strong><ul>
+<li>5 videos/sec * 86,400 sec/day = 432,000 videos/day.</li>
+<li>Avg video size (compressed multiple formats): 500 MB.</li>
+<li>Daily Storage: 432,000 * 500 MB ≈ 216 TB/day.</li>
+</ul>
+</li>
+<li><strong>Bandwidth:</strong><ul>
+<li>Incoming: 5 * 50MB (raw) = 250 MB/sec.</li>
+<li>Outgoing: 200 views/sec * 10MB (avg streamed) = 2 GB/sec.</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="3-system-apis">3. System APIs<a class="headerlink" href="#3-system-apis" title="Permanent link">¶</a></h2>
+<h3 id="video-service">Video Service<a class="headerlink" href="#video-service" title="Permanent link">¶</a></h3>
+<ul>
+<li><code>uploadVideo(userId, title, description, tags, category, videoFile)</code> -&gt; Returns <code>videoId</code> and <code>uploadUrl</code>.</li>
+<li><code>getVideoMetadata(videoId)</code> -&gt; Returns Video object.</li>
+</ul>
+<h3 id="streaming-service">Streaming Service<a class="headerlink" href="#streaming-service" title="Permanent link">¶</a></h3>
+<ul>
+<li><code>streamVideo(videoId, offset, codec, resolution)</code> -&gt; Returns Video Stream (Chunks).</li>
+</ul>
+<h3 id="interaction-service">Interaction Service<a class="headerlink" href="#interaction-service" title="Permanent link">¶</a></h3>
+<ul>
+<li><code>addComment(userId, videoId, text)</code></li>
+<li><code>rateVideo(userId, videoId, rating)</code> (Like/Dislike).</li>
+</ul>
+<hr/>
+<h2 id="4-database-design">4. Database Design<a class="headerlink" href="#4-database-design" title="Permanent link">¶</a></h2>
+<h3 id="metadata-db-sql-mysqlvitess">Metadata DB (SQL - MySQL/Vitess)<a class="headerlink" href="#metadata-db-sql-mysqlvitess" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Column</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>video_id</code></td>
+<td style="text-align: left;">VARCHAR(16) (PK)</td>
+<td style="text-align: left;">Unique Video ID</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>user_id</code></td>
+<td style="text-align: left;">BIGINT (FK)</td>
+<td style="text-align: left;">Uploader ID</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>title</code></td>
+<td style="text-align: left;">VARCHAR(128)</td>
+<td style="text-align: left;">Video Title</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>description</code></td>
+<td style="text-align: left;">TEXT</td>
+<td style="text-align: left;">Description</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>url</code></td>
+<td style="text-align: left;">VARCHAR(255)</td>
+<td style="text-align: left;">GCS/S3 Path</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>thumbnail_url</code></td>
+<td style="text-align: left;">VARCHAR(255)</td>
+<td style="text-align: left;">Thumbnail path</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>created_at</code></td>
+<td style="text-align: left;">TIMESTAMP</td>
+<td style="text-align: left;">Upload time</td>
+</tr>
+</tbody>
+</table>
+<h3 id="comments-db-nosql-cassandra">Comments DB (NoSQL - Cassandra)<a class="headerlink" href="#comments-db-nosql-cassandra" title="Permanent link">¶</a></h3>
+<p><em>Chosen for high write throughput and scalability.</em>
+- Partition Key: <code>video_id</code>
+- Clustering Key: <code>created_at</code>, <code>comment_id</code></p>
+<h3 id="video-stats-redisbigtable">Video Stats (Redis/BigTable)<a class="headerlink" href="#video-stats-redisbigtable" title="Permanent link">¶</a></h3>
+<ul>
+<li>Key: <code>video_id</code>, Value: <code>{views, likes, dislikes}</code>.</li>
+</ul>
+<hr/>
+<h2 id="5-high-level-design">5. High Level Design<a class="headerlink" href="#5-high-level-design" title="Permanent link">¶</a></h2>
+<div class="mermaid">graph TD
+    User((User)) --&gt; LB[Load Balancer]
+    LB --&gt; API[API Gateway]
+
+    API --&gt; UploadS[Upload Service]
+    API --&gt; StreamS[Streaming Service]
+    API --&gt; SearchS[Search Service]
+
+    UploadS --&gt; RawStore[(Raw Video Store - S3)]
+    RawStore --&gt; Transcoder[Transcoding Service]
+    Transcoder --&gt; FinalStore[(Transcoded Store - S3)]
+
+    FinalStore --&gt; CDN[CDN - Cloudfront/Akamai]
+    CDN --&gt; User
+
+    StreamS --&gt; MetaDB[(Metadata DB - MySQL)]
+    SearchS --&gt; ES[(Elasticsearch)]
+</div>
+<hr/>
+<h2 id="6-detailed-component-design">6. Detailed Component Design<a class="headerlink" href="#6-detailed-component-design" title="Permanent link">¶</a></h2>
+<h3 id="video-transcoding-encoding">Video Transcoding (Encoding)<a class="headerlink" href="#video-transcoding-encoding" title="Permanent link">¶</a></h3>
+<p>When a video is uploaded, it must be processed to support various devices and network speeds.
+- <strong>Workflow (DAG):</strong>
+    1. <strong>Splitting:</strong> The video is split into small chunks (e.g., 4-10 seconds).
+    2. <strong>Transcoding:</strong> Each chunk is encoded into multiple resolutions (144p, 360p, 720p, 1080p, 4K) and formats (H.264, VP9).
+    3. <strong>Merging:</strong> Metadata for chunks is stored.
+- <strong>Adaptive Bitrate Streaming (ABR):</strong> Protocols like <strong>DASH</strong> (Dynamic Adaptive Streaming over HTTP) or <strong>HLS</strong> allow the client to switch resolutions dynamically based on current bandwidth.</p>
+<h3 id="cdn-and-edge-caching">CDN and Edge Caching<a class="headerlink" href="#cdn-and-edge-caching" title="Permanent link">¶</a></h3>
+<ul>
+<li>90% of traffic is served via CDNs.</li>
+<li>Popular videos are cached at edge locations close to users.</li>
+<li>Less popular videos are fetched from the origin server (S3).</li>
+</ul>
+<hr/>
+<h2 id="7-identifying-and-resolving-bottlenecks">7. Identifying and Resolving Bottlenecks<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks" title="Permanent link">¶</a></h2>
+<h3 id="database-sharding">Database Sharding<a class="headerlink" href="#database-sharding" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>By Video ID:</strong> Sharding the metadata DB by <code>video_id</code> ensures even distribution of traffic.</li>
+<li><strong>Read Replicas:</strong> Use read replicas for the metadata DB to handle the heavy read load for video info and search.</li>
+</ul>
+<h3 id="video-deduplication">Video Deduplication<a class="headerlink" href="#video-deduplication" title="Permanent link">¶</a></h3>
+<ul>
+<li>Use hashing (e.g., MD5 or SHA-256) on video chunks to identify and remove duplicate uploads, saving petabytes of storage.</li>
+</ul>
+<h3 id="throttling-queueing">Throttling &amp; Queueing<a class="headerlink" href="#throttling-queueing" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Message Queues (Kafka):</strong> Used to decouple the upload service from the transcoding service. If transcoding lags, the queue absorbs the burst.</li>
+<li><strong>Priority Queue:</strong> Give higher transcoding priority to "Trending" or "Verified" creators.</li>
+</ul>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href="../netflix/" title="Netflix Design"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href="../netflix/" style="color: #fcfcfc">« Previous</a></span>
+</span>
+</div>
+<script src="../../js/jquery-3.6.0.min.js"></script>
+<script>var base_url = "../..";</script>
+<script src="../../js/theme_extra.js"></script>
+<script src="../../js/theme.js"></script>
+<script src="../../search/main.js"></script>
+<script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

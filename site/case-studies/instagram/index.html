@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="yokeshrana" name="author"/><link href="https://yokeshrana.github.io/systemdesign/case-studies/instagram/" rel="canonical"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>Instagram Design - System Design Prep Notes</title>
+<link href="../../css/theme.css" rel="stylesheet"/>
+<link href="../../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/custom.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "Instagram Design";
+        var mkdocs_page_input_path = "case-studies/instagram.md";
+        var mkdocs_page_url = "/systemdesign/case-studies/instagram/";
+      </script>
+<!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+<script>hljs.highlightAll();</script>
+</head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../.."> System Design Prep Notes
+        </a><div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" title="Type search term here" type="text"/>
+</form>
+</div>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Fundamentals</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication &amp; Redundancy</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Components</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/microservices/">Microservices</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/api-design/">API Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/authentication/">Authentication</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/consistent-hashing/">Consistent Hashing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/sharding/">Database Sharding</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/monitoring/">Monitoring &amp; Logging</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/deployment/">Deployment</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Case Studies</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../">Popular Services</a>
+</li>
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Instagram Design</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements-clarifications">1. Requirements Clarifications</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#functional-requirements">Functional Requirements</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#non-functional-requirements">Non-Functional Requirements</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation-and-constraints">2. Capacity Estimation and Constraints</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#traffic-estimates">Traffic Estimates</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#storage-estimates">Storage Estimates</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#3-system-apis">3. System APIs</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#upload-post">Upload Post</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#get-news-feed">Get News Feed</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#4-database-design">4. Database Design</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#users-table-sql-sharded-postgresql">Users Table (SQL - Sharded PostgreSQL)</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#posts-table-sql-sharded-postgresql">Posts Table (SQL - Sharded PostgreSQL)</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#likes-table-nosql-cassandra">Likes Table (NoSQL - Cassandra)</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#5-high-level-design">5. High Level Design</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-component-design">6. Detailed Component Design</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#news-feed-generation">News Feed Generation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#media-storage-and-delivery">Media Storage and Delivery</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks">7. Identifying and Resolving Bottlenecks</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#data-sharding">Data Sharding</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#caching-strategy">Caching Strategy</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#handling-hot-content">Handling "Hot" Content</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#load-balancing">Load Balancing</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter/">Twitter Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dropbox/">Dropbox / Google Drive</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook-newsfeed/">Facebook Newsfeed</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../yelp/">Yelp (Proximity Server)</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ticketmaster/">Ticketmaster</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../url-shortener/">URL Shortener</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pastebin/">Pastebin</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../web-crawler/">Web Crawler</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../uber/">Uber ETA</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../netflix/">Netflix Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../youtube/">YouTube Design</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../..">System Design Prep Notes</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Docs" class="icon icon-home" href="../.."></a></li>
+<li class="breadcrumb-item">Case Studies</li>
+<li class="breadcrumb-item active">Instagram Design</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="case-study-designing-a-photo-sharing-service-instagram">Case Study: Designing a Photo-Sharing Service (Instagram)<a class="headerlink" href="#case-study-designing-a-photo-sharing-service-instagram" title="Permanent link">¶</a></h1>
+<p>This guide provides a comprehensive system design for a large-scale photo-sharing service, focusing on content delivery, feed generation, and high availability.</p>
+<h2 id="1-requirements-clarifications">1. Requirements Clarifications<a class="headerlink" href="#1-requirements-clarifications" title="Permanent link">¶</a></h2>
+<h3 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Media Upload</strong>: Users can upload photos and videos.</li>
+<li><strong>Follow System</strong>: Users can follow other users.</li>
+<li><strong>News Feed</strong>: Users can view a feed of photos/videos from people they follow.</li>
+<li><strong>Likes and Comments</strong>: Users can interact with posts.</li>
+<li><strong>Search</strong>: Users can search for other users or posts by hashtags/locations.</li>
+</ul>
+<h3 id="non-functional-requirements">Non-Functional Requirements<a class="headerlink" href="#non-functional-requirements" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>High Availability</strong>: The system must be highly available (99.99%).</li>
+<li><strong>Reliability</strong>: Any uploaded photo or video should never be lost.</li>
+<li><strong>Low Latency</strong>: The news feed generation and media viewing should be near-instant (sub-200ms).</li>
+<li><strong>Eventual Consistency</strong>: It is acceptable if a user sees a "like" count that is slightly outdated for a few seconds.</li>
+<li><strong>Scalability</strong>: Support 500 million Daily Active Users (DAU).</li>
+</ul>
+<hr/>
+<h2 id="2-capacity-estimation-and-constraints">2. Capacity Estimation and Constraints<a class="headerlink" href="#2-capacity-estimation-and-constraints" title="Permanent link">¶</a></h2>
+<h3 id="traffic-estimates">Traffic Estimates<a class="headerlink" href="#traffic-estimates" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Total Users</strong>: 1 Billion.</li>
+<li><strong>Daily Active Users (DAU)</strong>: 500 Million.</li>
+<li><strong>New Posts</strong>: Assume 1 million new posts per day.</li>
+<li><strong>Read/Write Ratio</strong>: Extremely read-heavy (users view far more than they post).</li>
+</ul>
+<h3 id="storage-estimates">Storage Estimates<a class="headerlink" href="#storage-estimates" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Avg Photo Size</strong>: 5 MB.</li>
+<li><strong>Daily Storage (Photos)</strong>: $1M \times 5MB = 5 \text{ Terabytes/day}$.</li>
+<li><strong>5-Year Storage</strong>: $5TB \times 365 \times 5 \approx 9 \text{ Petabytes}$.</li>
+<li><strong>Metadata Storage</strong>: User data, follows, and post metadata will require several Terabytes of structured storage.</li>
+</ul>
+<hr/>
+<h2 id="3-system-apis">3. System APIs<a class="headerlink" href="#3-system-apis" title="Permanent link">¶</a></h2>
+<p>We can use GraphQL or REST. Below are the core RESTful endpoints.</p>
+<h3 id="upload-post">Upload Post<a class="headerlink" href="#upload-post" title="Permanent link">¶</a></h3>
+<p><div class="highlight"><pre><span></span><code><span class="err">POST /api/v1/post</span>
+<span class="err">Content-Type: multipart/form-data</span>
+
+<span class="err">{</span>
+<span class="err">  "user_id": "string",</span>
+<span class="err">  "media_data": "file",</span>
+<span class="err">  "location": "string (optional)",</span>
+<span class="err">  "caption": "string (optional)"</span>
+<span class="err">}</span>
+</code></pre></div>
+<strong>Returns</strong>: <code>201 Created</code> with the <code>post_id</code>.</p>
+<h3 id="get-news-feed">Get News Feed<a class="headerlink" href="#get-news-feed" title="Permanent link">¶</a></h3>
+<p><div class="highlight"><pre><span></span><code><span class="err">GET /api/v1/feed?user_id={id}&amp;count={count}&amp;offset={offset}</span>
+</code></pre></div>
+<strong>Returns</strong>: A JSON list of post objects, including media URLs and metadata.</p>
+<hr/>
+<h2 id="4-database-design">4. Database Design<a class="headerlink" href="#4-database-design" title="Permanent link">¶</a></h2>
+<p>A hybrid approach is required to handle relational data and high-velocity interactions.</p>
+<h3 id="schema">Schema<a class="headerlink" href="#schema" title="Permanent link">¶</a></h3>
+<h4 id="users-table-sql-sharded-postgresql">Users Table (SQL - Sharded PostgreSQL)<a class="headerlink" href="#users-table-sql-sharded-postgresql" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Column Name</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>user_id</strong> (PK)</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: left;">Unique ID</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>username</strong></td>
+<td style="text-align: left;">varchar(32)</td>
+<td style="text-align: left;">Unique username</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>email</strong></td>
+<td style="text-align: left;">varchar(128)</td>
+<td style="text-align: left;">User email</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>created_at</strong></td>
+<td style="text-align: left;">timestamp</td>
+<td style="text-align: left;">Join date</td>
+</tr>
+</tbody>
+</table>
+<h4 id="posts-table-sql-sharded-postgresql">Posts Table (SQL - Sharded PostgreSQL)<a class="headerlink" href="#posts-table-sql-sharded-postgresql" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Column Name</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>post_id</strong> (PK)</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: left;">Unique ID</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>user_id</strong></td>
+<td style="text-align: left;">int</td>
+<td style="text-align: left;">Author ID</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>media_path</strong></td>
+<td style="text-align: left;">varchar(255)</td>
+<td style="text-align: left;">S3 URL/Object key</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>caption</strong></td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">Post description</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>created_at</strong></td>
+<td style="text-align: left;">timestamp</td>
+<td style="text-align: left;">Upload time</td>
+</tr>
+</tbody>
+</table>
+<h4 id="likes-table-nosql-cassandra">Likes Table (NoSQL - Cassandra)<a class="headerlink" href="#likes-table-nosql-cassandra" title="Permanent link">¶</a></h4>
+<p><em>Chosen for high write throughput and scalability.</em>
+- <code>post_id</code> (Partition Key)
+- <code>user_id</code> (Clustering Key)
+- <code>timestamp</code></p>
+<hr/>
+<h2 id="5-high-level-design">5. High Level Design<a class="headerlink" href="#5-high-level-design" title="Permanent link">¶</a></h2>
+<div class="mermaid">graph TD
+    User((Users)) --&gt; LB[Load Balancer]
+    LB --&gt; API[API Gateway]
+
+    API --&gt; PostS[Post Service]
+    API --&gt; FeedS[Feed Service]
+    API --&gt; FollowS[Follow Service]
+
+    PostS --&gt; S3[Object Storage - S3]
+    PostS --&gt; DB[(Metadata DB - Sharded SQL)]
+
+    S3 --&gt; CDN[CDN - CloudFront]
+    CDN --&gt; User
+
+    FeedS --&gt; Cache[(Feed Cache - Redis)]
+
+    FollowS --&gt; GraphDB[(Graph DB/SQL)]
+</div>
+<hr/>
+<h2 id="6-detailed-component-design">6. Detailed Component Design<a class="headerlink" href="#6-detailed-component-design" title="Permanent link">¶</a></h2>
+<h3 id="news-feed-generation">News Feed Generation<a class="headerlink" href="#news-feed-generation" title="Permanent link">¶</a></h3>
+<p>This is the most complex part of the system. There are three main strategies:</p>
+<ol>
+<li><strong>Pull Model (Fan-out on Load)</strong>:</li>
+<li>When a user refreshes their feed, the system fetches all "follows", gets their latest posts, and sorts them.</li>
+<li>
+<p><strong>Problem</strong>: Slow for users following many people.</p>
+</li>
+<li>
+<p><strong>Push Model (Fan-out on Write)</strong>:</p>
+</li>
+<li>When a user posts, we find all their followers and push the post ID into their pre-generated "Feed Cache" (Redis).</li>
+<li>
+<p><strong>Problem</strong>: "Celebrity" problem. If a celebrity with 50M followers posts, pushing to 50M caches causes a massive spike.</p>
+</li>
+<li>
+<p><strong>Hybrid Model (Recommended)</strong>:</p>
+</li>
+<li><strong>Regular users</strong>: Use the <strong>Push</strong> model.</li>
+<li><strong>Celebrities</strong>: Use the <strong>Pull</strong> model. Followers of celebrities fetch celebrity posts at query time and merge them with their pre-cached feed.</li>
+</ol>
+<h3 id="media-storage-and-delivery">Media Storage and Delivery<a class="headerlink" href="#media-storage-and-delivery" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Storage</strong>: Photos/Videos are stored in <strong>Amazon S3</strong> (or similar object storage).</li>
+<li><strong>Optimization</strong>: Images are resized into different resolutions (Thumbnail, Mobile, Desktop) upon upload.</li>
+<li><strong>Delivery</strong>: A <strong>CDN (Content Delivery Network)</strong> is used to cache media at edge locations close to users, drastically reducing latency.</li>
+</ul>
+<hr/>
+<h2 id="7-identifying-and-resolving-bottlenecks">7. Identifying and Resolving Bottlenecks<a class="headerlink" href="#7-identifying-and-resolving-bottlenecks" title="Permanent link">¶</a></h2>
+<h3 id="data-sharding">Data Sharding<a class="headerlink" href="#data-sharding" title="Permanent link">¶</a></h3>
+<p>Since a single DB instance cannot hold all post metadata, we shard the data.
+- <strong>Shard by UserID</strong>: All posts for a user live on one shard.
+- <strong>Pros</strong>: Fast to fetch a user's profile.
+- <strong>Cons</strong>: "Hot" users can overwhelm a single shard.</p>
+<h3 id="caching-strategy">Caching Strategy<a class="headerlink" href="#caching-strategy" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Redis/Memcached</strong>: Store the News Feed for the last 72 hours for active users.</li>
+<li><strong>Write-around Cache</strong>: For metadata to keep the database from being the bottleneck on reads.</li>
+</ul>
+<h3 id="handling-hot-content">Handling "Hot" Content<a class="headerlink" href="#handling-hot-content" title="Permanent link">¶</a></h3>
+<ul>
+<li>Popular posts (viral content) are cached aggressively in global CDNs and regional caches to prevent origin server overload.</li>
+</ul>
+<h3 id="load-balancing">Load Balancing<a class="headerlink" href="#load-balancing" title="Permanent link">¶</a></h3>
+<ul>
+<li>Use multiple LBs at different layers: Global (DNS-based) and Local (Layer 7 software LBs like NGINX).</li>
+</ul>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href="../" title="Popular Services"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../twitter/" title="Twitter Design">Next <span class="icon icon-circle-arrow-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href="../" style="color: #fcfcfc">« Previous</a></span>
+<span><a href="../twitter/" style="color: #fcfcfc">Next »</a></span>
+</span>
+</div>
+<script src="../../js/jquery-3.6.0.min.js"></script>
+<script>var base_url = "../..";</script>
+<script src="../../js/theme_extra.js"></script>
+<script src="../../js/theme.js"></script>
+<script src="../../search/main.js"></script>
+<script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

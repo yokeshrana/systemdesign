@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="yokeshrana" /><link rel="canonical" href="https://yokeshrana.github.io/systemdesign/advanced/authentication/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Authentication - System Design Prep Notes</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/stylesheets/custom.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Authentication";
+        var mkdocs_page_input_path = "advanced/authentication.md";
+        var mkdocs_page_url = "/systemdesign/advanced/authentication/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> System Design Prep Notes
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Fundamentals</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication & Redundancy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Components</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Advanced</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../microservices/">Microservices</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../api-design/">API Design</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Authentication</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#key-concepts">Key Concepts</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-jwt-json-web-tokens">1. JWT (JSON Web Tokens)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-oauth2-openid-connect">2. OAuth2 &amp; OpenID Connect</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-sso-single-sign-on">3. SSO (Single Sign-On)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#trade-offs-considerations">Trade-offs &amp; Considerations</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#further-reading">Further Reading</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../consistent-hashing/">Consistent Hashing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../sharding/">Database Sharding</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../top-k/">Top 'K' Frequent Items</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Operations</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking & CDN</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../operations/monitoring/">Monitoring & Logging</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../operations/deployment/">Deployment</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Case Studies</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/twitter/">Twitter Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/dropbox/">Dropbox / Google Drive</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/facebook-newsfeed/">Facebook Newsfeed</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/yelp/">Yelp (Proximity Server)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/ticketmaster/">Ticketmaster</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/url-shortener/">URL Shortener</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/pastebin/">Pastebin</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/web-crawler/">Web Crawler</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/uber/">Uber ETA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/netflix/">Netflix Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/youtube/">YouTube Design</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">System Design Prep Notes</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Advanced</li>
+      <li class="breadcrumb-item active">Authentication</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Authentication is the process of verifying the identity of a user or service. In distributed systems, authentication must be secure, scalable, and often stateless to allow for horizontal scaling.</p>
+<h2 id="key-concepts">Key Concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="1-jwt-json-web-tokens">1. JWT (JSON Web Tokens)<a class="headerlink" href="#1-jwt-json-web-tokens" title="Permanent link">&para;</a></h3>
+<p>Stateless authentication mechanism where the user's identity is encoded in a signed token.
+- <strong>Strengths</strong>: No need for server-side sessions, works well in microservices.
+- <strong>Weaknesses</strong>: Hard to revoke before expiration, token size can increase latency.</p>
+<h3 id="2-oauth2-openid-connect">2. OAuth2 &amp; OpenID Connect<a class="headerlink" href="#2-oauth2-openid-connect" title="Permanent link">&para;</a></h3>
+<p>Industry-standard protocols for authorization and authentication.
+- <strong>OAuth2</strong>: Focuses on authorization (accessing resources).
+- <strong>OIDC</strong>: An identity layer on top of OAuth2.</p>
+<h3 id="3-sso-single-sign-on">3. SSO (Single Sign-On)<a class="headerlink" href="#3-sso-single-sign-on" title="Permanent link">&para;</a></h3>
+<p>Allows a user to log in once and access multiple related systems.
+- <strong>Technologies</strong>: SAML, Okta, Auth0.</p>
+<h2 id="trade-offs-considerations">Trade-offs &amp; Considerations<a class="headerlink" href="#trade-offs-considerations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Stateful vs. Stateless</strong>: Stateless (JWT) is easier to scale but harder to manage (revocation). Stateful (Sessions) is easier to manage but requires a shared session store (like Redis).</li>
+<li><strong>Security</strong>: Always use HTTPS. Protect against CSRF, XSS, and Brute Force attacks.</li>
+<li><strong>MFA (Multi-Factor Authentication)</strong>: Adding an extra layer of security (e.g., TOTP, SMS).</li>
+</ul>
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://auth0.com/learn/json-web-tokens/">Auth0: The Ultimate Guide to JWT</a></li>
+<li><a href="https://aaronparecki.com/oauth-2-simplified/">OAuth 2.0 Simplified</a></li>
+<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html">OWASP Authentication Cheat Sheet</a></li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../api-design/" class="btn btn-neutral float-left" title="API Design"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../consistent-hashing/" class="btn btn-neutral float-right" title="Consistent Hashing">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../api-design/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../consistent-hashing/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

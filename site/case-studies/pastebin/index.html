@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="yokeshrana" name="author"/><link href="https://yokeshrana.github.io/systemdesign/case-studies/pastebin/" rel="canonical"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>Pastebin - System Design Prep Notes</title>
+<link href="../../css/theme.css" rel="stylesheet"/>
+<link href="../../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/custom.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "Pastebin";
+        var mkdocs_page_input_path = "case-studies/pastebin.md";
+        var mkdocs_page_url = "/systemdesign/case-studies/pastebin/";
+      </script>
+<!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+<script>hljs.highlightAll();</script>
+</head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../.."> System Design Prep Notes
+        </a><div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" title="Type search term here" type="text"/>
+</form>
+</div>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Fundamentals</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication &amp; Redundancy</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Components</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/microservices/">Microservices</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/api-design/">API Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/authentication/">Authentication</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/consistent-hashing/">Consistent Hashing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/sharding/">Database Sharding</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/monitoring/">Monitoring &amp; Logging</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/deployment/">Deployment</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Case Studies</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../">Popular Services</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instagram/">Instagram Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter/">Twitter Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dropbox/">Dropbox / Google Drive</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook-newsfeed/">Facebook Newsfeed</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../yelp/">Yelp (Proximity Server)</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ticketmaster/">Ticketmaster</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../url-shortener/">URL Shortener</a>
+</li>
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Pastebin</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements">1. Requirements</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#functional">Functional</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#non-functional">Non-Functional</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation">2. Capacity Estimation</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#3-apis">3. APIs</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#4-db-design">4. DB Design</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#5-hld-with-mermaid">5. HLD with Mermaid</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design">6. Detailed Design</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#key-generation-service-kgs">Key Generation Service (KGS)</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#handling-expiration">Handling Expiration</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#caching">Caching</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#7-bottlenecks">7. Bottlenecks</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../web-crawler/">Web Crawler</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../uber/">Uber ETA</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../netflix/">Netflix Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../youtube/">YouTube Design</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../..">System Design Prep Notes</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Docs" class="icon icon-home" href="../.."></a></li>
+<li class="breadcrumb-item">Case Studies</li>
+<li class="breadcrumb-item active">Pastebin</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="case-study-pastebin">Case Study: Pastebin<a class="headerlink" href="#case-study-pastebin" title="Permanent link">¶</a></h1>
+<h2 id="1-requirements">1. Requirements<a class="headerlink" href="#1-requirements" title="Permanent link">¶</a></h2>
+<h3 id="functional">Functional<a class="headerlink" href="#functional" title="Permanent link">¶</a></h3>
+<ul>
+<li>Users can "paste" text and get a unique URL.</li>
+<li>Users can set expiration times for pastes (e.g., 1 hour, 1 day, never).</li>
+<li>Pastes can be public or private.</li>
+<li>(Optional) Support for syntax highlighting and custom aliases.</li>
+</ul>
+<h3 id="non-functional">Non-Functional<a class="headerlink" href="#non-functional" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Scalability:</strong> Support millions of new pastes daily.</li>
+<li><strong>Availability:</strong> High availability for reading pastes.</li>
+<li><strong>Low Latency:</strong> Pastes should be accessible instantly.</li>
+<li><strong>Durability:</strong> Data should not be lost unless it expires.</li>
+</ul>
+<h2 id="2-capacity-estimation">2. Capacity Estimation<a class="headerlink" href="#2-capacity-estimation" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Write Traffic:</strong> 1 million pastes/day $\approx$ 12 pastes/sec.</li>
+<li><strong>Read Traffic:</strong> 10 million reads/day $\rightarrow$ 120 reads/sec.</li>
+<li><strong>Storage:</strong> 1M pastes/day * 10KB (avg) $\approx$ 10GB/day $\approx$ 3.6TB/year.</li>
+</ul>
+<h2 id="3-apis">3. APIs<a class="headerlink" href="#3-apis" title="Permanent link">¶</a></h2>
+<ul>
+<li><code>createPaste(api_dev_key, paste_data, custom_url, expiration_time)</code></li>
+<li><code>getPaste(paste_key)</code></li>
+<li><code>deletePaste(api_dev_key, paste_key)</code></li>
+</ul>
+<h2 id="4-db-design">4. DB Design<a class="headerlink" href="#4-db-design" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Metadata DB:</strong> <code>paste_key (PK), user_id, expiration_date, created_at, access_type (public/private)</code>.<ul>
+<li>Use a NoSQL DB (e.g., MongoDB or Cassandra) for easy scaling.</li>
+</ul>
+</li>
+<li><strong>Paste Content Storage:</strong> Object Store (Amazon S3) or HDFS for the actual text data to keep the database lean.</li>
+</ul>
+<h2 id="5-hld-with-mermaid">5. HLD with Mermaid<a class="headerlink" href="#5-hld-with-mermaid" title="Permanent link">¶</a></h2>
+<div class="mermaid">graph TD
+    A[Client] --&gt; B[Load Balancer]
+    B --&gt; C[Application Server]
+    C --&gt; D[Object Storage - S3]
+    C --&gt; E[(Metadata DB)]
+    C --&gt; F[Key Generation Service - KGS]
+    G[Cleanup Service] --&gt; E
+    G --&gt; D
+</div>
+<h2 id="6-detailed-design">6. Detailed Design<a class="headerlink" href="#6-detailed-design" title="Permanent link">¶</a></h2>
+<h3 id="key-generation-service-kgs">Key Generation Service (KGS)<a class="headerlink" href="#key-generation-service-kgs" title="Permanent link">¶</a></h3>
+<p>To ensure unique and short URLs (e.g., <code>pastebin.com/a7b2c9</code>), we pre-generate random strings.
+*   <strong>Why?</strong> Generating a key at write-time and checking the DB for duplicates is slow.
+*   <strong>How?</strong> A dedicated service pre-calculates keys and stores them in a "Key DB". When a paste is created, it simply grabs an unused key.</p>
+<h3 id="handling-expiration">Handling Expiration<a class="headerlink" href="#handling-expiration" title="Permanent link">¶</a></h3>
+<ul>
+<li>A background <strong>Cleanup Service</strong> periodically scans the Metadata DB for expired entries.</li>
+<li>It deletes the metadata and the corresponding file in S3.</li>
+<li>To avoid heavy DB scans, we can use a TTL index (if supported by the DB).</li>
+</ul>
+<h3 id="caching">Caching<a class="headerlink" href="#caching" title="Permanent link">¶</a></h3>
+<p>Since reads outnumber writes 10:1, use Redis to cache the most frequently accessed pastes.</p>
+<h2 id="7-bottlenecks">7. Bottlenecks<a class="headerlink" href="#7-bottlenecks" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>KGS Single Point of Failure:</strong> If KGS goes down, writes fail. Solution: Use a standby KGS and keep a local buffer of keys on app servers.</li>
+<li><strong>Storage Growth:</strong> 3.6TB/year is manageable, but for 10 years, it's 36TB. Tiered storage (moving old pastes to cheaper storage) is necessary.</li>
+<li><strong>Spam:</strong> Public pastes can be used for malicious content. Implement rate limiting and content filtering.</li>
+</ul>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href="../url-shortener/" title="URL Shortener"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../web-crawler/" title="Web Crawler">Next <span class="icon icon-circle-arrow-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href="../url-shortener/" style="color: #fcfcfc">« Previous</a></span>
+<span><a href="../web-crawler/" style="color: #fcfcfc">Next »</a></span>
+</span>
+</div>
+<script src="../../js/jquery-3.6.0.min.js"></script>
+<script>var base_url = "../..";</script>
+<script src="../../js/theme_extra.js"></script>
+<script src="../../js/theme.js"></script>
+<script src="../../search/main.js"></script>
+<script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="yokeshrana" name="author"/><link href="https://yokeshrana.github.io/systemdesign/advanced/top-k/" rel="canonical"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>Top 'K' Frequent Items - System Design Prep Notes</title>
+<link href="../../css/theme.css" rel="stylesheet"/>
+<link href="../../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/custom.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "Top \u0027K\u0027 Frequent Items";
+        var mkdocs_page_input_path = "advanced/top-k.md";
+        var mkdocs_page_url = "/systemdesign/advanced/top-k/";
+      </script>
+<!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+<script>hljs.highlightAll();</script>
+</head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../.."> System Design Prep Notes
+        </a><div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" title="Type search term here" type="text"/>
+</form>
+</div>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Fundamentals</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication &amp; Redundancy</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Components</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Advanced</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../microservices/">Microservices</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-design/">API Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/">Authentication</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../consistent-hashing/">Consistent Hashing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sharding/">Database Sharding</a>
+</li>
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Top 'K' Frequent Items</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements">1. Requirements</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#functional">Functional</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#non-functional">Non-Functional</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation">2. Capacity Estimation</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#3-apis">3. APIs</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#4-db-design">4. DB Design</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#5-hld-with-mermaid">5. HLD with Mermaid</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design">6. Detailed Design</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#count-min-sketch">Count-Min Sketch</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#heavy-keepers-space-saving-algorithm">Heavy Keepers / Space Saving Algorithm</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#data-aggregation">Data Aggregation</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#7-bottlenecks">7. Bottlenecks</a>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/monitoring/">Monitoring &amp; Logging</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/deployment/">Deployment</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Case Studies</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/twitter/">Twitter Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/dropbox/">Dropbox / Google Drive</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/facebook-newsfeed/">Facebook Newsfeed</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/yelp/">Yelp (Proximity Server)</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/ticketmaster/">Ticketmaster</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/url-shortener/">URL Shortener</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/pastebin/">Pastebin</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/web-crawler/">Web Crawler</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/uber/">Uber ETA</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/netflix/">Netflix Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/youtube/">YouTube Design</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../..">System Design Prep Notes</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Docs" class="icon icon-home" href="../.."></a></li>
+<li class="breadcrumb-item">Advanced</li>
+<li class="breadcrumb-item active">Top 'K' Frequent Items</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="top-k-frequent-items-heavy-hitters">Top 'K' Frequent Items (Heavy Hitters)<a class="headerlink" href="#top-k-frequent-items-heavy-hitters" title="Permanent link">¶</a></h1>
+<h2 id="1-requirements">1. Requirements<a class="headerlink" href="#1-requirements" title="Permanent link">¶</a></h2>
+<h3 id="functional">Functional<a class="headerlink" href="#functional" title="Permanent link">¶</a></h3>
+<ul>
+<li>Track the most frequent items in a real-time stream (e.g., top trending hashtags on Twitter, most played songs on Spotify).</li>
+<li>Provide the top 'K' items for a specific time window (e.g., last 1 minute, 1 hour, 1 day).</li>
+</ul>
+<h3 id="non-functional">Non-Functional<a class="headerlink" href="#non-functional" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Scalability:</strong> Must handle millions of events per second.</li>
+<li><strong>Low Latency:</strong> Retrieval of Top 'K' should be near-instant.</li>
+<li><strong>Accuracy vs. Efficiency:</strong> Approximate counts are often acceptable in exchange for massive space savings (e.g., using Count-Min Sketch).</li>
+</ul>
+<h2 id="2-capacity-estimation">2. Capacity Estimation<a class="headerlink" href="#2-capacity-estimation" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Traffic:</strong> 10 million events per second.</li>
+<li><strong>Storage:</strong> If tracking 1 million unique items, a simple hash map would take ~100MB. However, for billion-scale items, we need probabilistic data structures.</li>
+<li><strong>Bandwidth:</strong> 10M events/sec * 100 bytes/event $\approx$ 1GB/s.</li>
+</ul>
+<h2 id="3-apis">3. APIs<a class="headerlink" href="#3-apis" title="Permanent link">¶</a></h2>
+<p><code>GET /v1/top-k?k=10&amp;window=1h</code>
+*   <strong>Response:</strong> <code>{"items": [{"id": "item1", "count": 5000}, ...], "window": "1h"}</code></p>
+<h2 id="4-db-design">4. DB Design<a class="headerlink" href="#4-db-design" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>In-Memory:</strong> Redis (Sorted Sets) for real-time storage.</li>
+<li><strong>Persistent:</strong> Cassandra or DynamoDB for historical data.</li>
+<li><strong>Schema:</strong> <code>(item_id, count, window_timestamp)</code>.</li>
+</ul>
+<h2 id="5-hld-with-mermaid">5. HLD with Mermaid<a class="headerlink" href="#5-hld-with-mermaid" title="Permanent link">¶</a></h2>
+<div class="mermaid">graph TD
+    A[Client Events] --&gt; B[API Gateway]
+    B --&gt; C[Kafka/Message Queue]
+    C --&gt; D[Stream Processor - Flink/Spark]
+    D --&gt; E[(Redis - Top K Cache)]
+    D --&gt; F[(Database - Historical)]
+    G[Query Service] --&gt; E
+</div>
+<h2 id="6-detailed-design">6. Detailed Design<a class="headerlink" href="#6-detailed-design" title="Permanent link">¶</a></h2>
+<h3 id="count-min-sketch">Count-Min Sketch<a class="headerlink" href="#count-min-sketch" title="Permanent link">¶</a></h3>
+<p>To handle massive cardinality, we use a Count-Min Sketch (probabilistic data structure).
+*   Uses a 2D array of counters and multiple hash functions.
+*   Provides an upper bound on frequency with fixed memory.</p>
+<h3 id="heavy-keepers-space-saving-algorithm">Heavy Keepers / Space Saving Algorithm<a class="headerlink" href="#heavy-keepers-space-saving-algorithm" title="Permanent link">¶</a></h3>
+<p>Used to track the actual IDs of the top items, as Count-Min Sketch only tracks counts.</p>
+<h3 id="data-aggregation">Data Aggregation<a class="headerlink" href="#data-aggregation" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Log Aggregator:</strong> Collects logs from app servers.</li>
+<li><strong>Stream Processing:</strong> Groups items and updates counts in sliding windows.</li>
+<li><strong>Merging Results:</strong> Distributed nodes track local top-K; a central aggregator merges them to find the global top-K.</li>
+</ul>
+<h2 id="7-bottlenecks">7. Bottlenecks<a class="headerlink" href="#7-bottlenecks" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Hot Keys:</strong> A single very popular item can overwhelm a partition. Solution: Use sub-partitioning or local aggregation before sending to the global counter.</li>
+<li><strong>Accuracy:</strong> For small 'K', error rates must be strictly monitored.</li>
+<li><strong>Memory:</strong> Keeping many time windows in memory can be expensive.</li>
+</ul>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href="../sharding/" title="Database Sharding"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../../operations/networking/" title="Networking &amp; CDN">Next <span class="icon icon-circle-arrow-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href="../sharding/" style="color: #fcfcfc">« Previous</a></span>
+<span><a href="../../operations/networking/" style="color: #fcfcfc">Next »</a></span>
+</span>
+</div>
+<script src="../../js/jquery-3.6.0.min.js"></script>
+<script>var base_url = "../..";</script>
+<script src="../../js/theme_extra.js"></script>
+<script src="../../js/theme.js"></script>
+<script src="../../search/main.js"></script>
+<script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

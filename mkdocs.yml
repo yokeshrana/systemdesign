@@ -41,6 +41,8 @@ nav:
     - Scalability: fundamentals/scalability.md
     - Load Balancing: fundamentals/load-balancing.md
     - Consistency Models: fundamentals/consistency.md
+    - Replication & Redundancy: fundamentals/replication.md
+    - Client-Server Communication: fundamentals/communication.md
     - High Level Design vs Low Level Design: fundamentals/hld-vs-lld.md
   - Components:
     - Caching: components/caching.md
@@ -54,6 +56,7 @@ nav:
     - Authentication: advanced/authentication.md
     - Consistent Hashing: advanced/consistent-hashing.md
     - Database Sharding: advanced/sharding.md
+    - Top 'K' Frequent Items: advanced/top-k.md
   - Operations:
     - Networking & CDN: operations/networking.md
     - Monitoring & Logging: operations/monitoring.md
@@ -62,7 +65,13 @@ nav:
     - Popular Services: case-studies/index.md
     - Instagram Design: case-studies/instagram.md
     - Twitter Design: case-studies/twitter.md
+    - Dropbox / Google Drive: case-studies/dropbox.md
+    - Facebook Newsfeed: case-studies/facebook-newsfeed.md
+    - Yelp (Proximity Server): case-studies/yelp.md
+    - Ticketmaster: case-studies/ticketmaster.md
     - URL Shortener: case-studies/url-shortener.md
+    - Pastebin: case-studies/pastebin.md
+    - Web Crawler: case-studies/web-crawler.md
     - Uber ETA: case-studies/uber.md
     - Netflix Design: case-studies/netflix.md
     - YouTube Design: case-studies/youtube.md

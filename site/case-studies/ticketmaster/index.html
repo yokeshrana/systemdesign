@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="yokeshrana" name="author"/><link href="https://yokeshrana.github.io/systemdesign/case-studies/ticketmaster/" rel="canonical"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>Ticketmaster - System Design Prep Notes</title>
+<link href="../../css/theme.css" rel="stylesheet"/>
+<link href="../../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/custom.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "Ticketmaster";
+        var mkdocs_page_input_path = "case-studies/ticketmaster.md";
+        var mkdocs_page_url = "/systemdesign/case-studies/ticketmaster/";
+      </script>
+<!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+<script>hljs.highlightAll();</script>
+</head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../.."> System Design Prep Notes
+        </a><div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" title="Type search term here" type="text"/>
+</form>
+</div>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Fundamentals</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication &amp; Redundancy</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Components</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/microservices/">Microservices</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/api-design/">API Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/authentication/">Authentication</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/consistent-hashing/">Consistent Hashing</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/sharding/">Database Sharding</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/monitoring/">Monitoring &amp; Logging</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/deployment/">Deployment</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Case Studies</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../">Popular Services</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instagram/">Instagram Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter/">Twitter Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dropbox/">Dropbox / Google Drive</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../facebook-newsfeed/">Facebook Newsfeed</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../yelp/">Yelp (Proximity Server)</a>
+</li>
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Ticketmaster</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#1-requirements">1. Requirements</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#functional">Functional</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#non-functional">Non-Functional</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#2-capacity-estimation">2. Capacity Estimation</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#3-apis">3. APIs</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#4-db-design">4. DB Design</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#5-hld-with-mermaid">5. HLD with Mermaid</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#6-detailed-design">6. Detailed Design</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#handling-high-traffic-spikes">Handling High Traffic Spikes</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#seat-reservation-the-locking-mechanism">Seat Reservation (The Locking Mechanism)</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#database-sharding">Database Sharding</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#7-bottlenecks">7. Bottlenecks</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../url-shortener/">URL Shortener</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pastebin/">Pastebin</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../web-crawler/">Web Crawler</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../uber/">Uber ETA</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../netflix/">Netflix Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../youtube/">YouTube Design</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../..">System Design Prep Notes</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Docs" class="icon icon-home" href="../.."></a></li>
+<li class="breadcrumb-item">Case Studies</li>
+<li class="breadcrumb-item active">Ticketmaster</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="case-study-ticketmaster">Case Study: Ticketmaster<a class="headerlink" href="#case-study-ticketmaster" title="Permanent link">¶</a></h1>
+<h2 id="1-requirements">1. Requirements<a class="headerlink" href="#1-requirements" title="Permanent link">¶</a></h2>
+<h3 id="functional">Functional<a class="headerlink" href="#functional" title="Permanent link">¶</a></h3>
+<ul>
+<li>Users can search for events (concerts, sports).</li>
+<li>Users can view a seating map and select seats.</li>
+<li>Users can reserve seats for 5-10 minutes while completing payment.</li>
+<li>Users can purchase tickets.</li>
+</ul>
+<h3 id="non-functional">Non-Functional<a class="headerlink" href="#non-functional" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>High Concurrency:</strong> Handle massive spikes when a popular concert goes on sale.</li>
+<li><strong>Fairness:</strong> Tickets should be sold on a first-come, first-served basis.</li>
+<li><strong>Transaction Integrity:</strong> No double-booking of the same seat.</li>
+<li><strong>Latency:</strong> Real-time updates on seat availability.</li>
+</ul>
+<h2 id="2-capacity-estimation">2. Capacity Estimation<a class="headerlink" href="#2-capacity-estimation" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Traffic:</strong> 10M page views for a popular event in minutes.</li>
+<li><strong>Booking Rate:</strong> 5,000 tickets per second.</li>
+<li><strong>Storage:</strong> Millions of events, each with thousands of seats.</li>
+</ul>
+<h2 id="3-apis">3. APIs<a class="headerlink" href="#3-apis" title="Permanent link">¶</a></h2>
+<ul>
+<li><code>searchEvents(query, location, date)</code></li>
+<li><code>getSeatingMap(event_id)</code></li>
+<li><code>reserveSeats(event_id, seat_ids, user_id)</code></li>
+<li><code>confirmPayment(reservation_id, payment_info)</code></li>
+</ul>
+<h2 id="4-db-design">4. DB Design<a class="headerlink" href="#4-db-design" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Event Table:</strong> <code>event_id, name, venue_id, start_time</code>.</li>
+<li><strong>Seat Table:</strong> <code>seat_id, event_id, row, number, status (Available, Reserved, Sold)</code>.</li>
+<li><strong>Reservation Table:</strong> <code>res_id, user_id, seat_id, expiry_time, status</code>.</li>
+<li><strong>Relational DB (SQL):</strong> Essential for ACID transactions to prevent double-booking.</li>
+</ul>
+<h2 id="5-hld-with-mermaid">5. HLD with Mermaid<a class="headerlink" href="#5-hld-with-mermaid" title="Permanent link">¶</a></h2>
+<div class="mermaid">graph TD
+    A[User] --&gt; B[Load Balancer]
+    B --&gt; C[Search Service]
+    B --&gt; D[Booking Service]
+    D --&gt; E[(Redis - Seat Locks)]
+    D --&gt; F[(SQL - Ticket DB)]
+    C --&gt; G[(Elasticsearch - Event Index)]
+    H[Payment Service] --&gt; D
+</div>
+<h2 id="6-detailed-design">6. Detailed Design<a class="headerlink" href="#6-detailed-design" title="Permanent link">¶</a></h2>
+<h3 id="handling-high-traffic-spikes">Handling High Traffic Spikes<a class="headerlink" href="#handling-high-traffic-spikes" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Virtual Waiting Room:</strong> A queueing system (e.g., using a Token Bucket or specialized service) that allows users into the booking flow at a controlled rate.</li>
+<li><strong>CDN:</strong> Cache event details and seating maps at the edge to reduce load on origin servers.</li>
+</ul>
+<h3 id="seat-reservation-the-locking-mechanism">Seat Reservation (The Locking Mechanism)<a class="headerlink" href="#seat-reservation-the-locking-mechanism" title="Permanent link">¶</a></h3>
+<ol>
+<li>User selects a seat.</li>
+<li>Booking Service attempts to set a lock in Redis with a TTL (Time-To-Live) of 10 mins: <code>SET seat_123 user_456 EX 600 NX</code>.</li>
+<li>If successful, the status in the SQL DB is updated to 'Reserved' within a transaction.</li>
+<li>If the user doesn't pay, the Redis lock expires and a background worker marks the seat as 'Available' in the DB.</li>
+</ol>
+<h3 id="database-sharding">Database Sharding<a class="headerlink" href="#database-sharding" title="Permanent link">¶</a></h3>
+<p>Shard the database by <code>event_id</code>. All seats for a single event will be on the same shard, making transaction management easier.</p>
+<h2 id="7-bottlenecks">7. Bottlenecks<a class="headerlink" href="#7-bottlenecks" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Database Contention:</strong> Thousands of users trying to book the same 'front row' seats simultaneously. Solution: Use row-level locking or optimistic concurrency control.</li>
+<li><strong>Payment Failure:</strong> If the payment gateway is slow, it ties up reservations. Use asynchronous payment processing with webhooks.</li>
+<li><strong>Scalability of the Waiting Room:</strong> The queue itself must be highly available and distributed.</li>
+</ul>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href="../yelp/" title="Yelp (Proximity Server)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../url-shortener/" title="URL Shortener">Next <span class="icon icon-circle-arrow-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href="../yelp/" style="color: #fcfcfc">« Previous</a></span>
+<span><a href="../url-shortener/" style="color: #fcfcfc">Next »</a></span>
+</span>
+</div>
+<script src="../../js/jquery-3.6.0.min.js"></script>
+<script>var base_url = "../..";</script>
+<script src="../../js/theme_extra.js"></script>
+<script src="../../js/theme.js"></script>
+<script src="../../search/main.js"></script>
+<script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>
