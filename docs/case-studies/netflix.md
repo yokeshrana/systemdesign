@@ -117,3 +117,15 @@ Instead of using third-party CDNs, Netflix installs its own hardware (OCAs) insi
 ### Database Scalability
 *   **Cassandra Compaction:** Tuned to handle the high volume of write-heavy playback updates.
 *   **Sharding:** MySQL databases are sharded by `user_id` to distribute load across multiple instances.
+
+## Interviewer Lens
+
+Netflix is a media delivery system with a control plane and a data plane, so the answer should make that split explicit. The most convincing discussion covers transcoding, bitrate adaptation, CDN placement, and failure recovery when a region or recommendation service is unavailable.
+
+## Likely Follow-Up Questions
+
+- How does adaptive bitrate streaming react to a bad network?
+- Why is a custom CDN better than relying only on third-party delivery?
+- How do you support offline viewing while keeping content secure?
+- What data belongs in Cassandra versus MySQL versus search?
+- What happens if recommendations are down during playback?

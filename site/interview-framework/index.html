@@ -98,11 +98,19 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#why-this-structure-works">Why this structure works</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#what-the-pdf-emphasizes">What the PDF emphasizes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recurring-technical-themes">Recurring Technical Themes</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#the-seven-steps">The Seven Steps</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#how-to-use-it-in-an-interview">How to Use It in an Interview</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#interviewer-checklist">Interviewer Checklist</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#what-interviewers-look-for">What Interviewers Look For</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#practical-output-format">Practical Output Format</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#related-reading">Related Reading</a>
     </li>
@@ -134,6 +142,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Case Studies</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../case-studies/playbook/">Case Study Playbook</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../case-studies/">Popular Services</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../case-studies/instagram/">Instagram Design</a>
@@ -197,6 +207,26 @@
 <p>The PDF framework used in this project follows a consistent seven-step flow. Use it as the default outline for every system design answer, whether you are designing a URL shortener, a news feed, a ride-sharing backend, or an internal platform.</p>
 <h2 id="why-this-structure-works">Why this structure works<a class="headerlink" href="#why-this-structure-works" title="Permanent link">&para;</a></h2>
 <p>This sequence forces you to move from problem definition to scale, then from architecture to failure handling. It keeps the interview grounded in requirements instead of jumping straight to diagrams.</p>
+<h2 id="what-the-pdf-emphasizes">What the PDF emphasizes<a class="headerlink" href="#what-the-pdf-emphasizes" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Clarify scope before designing anything.</li>
+<li>Define the API contract early so the system has a concrete shape.</li>
+<li>Estimate traffic, storage, and bandwidth to avoid unrealistic designs.</li>
+<li>Choose a data model that matches the access pattern.</li>
+<li>Draw the high-level architecture before discussing optimizations.</li>
+<li>Use the detailed design step to explain the hardest trade-offs.</li>
+<li>Finish with bottlenecks, replication, monitoring, and failure handling.</li>
+</ul>
+<h2 id="recurring-technical-themes">Recurring Technical Themes<a class="headerlink" href="#recurring-technical-themes" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Sharding and partitioning with consistent hashing or key-based splits.</li>
+<li>Caching with cache-aside, write-through, and eviction policies such as LRU or LFU.</li>
+<li>Feed and ranking systems with fan-out on write, fan-out on read, and hybrid approaches.</li>
+<li>Geospatial design with geohash, quadtrees, or grid-based lookups.</li>
+<li>Queue-based asynchronous processing for background work and decoupling.</li>
+<li>Quorum-based reads and writes where consistency needs careful tuning.</li>
+<li>Bloom filters and other lightweight structures for fast membership checks.</li>
+</ul>
 <h2 id="the-seven-steps">The Seven Steps<a class="headerlink" href="#the-seven-steps" title="Permanent link">&para;</a></h2>
 <ol>
 <li><a href="requirements-clarification/">Requirements Clarification</a></li>
@@ -209,6 +239,16 @@
 </ol>
 <h2 id="how-to-use-it-in-an-interview">How to Use It in an Interview<a class="headerlink" href="#how-to-use-it-in-an-interview" title="Permanent link">&para;</a></h2>
 <p>Start with Step 1 and do not jump ahead until the scope is clear. Use Step 2 to define the contract, Step 3 to justify scale, Step 4 to anchor persistence, Step 5 to show the overall system, Step 6 to prove you can reason about the hard parts, and Step 7 to show you can make the design production-ready.</p>
+<h2 id="interviewer-checklist">Interviewer Checklist<a class="headerlink" href="#interviewer-checklist" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Did you ask the right clarifying questions?</li>
+<li>Did you define the main APIs or user actions?</li>
+<li>Did you estimate the load and storage before choosing components?</li>
+<li>Did you explain why the data store fits the access pattern?</li>
+<li>Did you show a readable architecture with the critical request paths?</li>
+<li>Did you go deep on one or two real bottlenecks instead of everything?</li>
+<li>Did you close with scaling, observability, and failure recovery?</li>
+</ul>
 <h2 id="what-interviewers-look-for">What Interviewers Look For<a class="headerlink" href="#what-interviewers-look-for" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Clear scope control and good clarifying questions.</li>
@@ -217,6 +257,18 @@
 <li>A design that balances reads, writes, latency, availability, and cost.</li>
 <li>Concrete handling for failure, growth, and operational visibility.</li>
 </ul>
+<h2 id="practical-output-format">Practical Output Format<a class="headerlink" href="#practical-output-format" title="Permanent link">&para;</a></h2>
+<p>When you practice, aim to produce this sequence in order:</p>
+<ol>
+<li>Short problem statement.</li>
+<li>Functional and non-functional requirements.</li>
+<li>API sketch.</li>
+<li>Capacity estimates.</li>
+<li>Core entities and storage choice.</li>
+<li>Architecture diagram or block flow.</li>
+<li>Deep dive on the hardest part.</li>
+<li>Bottlenecks and scaling plan.</li>
+</ol>
 <h2 id="related-reading">Related Reading<a class="headerlink" href="#related-reading" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../case-studies/">Case Studies</a></li>

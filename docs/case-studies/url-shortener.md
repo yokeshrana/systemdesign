@@ -90,3 +90,15 @@ To prevent collisions in a distributed environment:
     2. Between Web Servers and Database.
     3. Between Web Servers and Cache.
 *   **Cleanup and Expiration:** A background service should periodically scan the database for expired links and remove them. This offloads the cleanup work from the main request path, maintaining low latency for users.
+
+## Interviewer Lens
+
+URL shortener interviews are usually about key generation, uniqueness, and fast redirection. The best answer shows why the system separates creation from redirect, how it avoids collisions, and why temporary redirects are better when analytics matter.
+
+## Likely Follow-Up Questions
+
+- How would you support custom aliases without collisions?
+- Why use 302 instead of 301 for redirects?
+- What happens when expired links are still cached?
+- How would you shard the database and cache hot mappings?
+- How do you prevent brute-force enumeration of short URLs?

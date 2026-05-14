@@ -118,6 +118,8 @@
 </ul>
 <p class="caption"><span class="caption-text">Case Studies</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../playbook/">Case Study Playbook</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../">Popular Services</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../instagram/">Instagram Design</a>
@@ -177,6 +179,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#7-identifying-and-resolving-bottlenecks-scalingbottlenecks">7. Identifying and resolving bottlenecks (Scaling/Bottlenecks)</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#interviewer-lens">Interviewer Lens</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#likely-follow-up-questions">Likely Follow-Up Questions</a>
 </li>
 </ul>
 </li>
@@ -308,6 +314,16 @@
 </ol>
 </li>
 <li><strong>Cleanup and Expiration:</strong> A background service should periodically scan the database for expired links and remove them. This offloads the cleanup work from the main request path, maintaining low latency for users.</li>
+</ul>
+<h2 id="interviewer-lens">Interviewer Lens<a class="headerlink" href="#interviewer-lens" title="Permanent link">¶</a></h2>
+<p>URL shortener interviews are usually about key generation, uniqueness, and fast redirection. The best answer shows why the system separates creation from redirect, how it avoids collisions, and why temporary redirects are better when analytics matter.</p>
+<h2 id="likely-follow-up-questions">Likely Follow-Up Questions<a class="headerlink" href="#likely-follow-up-questions" title="Permanent link">¶</a></h2>
+<ul>
+<li>How would you support custom aliases without collisions?</li>
+<li>Why use 302 instead of 301 for redirects?</li>
+<li>What happens when expired links are still cached?</li>
+<li>How would you shard the database and cache hot mappings?</li>
+<li>How do you prevent brute-force enumeration of short URLs?</li>
 </ul>
 </div>
 </div><footer>

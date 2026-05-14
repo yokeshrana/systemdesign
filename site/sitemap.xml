@@ -76,6 +76,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://yokeshrana.github.io/systemdesign/case-studies/playbook/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://yokeshrana.github.io/systemdesign/case-studies/ticketmaster/</loc>
          <lastmod>2026-05-14</lastmod>
          <changefreq>daily</changefreq>

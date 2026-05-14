@@ -112,6 +112,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#what-to-show">What to Show</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#common-deep-dives-by-use-case">Common Deep Dives by Use Case</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#output-of-this-step">Output of This Step</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#common-mistakes">Common Mistakes</a>
@@ -132,6 +134,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Case Studies</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
@@ -202,6 +206,10 @@
 <li>Background jobs and eventual consistency.</li>
 <li>Concurrency control, ordering, and deduplication.</li>
 <li>Retry logic, timeouts, and backpressure.</li>
+<li>Geospatial lookup and proximity matching.</li>
+<li>Timeline generation, recommendation, or feed delivery.</li>
+<li>Media processing or large-object handling.</li>
+<li>Membership checks using Bloom filters or similar structures.</li>
 </ul>
 <h2 id="what-to-show">What to Show<a class="headerlink" href="#what-to-show" title="Permanent link">&para;</a></h2>
 <ul>
@@ -209,18 +217,29 @@
 <li>The key trade-off that changes the design.</li>
 <li>The mechanism that keeps the system correct under load.</li>
 <li>Any special flow for hot keys, large objects, or burst traffic.</li>
+<li>The exact reason one approach is better than the alternatives.</li>
+</ul>
+<h2 id="common-deep-dives-by-use-case">Common Deep Dives by Use Case<a class="headerlink" href="#common-deep-dives-by-use-case" title="Permanent link">&para;</a></h2>
+<ul>
+<li>URL shortener: key generation, uniqueness, and redirection.</li>
+<li>Social feed: fan-out strategy, ranking, and cache invalidation.</li>
+<li>Location service: geohash, nearby search, and dynamic matching.</li>
+<li>Messaging: delivery semantics, presence, and push notifications.</li>
+<li>Video service: encoding, chunking, and storage orchestration.</li>
 </ul>
 <h2 id="output-of-this-step">Output of This Step<a class="headerlink" href="#output-of-this-step" title="Permanent link">&para;</a></h2>
 <ul>
 <li>One or two focused deep dives.</li>
 <li>Concrete mechanisms instead of vague statements.</li>
 <li>A design that answers the hardest part of the problem.</li>
+<li>The trade-offs the interviewer is most likely to probe.</li>
 </ul>
 <h2 id="common-mistakes">Common Mistakes<a class="headerlink" href="#common-mistakes" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Spending time on unimportant components.</li>
 <li>Giving generic answers without implementation detail.</li>
 <li>Ignoring consistency and failure behavior.</li>
+<li>Trying to cover every optimization instead of the most important one.</li>
 </ul>
               
             </div>

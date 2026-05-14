@@ -106,6 +106,10 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#questions-to-answer">Questions to Answer</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#useful-rule-of-thumb-checks">Useful Rule-of-Thumb Checks</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#example-dimensions">Example Dimensions</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#output-of-this-step">Output of This Step</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#common-mistakes">Common Mistakes</a>
@@ -132,6 +136,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Case Studies</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
@@ -201,6 +207,9 @@
 <li>Bandwidth for reads, writes, and media transfer.</li>
 <li>Cache size and memory footprint.</li>
 <li>Number of machines, shards, or partitions needed.</li>
+<li>Peak traffic versus average traffic.</li>
+<li>Hot-key pressure and request skew.</li>
+<li>Retention window and archival needs.</li>
 </ul>
 <h2 id="questions-to-answer">Questions to Answer<a class="headerlink" href="#questions-to-answer" title="Permanent link">&para;</a></h2>
 <ul>
@@ -209,18 +218,39 @@
 <li>How much data is stored per entity?</li>
 <li>How much traffic is hot versus cold?</li>
 <li>What are the rough limits for a single node?</li>
+<li>How much data will accumulate over one month, one year, and five years?</li>
+<li>How many bytes are added per object or event?</li>
+<li>How many bytes move across the network per request?</li>
+</ul>
+<h2 id="useful-rule-of-thumb-checks">Useful Rule-of-Thumb Checks<a class="headerlink" href="#useful-rule-of-thumb-checks" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Estimate write load first for systems that create data continuously.</li>
+<li>Estimate read load first for systems that serve feeds or lookups.</li>
+<li>Validate whether a single cache, database node, or queue partition would become a bottleneck.</li>
+<li>Compare hot-path storage against cold storage requirements.</li>
+<li>Use simple per-user or per-item assumptions instead of complex formulas.</li>
+</ul>
+<h2 id="example-dimensions">Example Dimensions<a class="headerlink" href="#example-dimensions" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Requests per second.</li>
+<li>Storage in GB, TB, or PB.</li>
+<li>Bandwidth in MB/s or GB/s.</li>
+<li>Memory for cache or in-memory indexes.</li>
+<li>Number of partitions or replicas.</li>
 </ul>
 <h2 id="output-of-this-step">Output of This Step<a class="headerlink" href="#output-of-this-step" title="Permanent link">&para;</a></h2>
 <ul>
 <li>A small set of explicit assumptions.</li>
 <li>A few quick calculations.</li>
 <li>A scale estimate that drives architecture decisions.</li>
+<li>Confidence that the chosen architecture is sized reasonably.</li>
 </ul>
 <h2 id="common-mistakes">Common Mistakes<a class="headerlink" href="#common-mistakes" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Overcomplicating the math.</li>
 <li>Skipping the assumptions.</li>
 <li>Designing for the wrong bottleneck.</li>
+<li>Ignoring growth over time.</li>
 </ul>
               
             </div>

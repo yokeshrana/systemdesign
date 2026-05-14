@@ -110,6 +110,10 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#what-to-explain">What to Explain</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#common-diagram-elements">Common Diagram Elements</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#how-to-present-the-flow">How to Present the Flow</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#output-of-this-step">Output of This Step</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#common-mistakes">Common Mistakes</a>
@@ -132,6 +136,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Case Studies</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
@@ -210,18 +216,39 @@
 <li>Where caching happens.</li>
 <li>Where asynchronous processing happens.</li>
 <li>How the system scales horizontally.</li>
+<li>Which parts are stateful and which are stateless.</li>
+<li>Which components are on the critical path for latency.</li>
 </ul>
+<h2 id="common-diagram-elements">Common Diagram Elements<a class="headerlink" href="#common-diagram-elements" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Clients, load balancers, and API gateways.</li>
+<li>Application servers or services.</li>
+<li>Cache layers and CDN edges.</li>
+<li>Databases, replicas, and partitions.</li>
+<li>Background workers and queues.</li>
+<li>Search or analytics pipelines when relevant.</li>
+</ul>
+<h2 id="how-to-present-the-flow">How to Present the Flow<a class="headerlink" href="#how-to-present-the-flow" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Start with the user request.</li>
+<li>Show how it reaches the system.</li>
+<li>Explain the main read or write path.</li>
+<li>Call out any async offloading.</li>
+<li>End with persistence and delivery to the user.</li>
+</ol>
 <h2 id="output-of-this-step">Output of This Step<a class="headerlink" href="#output-of-this-step" title="Permanent link">&para;</a></h2>
 <ul>
 <li>A block diagram or architecture sketch.</li>
 <li>A request flow explanation.</li>
 <li>The first-pass split between online and offline processing.</li>
+<li>A system-wide view that sets up the deep dive.</li>
 </ul>
 <h2 id="common-mistakes">Common Mistakes<a class="headerlink" href="#common-mistakes" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Jumping into deep details too early.</li>
 <li>Leaving out one of the major request paths.</li>
 <li>Failing to explain why the chosen components fit the problem.</li>
+<li>Making the diagram too busy to explain clearly.</li>
 </ul>
               
             </div>

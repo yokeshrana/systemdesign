@@ -12,6 +12,26 @@ Every case study in this section follows the same seven-step interview framework
 6. Detailed design
 7. Bottlenecks and scaling
 
+## How to Read a Case Study
+
+Use each example as a guided interview answer, not just as a reference design.
+
+1. Re-state the problem in your own words and identify the key constraints.
+2. Call out the main APIs or user actions before drawing any architecture.
+3. Estimate scale early so the design choices feel justified.
+4. Notice which data model choices match the workload.
+5. Track the critical request path through the high-level design.
+6. Study the deep dive section to see the hardest trade-off.
+7. Finish with bottlenecks, reliability, and operational concerns.
+
+## Recurring Patterns Across Cases
+
+- Feed systems usually need a push/pull hybrid strategy.
+- Location systems usually need geospatial indexing and region-aware partitioning.
+- Media systems usually need encoding, object storage, and CDN delivery.
+- Messaging systems usually need ordering, delivery guarantees, and presence handling.
+- High-volume lookup systems usually need sharding, caching, and idempotent writes.
+
 ---
 
 ## Social & Content Platforms
@@ -44,5 +64,9 @@ When reviewing these designs, focus on:
 2.  **Bottlenecks**: Where will the system fail first as it scales?
 3.  **Key Decisions**: What are the 2-3 unique technical challenges for this specific problem?
 4.  **Back-of-Envelope**: Can you estimate the storage and bandwidth requirements?
+5.  **Operational Readiness**: How do monitoring, retries, and failover work?
+6.  **Hot Paths**: Which request path must stay under tight latency limits?
 
 Before reading any specific case study, skim the matching pages in [Interview Framework](../interview-framework/index.md) so you can map each example back to the same structure.
+
+For a faster review loop, use the [Case Study Playbook](playbook.md) before jumping into a specific example.

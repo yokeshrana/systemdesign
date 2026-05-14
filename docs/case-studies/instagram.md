@@ -158,3 +158,15 @@ Since a single DB instance cannot hold all post metadata, we shard the data.
 
 ### Load Balancing
 - Use multiple LBs at different layers: Global (DNS-based) and Local (Layer 7 software LBs like NGINX).
+
+## Interviewer Lens
+
+Instagram is a media-heavy feed system, so it combines the hard parts of uploads, storage, delivery, and feed generation. A strong explanation separates the post pipeline from the feed pipeline and then explains how CDN caching, fan-out, and sharding interact at scale.
+
+## Likely Follow-Up Questions
+
+- How do you handle the celebrity fan-out problem?
+- What changes between photos, videos, and mixed media posts?
+- How do you keep likes and comments consistent enough for users?
+- What data should live in object storage versus the metadata database?
+- How would you support search over users, hashtags, and locations?

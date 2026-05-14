@@ -118,6 +118,8 @@
 </ul>
 <p class="caption"><span class="caption-text">Case Studies</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../playbook/">Case Study Playbook</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../">Popular Services</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../instagram/">Instagram Design</a>
@@ -179,6 +181,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#monitoring-load-balancing">Monitoring &amp; Load Balancing</a>
 </li>
 </ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#interviewer-lens">Interviewer Lens</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#likely-follow-up-questions">Likely Follow-Up Questions</a>
 </li>
 </ul>
 </li>
@@ -448,6 +454,16 @@
 <ul>
 <li><strong>Load Balancers:</strong> Use Layer 7 LBs (Application level) to route traffic based on URL.</li>
 <li><strong>Rate Limiting:</strong> Protect APIs from scraping and DDoS.</li>
+</ul>
+<h2 id="interviewer-lens">Interviewer Lens<a class="headerlink" href="#interviewer-lens" title="Permanent link">¶</a></h2>
+<p>Twitter is a feed system, so the real interview signal is how well you balance write fan-out, read latency, and celebrity outliers. The strongest answer explains why the hybrid push/pull approach exists, how the social graph is stored, and how the feed cache is refreshed without overwhelming the system.</p>
+<h2 id="likely-follow-up-questions">Likely Follow-Up Questions<a class="headerlink" href="#likely-follow-up-questions" title="Permanent link">¶</a></h2>
+<ul>
+<li>How do you handle a user with tens of millions of followers?</li>
+<li>What happens if the timeline cache is stale or partially missing?</li>
+<li>How would you rank tweets beyond simple recency?</li>
+<li>How would you shard tweets and follow relationships separately?</li>
+<li>What changes if search becomes a first-class feature instead of an add-on?</li>
 </ul>
 </div>
 </div><footer>

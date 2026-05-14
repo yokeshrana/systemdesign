@@ -130,3 +130,15 @@ When a request arrives, the **Matching Engine** queries the **Geo-Index** for av
 ### Reliability
 *   **Idempotency:** All APIs (especially payments) use idempotency keys to prevent duplicate transactions during retries.
 *   **Circuit Breakers:** Used when communicating with external Payment Gateways to prevent cascading failures.
+
+## Interviewer Lens
+
+Uber is mainly about real-time geospatial matching under tight latency and correctness requirements. The interesting part is not just storing locations, but continuously refreshing them, matching nearby drivers, and keeping the trip state consistent across retries, failures, and payment handoffs.
+
+## Likely Follow-Up Questions
+
+- How would you partition drivers and riders by region or city?
+- How do you handle driver location updates arriving out of order?
+- What happens if matching fails after a rider request is created?
+- How do you avoid double-charging during payment retries?
+- How would surge pricing or ETA recalculation fit into the design?

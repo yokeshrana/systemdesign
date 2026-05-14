@@ -71,6 +71,7 @@ nav:
     - Monitoring & Logging: operations/monitoring.md
     - Deployment: operations/deployment.md
   - Case Studies:
+    - Case Study Playbook: case-studies/playbook.md
     - Popular Services: case-studies/index.md
     - Instagram Design: case-studies/instagram.md
     - Twitter Design: case-studies/twitter.md

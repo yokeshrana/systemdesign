@@ -118,6 +118,8 @@
 </ul>
 <p class="caption"><span class="caption-text">Case Studies</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../playbook/">Case Study Playbook</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../">Popular Services</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../instagram/">Instagram Design</a>
@@ -197,6 +199,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#database-scalability">Database Scalability</a>
 </li>
 </ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#interviewer-lens">Interviewer Lens</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#likely-follow-up-questions">Likely Follow-Up Questions</a>
 </li>
 </ul>
 </li>
@@ -341,6 +347,16 @@
 <ul>
 <li><strong>Cassandra Compaction:</strong> Tuned to handle the high volume of write-heavy playback updates.</li>
 <li><strong>Sharding:</strong> MySQL databases are sharded by <code>user_id</code> to distribute load across multiple instances.</li>
+</ul>
+<h2 id="interviewer-lens">Interviewer Lens<a class="headerlink" href="#interviewer-lens" title="Permanent link">¶</a></h2>
+<p>Netflix is a media delivery system with a control plane and a data plane, so the answer should make that split explicit. The most convincing discussion covers transcoding, bitrate adaptation, CDN placement, and failure recovery when a region or recommendation service is unavailable.</p>
+<h2 id="likely-follow-up-questions">Likely Follow-Up Questions<a class="headerlink" href="#likely-follow-up-questions" title="Permanent link">¶</a></h2>
+<ul>
+<li>How does adaptive bitrate streaming react to a bad network?</li>
+<li>Why is a custom CDN better than relying only on third-party delivery?</li>
+<li>How do you support offline viewing while keeping content secure?</li>
+<li>What data belongs in Cassandra versus MySQL versus search?</li>
+<li>What happens if recommendations are down during playback?</li>
 </ul>
 </div>
 </div><footer>

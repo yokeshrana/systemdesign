@@ -108,6 +108,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#design-questions">Design Questions</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#data-modeling-choices">Data Modeling Choices</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#output-of-this-step">Output of This Step</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#common-mistakes">Common Mistakes</a>
@@ -132,6 +134,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Case Studies</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
@@ -201,6 +205,8 @@
 <li>SQL versus NoSQL choice.</li>
 <li>Data retention, archival, and deletion policies.</li>
 <li>Which data belongs in object storage, cache, search, analytics, or a transactional database.</li>
+<li>Which fields must be strongly consistent and which can lag.</li>
+<li>Which data is immutable, append-only, or frequently updated.</li>
 </ul>
 <h2 id="design-questions">Design Questions<a class="headerlink" href="#design-questions" title="Permanent link">&para;</a></h2>
 <ul>
@@ -209,18 +215,30 @@
 <li>Which data needs strong consistency?</li>
 <li>Which data can be denormalized?</li>
 <li>How will the schema evolve over time?</li>
+<li>Will this model need to support joins, fan-out, or aggregation?</li>
+<li>Are there hot partitions or hot keys to avoid?</li>
+</ul>
+<h2 id="data-modeling-choices">Data Modeling Choices<a class="headerlink" href="#data-modeling-choices" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Use a relational schema when transactions and joins matter.</li>
+<li>Use a key-value or document store when lookups dominate.</li>
+<li>Use time-series or log-oriented storage when events arrive continuously.</li>
+<li>Use object storage for large blobs such as images or video.</li>
+<li>Use search indexes for text, filtering, and ranking.</li>
 </ul>
 <h2 id="output-of-this-step">Output of This Step<a class="headerlink" href="#output-of-this-step" title="Permanent link">&para;</a></h2>
 <ul>
 <li>A simple schema or entity model.</li>
 <li>The database choice and why it fits the workload.</li>
 <li>The read and write patterns the model must support.</li>
+<li>The partitioning strategy and indexing approach.</li>
 </ul>
 <h2 id="common-mistakes">Common Mistakes<a class="headerlink" href="#common-mistakes" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Starting with tables before access patterns.</li>
 <li>Ignoring partitioning and indexing.</li>
 <li>Putting every kind of data into one store.</li>
+<li>Designing a schema that is hard to scale or evolve.</li>
 </ul>
               
             </div>

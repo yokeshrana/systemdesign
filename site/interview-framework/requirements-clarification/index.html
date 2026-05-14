@@ -102,6 +102,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#useful-questions">Useful Questions</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#good-clarification-targets">Good Clarification Targets</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#output-of-this-step">Output of This Step</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#common-mistakes">Common Mistakes</a>
@@ -132,6 +134,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Case Studies</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
@@ -200,6 +204,10 @@
 <li>Non-functional requirements such as availability, latency, consistency, scalability, durability, and security.</li>
 <li>Expected users, traffic shape, growth assumptions, and product constraints.</li>
 <li>Explicitly out-of-scope items so the design stays bounded.</li>
+<li>Data that must be stored, searched, ranked, or deleted.</li>
+<li>Whether the workload is read-heavy, write-heavy, or balanced.</li>
+<li>Which operations must be real-time and which can be eventual.</li>
+<li>Whether mobile, web, admin, or internal clients are in scope.</li>
 </ul>
 <h2 id="useful-questions">Useful Questions<a class="headerlink" href="#useful-questions" title="Permanent link">&para;</a></h2>
 <ul>
@@ -208,6 +216,16 @@
 <li>Are there hard latency or availability targets?</li>
 <li>Is strong consistency required, or is eventual consistency acceptable?</li>
 <li>What data must be retained, archived, or deleted?</li>
+<li>What are the failure scenarios that matter most?</li>
+<li>Which features are deliberately excluded from the first design?</li>
+</ul>
+<h2 id="good-clarification-targets">Good Clarification Targets<a class="headerlink" href="#good-clarification-targets" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Does the system need search, recommendations, or ranking?</li>
+<li>Do we need user-generated content, uploads, or media processing?</li>
+<li>Should the system support notifications, analytics, or audit trails?</li>
+<li>Is offline processing acceptable for any part of the workflow?</li>
+<li>Are there any legal, privacy, or compliance constraints?</li>
 </ul>
 <h2 id="output-of-this-step">Output of This Step<a class="headerlink" href="#output-of-this-step" title="Permanent link">&para;</a></h2>
 <ul>
@@ -215,6 +233,7 @@
 <li>A list of functional requirements.</li>
 <li>A list of non-functional requirements.</li>
 <li>A clear boundary for what the design will and will not cover.</li>
+<li>A set of assumptions you can carry into the rest of the design.</li>
 </ul>
 <h2 id="common-mistakes">Common Mistakes<a class="headerlink" href="#common-mistakes" title="Permanent link">&para;</a></h2>
 <ul>
@@ -222,6 +241,7 @@
 <li>Ignoring non-functional requirements.</li>
 <li>Failing to state assumptions.</li>
 <li>Solving for edge cases that are not actually required.</li>
+<li>Asking too few questions and leaving the problem ambiguous.</li>
 </ul>
               
             </div>

@@ -104,6 +104,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#what-may-come-up">What May Come Up</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#api-design-notes">API Design Notes</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#output-of-this-step">Output of This Step</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#common-mistakes">Common Mistakes</a>
@@ -132,6 +134,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Case Studies</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
@@ -201,6 +205,9 @@
 <li>Idempotency requirements for retries.</li>
 <li>Error cases, status codes, and validation rules.</li>
 <li>Synchronous versus asynchronous interfaces.</li>
+<li>Resource names, identifiers, and how clients reference them.</li>
+<li>Pagination, filtering, sorting, and search semantics.</li>
+<li>Rate limits, quotas, and abuse prevention.</li>
 </ul>
 <h2 id="what-may-come-up">What May Come Up<a class="headerlink" href="#what-may-come-up" title="Permanent link">&para;</a></h2>
 <ul>
@@ -209,18 +216,30 @@
 <li>Rate limits and quota enforcement.</li>
 <li>Upload and download flows.</li>
 <li>Webhooks, message queues, and background jobs.</li>
+<li>File upload and download flows.</li>
+<li>Callback or webhook delivery for long-running tasks.</li>
+</ul>
+<h2 id="api-design-notes">API Design Notes<a class="headerlink" href="#api-design-notes" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Keep the contract small and easy to explain.</li>
+<li>Prefer resource-oriented naming where possible.</li>
+<li>Make retry behavior explicit for clients.</li>
+<li>Separate user-facing requests from internal worker messages when needed.</li>
+<li>Include error responses for invalid input, not found, conflict, and rate limit cases.</li>
 </ul>
 <h2 id="output-of-this-step">Output of This Step<a class="headerlink" href="#output-of-this-step" title="Permanent link">&para;</a></h2>
 <ul>
 <li>A concise API sketch.</li>
 <li>The main request/response fields.</li>
 <li>Any contract guarantees, such as ordering or idempotency.</li>
+<li>A clear statement of whether the interaction is synchronous or asynchronous.</li>
 </ul>
 <h2 id="common-mistakes">Common Mistakes<a class="headerlink" href="#common-mistakes" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Defining a design without defining how it is used.</li>
 <li>Forgetting error handling and retries.</li>
 <li>Leaving ownership and permissions ambiguous.</li>
+<li>Designing the whole system before naming the API surface.</li>
 </ul>
               
             </div>

@@ -122,8 +122,14 @@
               </ul>
               <p class="caption"><span class="caption-text">Case Studies</span></p>
               <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="playbook/">Case Study Playbook</a>
+                  </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Popular Services</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#how-to-read-a-case-study">How to Read a Case Study</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recurring-patterns-across-cases">Recurring Patterns Across Cases</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#social-content-platforms">Social &amp; Content Platforms</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#entertainment-streaming">Entertainment &amp; Streaming</a>
@@ -205,6 +211,25 @@
 <li>Detailed design</li>
 <li>Bottlenecks and scaling</li>
 </ol>
+<h2 id="how-to-read-a-case-study">How to Read a Case Study<a class="headerlink" href="#how-to-read-a-case-study" title="Permanent link">&para;</a></h2>
+<p>Use each example as a guided interview answer, not just as a reference design.</p>
+<ol>
+<li>Re-state the problem in your own words and identify the key constraints.</li>
+<li>Call out the main APIs or user actions before drawing any architecture.</li>
+<li>Estimate scale early so the design choices feel justified.</li>
+<li>Notice which data model choices match the workload.</li>
+<li>Track the critical request path through the high-level design.</li>
+<li>Study the deep dive section to see the hardest trade-off.</li>
+<li>Finish with bottlenecks, reliability, and operational concerns.</li>
+</ol>
+<h2 id="recurring-patterns-across-cases">Recurring Patterns Across Cases<a class="headerlink" href="#recurring-patterns-across-cases" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Feed systems usually need a push/pull hybrid strategy.</li>
+<li>Location systems usually need geospatial indexing and region-aware partitioning.</li>
+<li>Media systems usually need encoding, object storage, and CDN delivery.</li>
+<li>Messaging systems usually need ordering, delivery guarantees, and presence handling.</li>
+<li>High-volume lookup systems usually need sharding, caching, and idempotent writes.</li>
+</ul>
 <hr />
 <h2 id="social-content-platforms">Social &amp; Content Platforms<a class="headerlink" href="#social-content-platforms" title="Permanent link">&para;</a></h2>
 <p>These services handle massive user bases, high-concurrency feed generation, and huge volumes of user-generated content.</p>
@@ -230,13 +255,16 @@
 1.  <strong>Trade-offs</strong>: Why was one database chosen over another?
 2.  <strong>Bottlenecks</strong>: Where will the system fail first as it scales?
 3.  <strong>Key Decisions</strong>: What are the 2-3 unique technical challenges for this specific problem?
-4.  <strong>Back-of-Envelope</strong>: Can you estimate the storage and bandwidth requirements?</p>
+4.  <strong>Back-of-Envelope</strong>: Can you estimate the storage and bandwidth requirements?
+5.  <strong>Operational Readiness</strong>: How do monitoring, retries, and failover work?
+6.  <strong>Hot Paths</strong>: Which request path must stay under tight latency limits?</p>
 <p>Before reading any specific case study, skim the matching pages in <a href="../interview-framework/">Interview Framework</a> so you can map each example back to the same structure.</p>
+<p>For a faster review loop, use the <a href="playbook/">Case Study Playbook</a> before jumping into a specific example.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../operations/deployment/" class="btn btn-neutral float-left" title="Deployment"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="playbook/" class="btn btn-neutral float-left" title="Case Study Playbook"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="instagram/" class="btn btn-neutral float-right" title="Instagram Design">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -260,7 +288,7 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../operations/deployment/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="playbook/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="instagram/" style="color: #fcfcfc">Next &raquo;</a></span>

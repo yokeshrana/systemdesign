@@ -112,7 +112,11 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#what-to-cover">What to Cover</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#reliability-checklist">Reliability Checklist</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#scaling-questions">Scaling Questions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#operational-concerns">Operational Concerns</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#output-of-this-step">Output of This Step</a>
     </li>
@@ -132,6 +136,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Case Studies</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
@@ -202,6 +208,17 @@
 <li>Service discovery and health checks.</li>
 <li>Monitoring, logging, and alerting.</li>
 <li>Security, cost, and operational limits.</li>
+<li>Graceful degradation and fallbacks.</li>
+<li>Backpressure, retry storms, and queue growth.</li>
+</ul>
+<h2 id="reliability-checklist">Reliability Checklist<a class="headerlink" href="#reliability-checklist" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Can the system survive a node failure?</li>
+<li>Can traffic be rerouted automatically?</li>
+<li>Are reads and writes still acceptable under partial outages?</li>
+<li>Is there a clear recovery path for data or worker failures?</li>
+<li>Do we know how to detect the problem quickly?</li>
+<li>Can we slow down or shed load safely?</li>
 </ul>
 <h2 id="scaling-questions">Scaling Questions<a class="headerlink" href="#scaling-questions" title="Permanent link">&para;</a></h2>
 <ul>
@@ -209,18 +226,29 @@
 <li>How will the system behave during a spike?</li>
 <li>How are retries and failures handled safely?</li>
 <li>How does the system recover from partial outages?</li>
+<li>What gets degraded first if capacity runs out?</li>
+</ul>
+<h2 id="operational-concerns">Operational Concerns<a class="headerlink" href="#operational-concerns" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Metrics for latency, errors, saturation, and throughput.</li>
+<li>Logs for debugging and audits.</li>
+<li>Traces for distributed request flows.</li>
+<li>Capacity planning and alert thresholds.</li>
+<li>Safe deploys, rollbacks, and feature flags.</li>
 </ul>
 <h2 id="output-of-this-step">Output of This Step<a class="headerlink" href="#output-of-this-step" title="Permanent link">&para;</a></h2>
 <ul>
 <li>A list of the main risks.</li>
 <li>Concrete scaling techniques for each risk.</li>
 <li>A production-readiness story, not just a happy-path design.</li>
+<li>A clear explanation of how the system fails and recovers.</li>
 </ul>
 <h2 id="common-mistakes">Common Mistakes<a class="headerlink" href="#common-mistakes" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Ending with the first architecture sketch.</li>
 <li>Forgetting observability and recovery.</li>
 <li>Treating scale as only a database problem.</li>
+<li>Not mentioning failure modes or recovery behavior.</li>
 </ul>
               
             </div>

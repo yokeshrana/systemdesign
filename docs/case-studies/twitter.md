@@ -148,3 +148,15 @@ To ensure tweets are unique and roughly time-sorted across distributed machines:
 ### Monitoring & Load Balancing
 - **Load Balancers:** Use Layer 7 LBs (Application level) to route traffic based on URL.
 - **Rate Limiting:** Protect APIs from scraping and DDoS.
+
+## Interviewer Lens
+
+Twitter is a feed system, so the real interview signal is how well you balance write fan-out, read latency, and celebrity outliers. The strongest answer explains why the hybrid push/pull approach exists, how the social graph is stored, and how the feed cache is refreshed without overwhelming the system.
+
+## Likely Follow-Up Questions
+
+- How do you handle a user with tens of millions of followers?
+- What happens if the timeline cache is stale or partially missing?
+- How would you rank tweets beyond simple recency?
+- How would you shard tweets and follow relationships separately?
+- What changes if search becomes a first-class feature instead of an add-on?
