@@ -62,3 +62,25 @@ Cache popular search results (e.g., "Best Pizza in NYC") using Redis.
 *   **Read-Heavy Traffic:** Proximity searches are very frequent. Use read-replicas for the Business DB.
 *   **QuadTree Rebuilding:** If many new businesses are added, the tree might become unbalanced. Periodic background rebalancing is needed.
 *   **Precision:** High-precision Geohashes use more storage; 5-6 characters (approx 1km-5km) is usually sufficient for city searches.
+
+## Likely Follow-Up Questions
+
+<details>
+<summary>How do we handle high write throughput for new reviews?</summary>
+Reviews are written to a primary database and then asynchronously indexed into the search engine (like Elasticsearch) and the Quadtree to ensure search availability isn't blocked by write latency.
+</details>
+
+<details>
+<summary>How can we improve search performance for very dense areas like NYC?</summary>
+We can use a dynamic Quadtree where nodes are split further when they exceed a certain number of businesses, ensuring that searches in dense areas remain efficient.
+</details>
+
+<details>
+<summary>How do we ensure review authenticity and prevent fraud?</summary>
+We implement fraud detection algorithms that analyze user patterns (frequency, location, IP) and use machine learning models to identify suspicious review clusters or bot-like behavior.
+</details>
+
+<details>
+<summary>How would we support "Open Now" filters in search?</summary>
+Business hours are stored in the database. The search query filters the results by checking the current timestamp against the business's operating hours index.
+</details>

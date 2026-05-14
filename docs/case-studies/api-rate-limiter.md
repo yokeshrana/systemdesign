@@ -73,3 +73,56 @@ We can shard based on the `UserID` using Consistent Hashing to distribute the us
 - *IP:* Easy to implement but problematic when multiple users share a single public IP (e.g., internet cafe). Also, IPv6 makes it trivial for attackers to cycle through addresses.
 - *User:* More accurate, but a hacker can perform a denial of service attack against a user by entering wrong credentials up to the limit.
 - *Hybrid:* The best approach is to do both per-IP and per-user rate limiting.
+
+## Likely Follow-Up Questions
+
+<details>
+<summary><strong>How do you handle distributed rate limiting across multiple servers?</strong></summary>
+
+Rate limiting must be consistent across all servers in a cluster:
+
+- **Centralized store**: Use Redis or Memcached as single source of truth for request counts.
+- **Eventual consistency**: Each server caches locally; periodically syncs with Redis. Acceptable <1% over-limit.
+- **Atomic operations**: Use Redis INCR to atomically increment counters; Redis Lua scripts for complex logic.
+- **Sharding**: Shard Redis by user_id to avoid hot keys; 10+ Redis nodes for redundancy.
+- **Replication**: Replicate Redis data; if master fails, promote replica to master.
+
+Trade-off: Centralized Redis adds latency (~10ms per request); worth it for correctness.
+
+</details>
+
+<details>
+<summary><strong>What algorithm is best for different use cases?</strong></summary>
+
+Different algorithms have different trade-offs:
+
+| Algorithm | Accuracy | Latency | Memory | Use Case |
+| :--- | :--- | :--- | :--- | :--- |
+| **Token Bucket** | Good | Fast | Low | APIs with bursty traffic; allows burst overages. |
+| **Leaky Bucket** | Excellent | Medium | Medium | Smooth traffic shaping; rejects all overages. |
+| **Fixed Window** | Poor (boundary spike) | Very Fast | Very Low | Simple limits; acceptable for non-critical APIs. |
+| **Sliding Window** | Excellent | Slow | High | Accurate limiting; best for strict SLAs. |
+
+Recommendation: Start with token bucket; migrate to sliding window if accuracy critical.
+
+</details>
+
+<details>
+<summary><strong>How do you communicate rate limit info to clients?</strong></summary>
+
+Clients need to know their quota and remaining requests:
+
+- **Headers**: Return `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`.
+- **429 response**: Include Retry-After header with seconds to wait.
+- **Dashboard**: Show users their quota, current usage, and historical trends.
+- **Warnings**: Alert users when approaching limit (e.g., 80% used).
+- **Progressive backoff**: Clients implement exponential backoff (wait 1s, 2s, 4s) on 429 responses.
+
+Example header:
+```
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 234
+X-RateLimit-Reset: 1371337925
+```
+
+</details>

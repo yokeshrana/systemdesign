@@ -67,3 +67,25 @@ graph TD
 *   **Database Contention:** Thousands of users may compete for the same 'front row' seats simultaneously. **Resolution:** Use row-level locking or optimistic concurrency control to manage simultaneous updates.
 *   **Payment Processing Latency:** Slow payment gateways can stall reservations. **Resolution:** Implement asynchronous payment processing with webhooks for status updates.
 *   **Waiting Room Scalability:** The virtual waiting room itself must be highly available and distributed to avoid becoming a single point of failure. **Resolution:** Use a distributed messaging queue like Kafka or a managed global load balancer.
+
+## Likely Follow-Up Questions
+
+<details>
+<summary>How do we handle a massive surge in traffic during a popular artist's tour sale?</summary>
+We use a virtual waiting room (queue) to throttle the number of users entering the checkout flow, combined with aggressive CDN caching for the event browsing pages.
+</details>
+
+<details>
+<summary>How do we prevent double-booking of the same seat?</summary>
+We use distributed locking (e.g., Redis Lock or database row-level locking) with a short TTL. When a user selects a seat, it is "held" for ~10 minutes while they complete the payment.
+</details>
+
+<details>
+<summary>How do we mitigate bot attacks buying up all the tickets?</summary>
+We implement CAPTCHA, rate limiting per IP/Account, and behavioral analysis to detect automated scraping and purchasing.
+</details>
+
+<details>
+<summary>What happens if the payment goes through but the session expires?</summary>
+The system should perform a reconciliation process. If the payment is confirmed but the lock was released, it either attempts to finalize the reservation if the seat is still available or issues an automatic refund.
+</details>

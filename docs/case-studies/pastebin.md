@@ -71,3 +71,20 @@ To ensure every paste gets a unique, short URL (e.g., `pastebin.com/a7b2c9`) wit
 *   **KGS Single Point of Failure:** If the KGS becomes unavailable, new pastes cannot be created. **Resolution:** Maintain a standby KGS and allow application servers to buffer a small number of keys locally.
 *   **Storage Growth:** Accumulating several terabytes per year requires a long-term strategy. **Resolution:** Implement tiered storage, moving older or less frequently accessed pastes to "cold storage" (e.g., S3 Glacier) before eventual deletion.
 *   **Security and Abuse:** Public platforms are susceptible to spam and malicious content. **Resolution:** Implement robust rate limiting per API key/IP and use automated content filtering to identify and flag suspicious pastes.
+
+## Likely Follow-Up Questions
+
+<details>
+<summary>How can we prevent users from uploading malicious content or spam?</summary>
+We can implement rate limiting based on IP or user account, use automated scanning tools to detect malware or prohibited patterns, and integrate a reporting system for manual review.
+</details>
+
+<details>
+<summary>How would we handle a sudden viral paste that receives millions of hits?</summary>
+We use a CDN to cache popular pastes at the edge and use a distributed caching layer like Redis for the application server records to prevent database hotspots.
+</details>
+
+<details>
+<summary>What is the strategy for cleaning up expired pastes?</summary>
+Instead of immediate deletion, we can mark them for deletion and use a low-priority background worker to batch-delete them during off-peak hours to reduce database load.
+</details>

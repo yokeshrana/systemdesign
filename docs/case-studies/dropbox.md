@@ -63,3 +63,25 @@ To speed up lookups, metadata for active users is cached in Redis.
 *   **Metadata DB Scaling:** As the number of files grows into trillions, sharding the Metadata DB becomes necessary.
 *   **Notification Latency:** Ensuring real-time sync across devices requires a robust Long Polling or WebSocket-based notification service.
 *   **Upload Speed:** Use Edge locations (CDNs) to terminate connections closer to the user.
+
+## Likely Follow-Up Questions
+
+<details>
+<summary>How do we efficiently handle very large files (e.g., several GBs)?</summary>
+Files are broken into fixed-size chunks (e.g., 4MB). Only the chunks that have changed are re-uploaded and synced, significantly reducing bandwidth and storage usage (Differential Sync).
+</details>
+
+<details>
+<summary>How do we ensure data consistency across multiple devices?</summary>
+We use a centralized Metadata Database to keep track of file versions. When a client modifies a file, it updates the metadata server, which then notifies other connected clients via a notification service (long polling/WebSockets).
+</details>
+
+<details>
+<summary>How do we handle file versioning and recovery?</summary>
+Each change to a file creates a new version of the metadata record. Older versions of chunks are kept in storage for a set period (e.g., 30 days), allowing users to roll back to previous states.
+</details>
+
+<details>
+<summary>How can we optimize the upload of many small files?</summary>
+Small files can be bundled into a single upload request or batch-processed to reduce the overhead of multiple HTTP requests and metadata updates.
+</details>

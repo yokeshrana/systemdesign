@@ -97,11 +97,83 @@ URL shortener interviews are usually about key generation, uniqueness, and fast 
 
 ## Likely Follow-Up Questions
 
-- How would you support custom aliases without collisions?
-- Why use 302 instead of 301 for redirects?
-- What happens when expired links are still cached?
-- How would you shard the database and cache hot mappings?
-- How do you prevent brute-force enumeration of short URLs?
+<details>
+<summary><strong>How would you support custom aliases without collisions?</strong></summary>
+
+Custom aliases (e.g., "bit.ly/my-campaign") add user personalization but risk collisions:
+
+- **Alias lookup first**: Check if alias already exists before allowing creation.
+- **Reservation**: Allow users to reserve aliases; auto-release after 30 days of inactivity.
+- **Namespacing**: Prefix aliases with user_id: "u123_my-campaign" to avoid collisions.
+- **Case insensitivity**: Convert aliases to lowercase to reduce collision surface.
+- **Banned words**: Maintain list of reserved/profane aliases; prevent users from claiming them.
+- **Collision handling**: If collision, suggest "my-campaign-2", "my-campaign-3", etc.
+
+Implementation: Add unique constraint on (alias, user_id); return 409 Conflict if duplicate.
+
+</details>
+
+<details>
+<summary><strong>Why use 302 instead of 301 for redirects?</strong></summary>
+
+HTTP redirects affect analytics, caching, and user experience differently:
+
+- **302 (Temporary)**: Client doesn't cache; browser fetches fresh from server each time. Allows analytics tracking and redirect changes.
+- **301 (Permanent)**: Client caches in browser; subsequent clicks skip server entirely. Analytics lose visibility; redirects can't change.
+
+**Trade-off**:
+- **Use 302**: When you need analytics (click tracking), flexibility to change destination later, or short-lived redirects.
+- **Use 301**: When redirect target is truly permanent and you don't need tracking.
+
+For most URL shorteners, 302 is better because clicks are a key business metric.
+
+</details>
+
+<details>
+<summary><strong>What happens when expired links are still cached?</strong></summary>
+
+Cached redirects can outlive their expiration time, causing confusing user experience:
+
+- **Cache expiration**: Set Cache-Control header to match URL TTL. If URL expires in 30 days, set max-age=2592000 (30 days).
+- **Stale-while-revalidate**: Cache can serve stale response while revalidating in background.
+- **CDN coordination**: CDN respects Cache-Control; when URL expires, CDN removes entry and returns 404.
+- **Conditional requests**: Client can send If-Modified-Since; server responds with 304 Not Modified or 410 Gone.
+- **Long URLs**: If URL doesn't expire, cache indefinitely (301 redirect).
+
+Monitoring: Track 404 rates; spike indicates many requests hitting expired links.
+
+</details>
+
+<details>
+<summary><strong>How would you shard the database and cache hot mappings?</strong></summary>
+
+Sharding strategy for URL mapping lookups:
+
+- **Shard by short_code**: Hash short code, mod by number of shards. Distributes writes and reads evenly.
+- **Range-based**: short codes "a"-"f" → shard 1, "g"-"l" → shard 2. Simpler but can have hot shards.
+- **Cache strategy**: Cache most popular URLs in Redis. Most requests hit cache (>99%).
+- **Hot key handling**: If one short code becomes extremely popular (e.g., trending link), replicate across multiple cache nodes using consistent hashing.
+- **Cache invalidation**: On URL update/delete, invalidate cache entry immediately.
+
+Typical scale: Single database shard handles ~1M requests/day; scale horizontally as needed.
+
+</details>
+
+<details>
+<summary><strong>How do you prevent brute-force enumeration of short URLs?</strong></summary>
+
+Brute-force attacks try to guess short URLs (e.g., bit.ly/a, bit.ly/b, etc.) and scan for valid mappings:
+
+- **Rate limiting**: Limit redirects per IP to 100 per minute; 429 Too Many Requests.
+- **CAPTCHA**: After N failed redirects from same IP, require CAPTCHA.
+- **Randomness**: Use random base62 codes instead of sequential (abc, abd, abe). Harder to guess.
+- **Obfuscation**: Don't reveal if short code exists; return 404 for both invalid and expired links.
+- **Monitoring**: Alert if single IP generates >1000 404s in 1 hour (suspicious).
+- **IP blocking**: Block IPs with excessive redirect attempts.
+
+Trade-off: More aggressive blocking reduces spam but can frustrate legitimate users with bad network.
+
+</details>
 
 ## Trade-Offs To Call Out
 

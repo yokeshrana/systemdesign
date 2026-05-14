@@ -71,3 +71,25 @@ DNS resolution is a common bottleneck. The system uses a dedicated, high-perform
 *   **Network Bandwidth:** Moving 1.5PB of data per month is intensive. **Resolution:** Distribute crawler nodes across multiple geographic data centers to minimize latency and distribute network load.
 *   **Dynamic and JavaScript-Heavy Sites:** Standard crawlers cannot see content rendered by React/Angular. **Resolution:** Integrate headless browser engines (e.g., Playwright) for targeted crawling of high-value dynamic sites, despite the increased CPU cost.
 *   **Frontier Priority:** Not all pages are equally important. **Resolution:** Implement a scoring algorithm based on page rank or update frequency to prioritize high-value URLs in the frontier.
+
+## Likely Follow-Up Questions
+
+<details>
+<summary>How do we avoid "spider traps" (infinite loops)?</summary>
+We limit the depth of the crawl, use URL canonicalization to identify duplicates, and monitor for patterns where the same domain generates an endless number of unique-looking URLs.
+</details>
+
+<details>
+<summary>How can we respect robots.txt efficiently?</summary>
+We cache the `robots.txt` file for each domain in memory (Redis) and check it before every request to ensure we are following the site's crawling rules.
+</details>
+
+<details>
+<summary>How do we handle JavaScript-heavy websites?</summary>
+We use a headless browser (like Playwright or Puppeteer) to render the page and execute JavaScript before extracting the content, though this is significantly more resource-intensive than static parsing.
+</details>
+
+<details>
+<summary>How do we prioritize which pages to crawl first?</summary>
+We use a PageRank-like algorithm or BFS with priority queuing, giving higher weight to pages with more inbound links or those that are updated frequently.
+</details>

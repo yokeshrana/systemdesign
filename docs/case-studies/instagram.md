@@ -165,8 +165,82 @@ Instagram is a media-heavy feed system, so it combines the hard parts of uploads
 
 ## Likely Follow-Up Questions
 
-- How do you handle the celebrity fan-out problem?
-- What changes between photos, videos, and mixed media posts?
-- How do you keep likes and comments consistent enough for users?
-- What data should live in object storage versus the metadata database?
-- How would you support search over users, hashtags, and locations?
+<details>
+<summary><strong>How do you handle the celebrity fan-out problem?</strong></summary>
+
+Celebrities with 100M+ followers create extreme write amplification:
+
+- **Hybrid fan-out**: For normal users, fan-out on write (pre-compute feeds). For celebrities, fan-out on read.
+- **Detection**: Use follower count threshold (e.g., >1M followers = celebrity). Switch strategy dynamically.
+- **Separate storage**: Celebrity posts stored in separate partition optimized for range queries.
+- **Read aggregation**: User's feed = 80% celebrity content (pulled on read) + 20% friend content (pre-computed).
+- **Caching**: Cache celebrity posts at CDN edge; cache hit rate should be >99%.
+
+Challenge: Consistency—when Kardashian posts, millions of feeds need to update. Eventual consistency (5-10s delay) is acceptable.
+
+</details>
+
+<details>
+<summary><strong>What changes between photos, videos, and mixed media posts?</strong></summary>
+
+Different media types have different storage and processing requirements:
+
+- **Photos**: Stored in S3, processed through CDN, variable sizes (thumbnail, medium, high-res). Fast, cheap.
+- **Videos**: Stored in S3, transcoded to multiple bitrates (360p, 720p, 1080p) for adaptive streaming. Expensive, slow (hours to transcode).
+- **Mixed media**: Carousel with photos and videos; need to handle each item separately.
+- **Timeline rendering**: Mixed feeds require careful layout; thumbnails for photos, video preview for videos.
+- **Encoding queue**: Use Kafka or SQS to queue video transcoding; workers process asynchronously.
+- **Processing time**: Photos: <5s. Videos: 10min to 1hr depending on size and quality.
+
+Architecture: Separate pipelines for photos (fast CDN) and videos (transcoding workers).
+
+</details>
+
+<details>
+<summary><strong>How do you keep likes and comments consistent enough for users?</strong></summary>
+
+Likes and comments are high-volume, and eventual consistency causes confusion (user likes post, count doesn't increase for 10s):
+
+- **Consistency level**: Use **strong consistency for comments** (important to order), **eventual consistency for likes** (only the count matters, not order).
+- **Comments**: Stored in primary database, replicated synchronously to avoid reordering.
+- **Likes**: Stored in eventually-consistent cache (Redis) + periodic sync to database. Eventual consistency (100ms lag) is acceptable.
+- **Read-your-writes**: After user likes, show the like immediately in their UI (optimistic update); background sync to database.
+- **Consistency window**: Guarantee consistency within 5 seconds; long-tail requests may see stale counts.
+
+Implementation: Dual-write pattern—write like count to Redis + Kafka; consumer updates database eventually.
+
+</details>
+
+<details>
+<summary><strong>What data should live in object storage versus the metadata database?</strong></summary>
+
+Different data types have different access patterns and durability requirements:
+
+| Data Type | Storage | Reason |
+| :--- | :--- | :--- |
+| **Photo/video files** | S3 (object storage) | Large blobs, immutable, append-only, durable, cost-effective. |
+| **Post metadata** (caption, created_at, like_count) | PostgreSQL | Small, frequently updated, requires indexing and joins. |
+| **User profile** | PostgreSQL | Transactional, consistent, indexed by username. |
+| **Like counts** | Redis (cache) | Hot data, high read rate, eventual consistency OK. |
+| **Comments** | PostgreSQL + Elasticsearch | Need ordering, search, and fast retrieval. |
+| **Thumbnails** | CDN (cached from S3) | Frequently accessed, geographically distributed. |
+
+Strategy: Use PostgreSQL for metadata, S3 for media, Redis for hot counts, Elasticsearch for search.
+
+</details>
+
+<details>
+<summary><strong>How would you support search over users, hashtags, and locations?</strong></summary>
+
+Search is a separate concern from the main feed system:
+
+- **User search**: Index users by username in Elasticsearch. Prefix search (autocomplete): returns suggestions as user types.
+- **Hashtag search**: Inverted index from hashtag to posts. Rank by post popularity (likes + comments).
+- **Location search**: Geohashing or S2 cells for proximity. Search by location name (city, venue) or GPS coordinates.
+- **Indexing delay**: Search indexes are updated asynchronously (10-60s lag), which is acceptable.
+- **Ranking**: Rank search results by engagement (likes, comments, saves), freshness, and user's network.
+- **Filtering**: Filter by date range, media type (photo vs video), follower count, etc.
+
+Architecture: Separate Elasticsearch cluster for search; async indexing pipeline from main database.
+
+</details>

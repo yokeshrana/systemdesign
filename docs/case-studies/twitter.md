@@ -155,11 +155,82 @@ Twitter is a feed system, so the real interview signal is how well you balance w
 
 ## Likely Follow-Up Questions
 
-- How do you handle a user with tens of millions of followers?
-- What happens if the timeline cache is stale or partially missing?
-- How would you rank tweets beyond simple recency?
-- How would you shard tweets and follow relationships separately?
-- What changes if search becomes a first-class feature instead of an add-on?
+<details>
+<summary><strong>How do you handle a user with tens of millions of followers?</strong></summary>
+
+For celebrities with massive followers, push fan-out on write becomes prohibitively expensive (writing to millions of caches). Solutions:
+
+- **Hybrid approach**: For celebrities, use pull fan-out. Readers query a "celebrity feed" partition instead of pre-computing their timeline.
+- **Separate partition**: Celebrity accounts get their own shard with faster retrieval.
+- **Lazy fan-out**: Fan-out to active followers only; less active followers pull directly from celebrity's feed.
+- **Cache at CDN level**: Cache celebrity tweets at edge nodes for geographic distribution.
+
+Trade-off: Celebrity reads are slightly slower, but celebrity writes remain cheap.
+
+</details>
+
+<details>
+<summary><strong>What happens if the timeline cache is stale or partially missing?</strong></summary>
+
+Cache invalidation is one of the hardest problems. Strategies:
+
+- **TTL-based**: Expire cache entries after 5-10 minutes. Trade freshness for simplicity.
+- **Event-based**: On tweet deletion/edit, invalidate the entry immediately in cache and database.
+- **Write-through**: When a user tweets, update the timeline cache for all followers immediately (expensive, but ensures freshness).
+- **Partial miss**: If cache is incomplete, query database for missing tweets and merge results.
+- **Versioning**: Track tweet version; if cache version is old, refetch.
+
+Recovery: If cache completely misses, query timeline from database (slower but correct). Cache rebuilds on next read.
+
+</details>
+
+<details>
+<summary><strong>How would you rank tweets beyond simple recency?</strong></summary>
+
+Ranking algorithms determine timeline quality and engagement:
+
+- **ML-based ranking**: Train a model on engagement signals (likes, retweets, replies, dwell time). Score each tweet in real-time.
+- **Engagement score**: weight = 10×replies + 5×retweets + likes. Sort by score instead of recency.
+- **Personalization**: Factor in user behavior (users who like sports see more sports tweets).
+- **Trending**: Boost tweets with high engagement momentum.
+- **Collaborative filtering**: "Users like you also liked this."
+
+Challenge: Ranking at scale requires efficient model serving (TensorFlow Serving, ONNX) and low-latency scoring (~10ms per request).
+
+</details>
+
+<details>
+<summary><strong>How would you shard tweets and follow relationships separately?</strong></summary>
+
+Tweets and follows have different access patterns, so they need different sharding strategies:
+
+- **Tweets shard by tweet_id** (or timestamp range): Enables fast tweet lookups and range queries for analytics.
+- **Follow shard by follower_id**: Enables fast "who does user X follow?" queries.
+- **Timeline shard by user_id**: Enables fast timeline reads (all tweets for user X).
+
+Challenge: A tweet needs to be fanout to all followers. This requires:
+1. Look up all followers of tweet author (from follow shard).
+2. For each follower, insert tweet into their timeline cache (from timeline shard).
+
+Use Kafka or message queue to decouple fan-out from write path.
+
+</details>
+
+<details>
+<summary><strong>What changes if search becomes a first-class feature instead of an add-on?</strong></summary>
+
+Search adds significant complexity and new architecture:
+
+- **Search index (Elasticsearch)**: Index all tweets (or just recent ones) by keyword.
+- **Indexing lag**: Search may lag by 10s-100s of seconds (acceptable for most users).
+- **Query optimization**: Use query cache, segment pruning, and range queries for date-filtered searches.
+- **Precision vs recall**: Trade-off between finding all results (recall) and avoiding irrelevant results (precision).
+- **Personalized search**: Rank results by user's followers, engagement, and interests.
+- **Rate limiting**: Search is CPU-intensive; limit per-user search requests.
+
+Architecture: Add Elasticsearch cluster, async indexing pipeline, separate search API gateway.
+
+</details>
 
 ## Trade-Offs To Call Out
 

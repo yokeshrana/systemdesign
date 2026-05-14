@@ -137,11 +137,83 @@ Uber is mainly about real-time geospatial matching under tight latency and corre
 
 ## Likely Follow-Up Questions
 
-- How would you partition drivers and riders by region or city?
-- How do you handle driver location updates arriving out of order?
-- What happens if matching fails after a rider request is created?
-- How do you avoid double-charging during payment retries?
-- How would surge pricing or ETA recalculation fit into the design?
+<details>
+<summary><strong>How would you partition drivers and riders by region or city?</strong></summary>
+
+Geographic partitioning improves locality and reduces cross-region latency:
+
+- **Shard by region (e.g., US East, US West, EU)**: Each region has its own matching and database cluster.
+- **Shard by city**: More granular, but increases operational complexity.
+- **Consistent hashing for grid cells**: Partition by geohash or S2 cell ID; nearby requests hash to same shard.
+- **Hot shard handling**: Major cities (NYC, LA) may split into multiple shards; track hot cells and split dynamically.
+- **Cross-region matching**: If riders and drivers are in different regions, use inter-region messaging queue.
+
+Trade-off: More shards reduce latency but add operational complexity and rebalancing overhead.
+
+</details>
+
+<details>
+<summary><strong>How do you handle driver location updates arriving out of order?</strong></summary>
+
+Location updates from GPS can arrive delayed, and network issues cause reordering:
+
+- **Timestamp-based acceptance**: Only update if new location's timestamp > current timestamp.
+- **Version vector**: Track version of each driver's location; ignore older versions.
+- **Duplicate detection**: Use idempotent keys (e.g., (driver_id, update_timestamp)) to deduplicate retries.
+- **Buffer and sort**: Buffer updates for 100-200ms, sort by timestamp, then process in order.
+- **Kalman filtering**: Apply smoothing to noisy GPS data; detect outliers.
+
+Implementation: Use write-through cache with conditional updates; only update if new timestamp is fresher.
+
+</details>
+
+<details>
+<summary><strong>What happens if matching fails after a rider request is created?</strong></summary>
+
+Matching can fail for many reasons: no drivers available, all drivers decline, network issues, etc.
+
+- **Timeout**: After 30-60 seconds with no match, notify rider "no drivers available" and cancel.
+- **Fallback**: Widen search radius (increase from 500m to 1km) and re-attempt.
+- **Queue with backoff**: Put request in queue; retry matching every 5 seconds up to 5 times.
+- **Manual escalation**: If still no match, escalate to support team.
+- **Graceful degradation**: Show rider estimated wait time; allow cancellation at any point.
+- **Retry idempotency**: Track request_id; avoid duplicate matching attempts.
+
+Monitoring: Alert if match failure rate > 5%; indicates driver shortage or system issue.
+
+</details>
+
+<details>
+<summary><strong>How do you avoid double-charging during payment retries?</strong></summary>
+
+Payment retries are a major source of bugs and fraud risk:
+
+- **Idempotent payment key**: Use (trip_id, payment_attempt_id) as idempotency key; payment processor deduplicates.
+- **State machine**: Track payment state: pending → charged → completed. Only charge in pending state.
+- **Strict idempotency**: If retry receives duplicate request, return cached response (success) without re-charging.
+- **Reconciliation**: End-of-day reconciliation: sum all charges and compare to completed trips. Flag mismatches.
+- **Soft holds**: Use card soft holds (temporary reservations) instead of charges; settle at trip end.
+- **Refund policy**: If double-charged, auto-refund detected duplicates within 24 hours.
+
+Implementation: Store payment idempotency key in database; payment service checks key before charging.
+
+</details>
+
+<details>
+<summary><strong>How would surge pricing or ETA recalculation fit into the design?</strong></summary>
+
+Surge pricing and ETA are complex features that interact with matching and pricing:
+
+- **Surge pricing**: Calculate supply/demand ratio per city. Multiply base fare by surge_multiplier (e.g., 1.5x, 2x).
+- **Real-time calculation**: Update surge_multiplier every 1-5 minutes based on active driver/rider counts.
+- **ETA calculation**: Use Google Maps API or pre-computed road networks to estimate travel time.
+- **ETA freshness**: Cache ETA for 30-60 seconds; recalculate on demand if stale.
+- **Locking**: Lock surge price at request creation; charge that price even if surge changes later.
+- **Fairness**: Surge pricing should increase during high-demand periods (evening rush), not random events.
+
+Architecture: Add surge pricing microservice; call before matching to notify rider of surge price.
+
+</details>
 
 ## Trade-Offs To Call Out
 

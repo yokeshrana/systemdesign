@@ -95,3 +95,25 @@ We will need a load balancer in front of our chat servers; that can map each Use
 
 **Fault tolerance and Replication:**
 If a chat server goes down, clients can automatically reconnect to transfer those connections to some other server. Messages should be stored with multiple copies of the data on different servers (or using Reed-Solomon encoding) to distribute and replicate it for fault tolerance.
+
+## Likely Follow-Up Questions
+
+<details>
+<summary>How do we handle delivery receipts (sent, delivered, read)?</summary>
+The messaging server tracks message states. When a client receives or opens a message, it sends an ack back to the server, which then pushes the status update to the sender via their active WebSocket/long-poll connection.
+</details>
+
+<details>
+<summary>How do we support group chats with hundreds of members?</summary>
+For large groups, we avoid sending messages to every member simultaneously. Instead, we use a pub-sub model and only push updates to currently online members, while others fetch the history when they come online.
+</details>
+
+<details>
+<summary>How do we ensure end-to-end encryption (E2EE)?</summary>
+We can use the Signal Protocol where keys are exchanged between devices. The server acts only as a relay for encrypted blobs and never has access to the decryption keys.
+</details>
+
+<details>
+<summary>What happens if the message database grows too large?</summary>
+We use horizontal sharding by User ID and move older conversations to cold storage (e.g., S3 or a specialized archival DB) to keep the primary operational database lean.
+</details>
