@@ -25,6 +25,11 @@ This sequence forces you to move from problem definition to scale, then from arc
 - Queue-based asynchronous processing for background work and decoupling.
 - Quorum-based reads and writes where consistency needs careful tuning.
 - Bloom filters and other lightweight structures for fast membership checks.
+- Rate limiting, notification delivery, search indexing, and CDN-heavy delivery paths.
+
+## Additional Reading
+
+- [Trade-offs and Rules of Thumb](trade-offs.md)
 
 ## The Seven Steps
 

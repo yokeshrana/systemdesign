@@ -92,6 +92,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/trade-offs/">Trade-offs and Rules of Thumb</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
@@ -185,6 +187,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#interviewer-lens">Interviewer Lens</a>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#likely-follow-up-questions">Likely Follow-Up Questions</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#trade-offs-to-call-out">Trade-Offs To Call Out</a>
 </li>
 </ul>
 </li>
@@ -464,6 +468,14 @@
 <li>How would you rank tweets beyond simple recency?</li>
 <li>How would you shard tweets and follow relationships separately?</li>
 <li>What changes if search becomes a first-class feature instead of an add-on?</li>
+</ul>
+<h2 id="trade-offs-to-call-out">Trade-Offs To Call Out<a class="headerlink" href="#trade-offs-to-call-out" title="Permanent link">¶</a></h2>
+<ul>
+<li>Push fan-out gives very fast reads, but it creates write amplification for celebrity accounts.</li>
+<li>Pull fan-out keeps celebrity writes cheap, but it shifts work to read time.</li>
+<li>Eventual consistency is acceptable for feeds, but not for actions like follow or unfollow.</li>
+<li>Search needs a separate indexing path because tweet timelines and keyword lookup have different access patterns.</li>
+<li>Rate limiting matters because feed and search endpoints are attractive targets for scraping.</li>
 </ul>
 </div>
 </div><footer>

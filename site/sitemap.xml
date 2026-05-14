@@ -226,6 +226,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://yokeshrana.github.io/systemdesign/interview-framework/trade-offs/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://yokeshrana.github.io/systemdesign/operations/deployment/</loc>
          <lastmod>2026-05-14</lastmod>
          <changefreq>daily</changefreq>

@@ -42,6 +42,14 @@ This page turns the individual case studies into a repeatable interview practice
 - WebSockets or long polling are usually discussed alongside push notifications.
 - Offline delivery and message reconciliation are the typical follow-up topics.
 
+## PDF Rules of Thumb to Reuse
+
+- Estimate QPS as requests per period divided by seconds in the period.
+- Use read/write ratios to sanity-check storage and cache pressure.
+- Treat the 80/20 rule as a practical cache sizing heuristic.
+- Estimate incoming and outgoing bandwidth separately.
+- Remember that retention windows can dominate long-term storage.
+
 ## Interview Practice Checklist
 
 1. Start with requirements and explicitly name what is out of scope.

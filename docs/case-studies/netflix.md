@@ -129,3 +129,11 @@ Netflix is a media delivery system with a control plane and a data plane, so the
 - How do you support offline viewing while keeping content secure?
 - What data belongs in Cassandra versus MySQL versus search?
 - What happens if recommendations are down during playback?
+
+## Trade-Offs To Call Out
+
+- The control plane can tolerate some delay, but the data plane must stay fast and globally available.
+- Transcoding increases upfront processing cost, but it reduces playback failures and device incompatibility.
+- A custom CDN improves latency and bandwidth costs, but it adds operational complexity.
+- Eventual consistency is fine for recommendations and history, but not for entitlement checks or billing.
+- Circuit breakers protect playback from cascading failures when auxiliary services degrade.

@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="yokeshrana" /><link rel="canonical" href="https://yokeshrana.github.io/systemdesign/fundamentals/consistency/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="yokeshrana" /><link rel="canonical" href="https://yokeshrana.github.io/systemdesign/interview-framework/trade-offs/" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Consistency Models - System Design Prep Notes</title>
+    <title>Trade-offs and Rules of Thumb - System Design Prep Notes</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,9 +13,9 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Consistency Models";
-        var mkdocs_page_input_path = "fundamentals/consistency.md";
-        var mkdocs_page_url = "/systemdesign/fundamentals/consistency/";
+        var mkdocs_page_name = "Trade-offs and Rules of Thumb";
+        var mkdocs_page_input_path = "interview-framework/trade-offs.md";
+        var mkdocs_page_url = "/systemdesign/interview-framework/trade-offs/";
       </script>
     
     <!--[if lt IE 9]>
@@ -48,40 +48,20 @@
                 </li>
               </ul>
               <p class="caption"><span class="caption-text">Fundamentals</span></p>
-              <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" href="../basics/">System Design Basics</a>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../scalability/">Scalability</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../load-balancing/">Load Balancing</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Consistency Models</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#key-concepts">Key Concepts</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#1-strong-consistency">1. Strong Consistency</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#2-eventual-consistency">2. Eventual Consistency</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#3-weak-consistency">3. Weak Consistency</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#4-causal-consistency">4. Causal Consistency</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#trade-offs-considerations">Trade-offs &amp; Considerations</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#further-reading">Further Reading</a>
-    </li>
-    </ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../replication/">Replication & Redundancy</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication & Redundancy</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../communication/">Client-Server Communication</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../hld-vs-lld/">High Level Design vs Low Level Design</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Components</span></p>
@@ -113,24 +93,40 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Interview Framework</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/trade-offs/">Trade-offs and Rules of Thumb</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Trade-offs and Rules of Thumb</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#consistency-vs-availability">Consistency vs. Availability</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#common-rate-limiting-algorithms">Common Rate Limiting Algorithms</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#search-notifications-and-delivery">Search, Notifications, and Delivery</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#estimation-rules-of-thumb">Estimation Rules of Thumb</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#partitioning-and-scaling-patterns">Partitioning and Scaling Patterns</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#how-to-apply-this-in-an-interview">How to Apply This in an Interview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#related-reading">Related Reading</a>
+    </li>
+    </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../requirements-clarification/">1. Requirements Clarification</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../system-interface/">2. System Interface Definition</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/estimation/">3. Back-of-the-Envelope Estimation</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../estimation/">3. Back-of-the-Envelope Estimation</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/data-model/">4. Data Model Definition</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../data-model/">4. Data Model Definition</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/high-level-design/">5. High-Level Design</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../high-level-design/">5. High-Level Design</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/detailed-design/">6. Detailed Design</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../detailed-design/">6. Detailed Design</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/bottlenecks/">7. Bottlenecks and Scaling</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../bottlenecks/">7. Bottlenecks and Scaling</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Operations</span></p>
@@ -195,8 +191,8 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
-          <li class="breadcrumb-item">Fundamentals</li>
-      <li class="breadcrumb-item active">Consistency Models</li>
+          <li class="breadcrumb-item">Interview Framework</li>
+      <li class="breadcrumb-item active">Trade-offs and Rules of Thumb</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -205,39 +201,67 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="consistency-models">Consistency Models<a class="headerlink" href="#consistency-models" title="Permanent link">&para;</a></h1>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>Consistency in system design refers to the requirement that every read receives the most recent write or an error. In distributed systems, maintaining consistency is challenging due to the CAP theorem, which states that a system can only provide two out of three guarantees: Consistency, Availability, and Partition Tolerance.</p>
-<h2 id="key-concepts">Key Concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h2>
-<h3 id="1-strong-consistency">1. Strong Consistency<a class="headerlink" href="#1-strong-consistency" title="Permanent link">&para;</a></h3>
-<p>After an update completes, any subsequent access will return the updated value. This is typically achieved using protocols like Paxos or Raft.
-- <strong>Example</strong>: Financial systems, RDBMS with ACID properties.</p>
-<h3 id="2-eventual-consistency">2. Eventual Consistency<a class="headerlink" href="#2-eventual-consistency" title="Permanent link">&para;</a></h3>
-<p>The system guarantees that, if no new updates are made to the object, eventually all accesses will return the last updated value.
-- <strong>Example</strong>: DNS, social media "likes", Amazon S3.</p>
-<h3 id="3-weak-consistency">3. Weak Consistency<a class="headerlink" href="#3-weak-consistency" title="Permanent link">&para;</a></h3>
-<p>After an update, subsequent accesses may or may not return the updated value.
-- <strong>Example</strong>: VoIP, live video streaming where losing a few frames is acceptable.</p>
-<h3 id="4-causal-consistency">4. Causal Consistency<a class="headerlink" href="#4-causal-consistency" title="Permanent link">&para;</a></h3>
-<p>If process A has communicated to process B that it has updated a data item, a subsequent access by process B will return the updated value.</p>
-<h2 id="trade-offs-considerations">Trade-offs &amp; Considerations<a class="headerlink" href="#trade-offs-considerations" title="Permanent link">&para;</a></h2>
+                <h1 id="trade-offs-and-rules-of-thumb">Trade-offs and Rules of Thumb<a class="headerlink" href="#trade-offs-and-rules-of-thumb" title="Permanent link">&para;</a></h1>
+<p>The PDF repeatedly returns to a few practical trade-offs and estimation shortcuts. This page collects them in one place so you can reuse the same reasoning across different case studies.</p>
+<h2 id="consistency-vs-availability">Consistency vs. Availability<a class="headerlink" href="#consistency-vs-availability" title="Permanent link">&para;</a></h2>
+<p>Distributed systems often have to choose between stronger consistency and better availability under partition.</p>
 <ul>
-<li><strong>Latency vs. Consistency</strong>: Strong consistency often requires synchronous communication between nodes, increasing write latency.</li>
-<li><strong>Availability vs. Consistency</strong>: In the event of a network partition (the 'P' in CAP), you must choose between staying available but potentially returning stale data (AP) or being consistent but returning errors (CP).</li>
-<li><strong>Complexity</strong>: Implementing strong consistency in a global scale system requires sophisticated consensus algorithms and careful synchronization.</li>
+<li>Use stronger consistency when correctness matters more than freshness, such as payments, trip state, or billing.</li>
+<li>Use eventual consistency when user experience can tolerate slight lag, such as feed counts, likes, or recommendations.</li>
+<li>Separate metadata from blob storage so large objects can live in object storage while transactional state stays in a database.</li>
+<li>Prefer read replicas, queues, or cached views when the system can absorb short delays.</li>
 </ul>
-<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<h2 id="common-rate-limiting-algorithms">Common Rate Limiting Algorithms<a class="headerlink" href="#common-rate-limiting-algorithms" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/CAP_theorem">The CAP Theorem (Wikipedia)</a></li>
-<li><a href="https://jepsen.io/analyses">Jepsen: Analyses of Distributed Systems</a></li>
-<li><a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/ConsistencyModelsDistributedSystems.pdf">Consistency Models in Distributed Systems</a></li>
+<li>Token Bucket: allows bursts up to a bucket capacity while enforcing a steady refill rate.</li>
+<li>Leaky Bucket: smooths traffic by processing requests at a fixed outflow rate.</li>
+<li>Fixed Window: simple but can allow bursts at window boundaries.</li>
+<li>Sliding Window Log: precise but more expensive because it tracks individual timestamps.</li>
+<li>Sliding Window Counter: a practical compromise between accuracy and cost.</li>
+</ul>
+<h2 id="search-notifications-and-delivery">Search, Notifications, and Delivery<a class="headerlink" href="#search-notifications-and-delivery" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Use inverted indexes for text search and typeahead-style lookup.</li>
+<li>Use tries when prefix matching is the dominant operation.</li>
+<li>Use push notifications when immediacy matters and pull when clients can fetch on demand.</li>
+<li>Use WebSockets or long polling when real-time presence or chat-style updates matter.</li>
+<li>Use CDNs for media-heavy systems so repeated reads stay close to users.</li>
+</ul>
+<h2 id="estimation-rules-of-thumb">Estimation Rules of Thumb<a class="headerlink" href="#estimation-rules-of-thumb" title="Permanent link">&para;</a></h2>
+<ul>
+<li>QPS = requests per period divided by seconds in the period.</li>
+<li>Storage grows with both object size and retention duration, not just traffic volume.</li>
+<li>Incoming bandwidth = writes per second multiplied by average object size.</li>
+<li>Outgoing bandwidth = reads per second multiplied by average response size.</li>
+<li>Cache sizing should start with hot data, not full-data storage.</li>
+<li>A 100:1 or 80/20 split is often a reasonable starting assumption when the problem is read-heavy.</li>
+</ul>
+<h2 id="partitioning-and-scaling-patterns">Partitioning and Scaling Patterns<a class="headerlink" href="#partitioning-and-scaling-patterns" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Use consistent hashing to reduce data movement when nodes are added or removed.</li>
+<li>Use key-based or user-based sharding when locality matters.</li>
+<li>Use geographic partitioning when the workload is tied to regions or cities.</li>
+<li>Watch for hot keys and celebrity-like outliers that can defeat naive partitioning.</li>
+</ul>
+<h2 id="how-to-apply-this-in-an-interview">How to Apply This in an Interview<a class="headerlink" href="#how-to-apply-this-in-an-interview" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Name the trade-off instead of hiding it.</li>
+<li>Pick one rule of thumb and show the estimate.</li>
+<li>Explain what gets stronger, weaker, cheaper, or slower.</li>
+<li>Tie the answer back to the user-facing requirement.</li>
+</ol>
+<h2 id="related-reading">Related Reading<a class="headerlink" href="#related-reading" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../">Overview</a></li>
+<li><a href="../requirements-clarification/">Requirements Clarification</a></li>
+<li><a href="../estimation/">Back-of-the-Envelope Estimation</a></li>
 </ul>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../load-balancing/" class="btn btn-neutral float-left" title="Load Balancing"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../replication/" class="btn btn-neutral float-right" title="Replication & Redundancy">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../" class="btn btn-neutral float-left" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../requirements-clarification/" class="btn btn-neutral float-right" title="1. Requirements Clarification">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -260,10 +284,10 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../load-balancing/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../replication/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../requirements-clarification/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

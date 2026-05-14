@@ -142,3 +142,11 @@ Uber is mainly about real-time geospatial matching under tight latency and corre
 - What happens if matching fails after a rider request is created?
 - How do you avoid double-charging during payment retries?
 - How would surge pricing or ETA recalculation fit into the design?
+
+## Trade-Offs To Call Out
+
+- Strong consistency is more important for trip state and payments than for live map freshness.
+- Geospatial partitioning improves lookup speed, but it can create regional hotspots that need balancing.
+- Consistent hashing helps distribute location updates, but the geo layer still needs locality-aware routing.
+- Push-based location updates give low latency, but stale drivers must expire quickly to avoid bad matches.
+- Idempotency keys are essential because retries are normal in real-time mobile systems.

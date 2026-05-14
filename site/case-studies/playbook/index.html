@@ -96,6 +96,8 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/trade-offs/">Trade-offs and Rules of Thumb</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
@@ -139,6 +141,8 @@
     <li class="toctree-l3"><a class="reference internal" href="#messaging-and-collaboration">Messaging and Collaboration</a>
     </li>
         </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pdf-rules-of-thumb-to-reuse">PDF Rules of Thumb to Reuse</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#interview-practice-checklist">Interview Practice Checklist</a>
     </li>
@@ -247,6 +251,14 @@
 <li>Messenger-style systems need presence, delivery guarantees, and ordering semantics.</li>
 <li>WebSockets or long polling are usually discussed alongside push notifications.</li>
 <li>Offline delivery and message reconciliation are the typical follow-up topics.</li>
+</ul>
+<h2 id="pdf-rules-of-thumb-to-reuse">PDF Rules of Thumb to Reuse<a class="headerlink" href="#pdf-rules-of-thumb-to-reuse" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Estimate QPS as requests per period divided by seconds in the period.</li>
+<li>Use read/write ratios to sanity-check storage and cache pressure.</li>
+<li>Treat the 80/20 rule as a practical cache sizing heuristic.</li>
+<li>Estimate incoming and outgoing bandwidth separately.</li>
+<li>Remember that retention windows can dominate long-term storage.</li>
 </ul>
 <h2 id="interview-practice-checklist">Interview Practice Checklist<a class="headerlink" href="#interview-practice-checklist" title="Permanent link">&para;</a></h2>
 <ol>

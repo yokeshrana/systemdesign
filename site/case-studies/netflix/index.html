@@ -92,6 +92,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/trade-offs/">Trade-offs and Rules of Thumb</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
@@ -203,6 +205,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#interviewer-lens">Interviewer Lens</a>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#likely-follow-up-questions">Likely Follow-Up Questions</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#trade-offs-to-call-out">Trade-Offs To Call Out</a>
 </li>
 </ul>
 </li>
@@ -357,6 +361,14 @@
 <li>How do you support offline viewing while keeping content secure?</li>
 <li>What data belongs in Cassandra versus MySQL versus search?</li>
 <li>What happens if recommendations are down during playback?</li>
+</ul>
+<h2 id="trade-offs-to-call-out">Trade-Offs To Call Out<a class="headerlink" href="#trade-offs-to-call-out" title="Permanent link">¶</a></h2>
+<ul>
+<li>The control plane can tolerate some delay, but the data plane must stay fast and globally available.</li>
+<li>Transcoding increases upfront processing cost, but it reduces playback failures and device incompatibility.</li>
+<li>A custom CDN improves latency and bandwidth costs, but it adds operational complexity.</li>
+<li>Eventual consistency is fine for recommendations and history, but not for entitlement checks or billing.</li>
+<li>Circuit breakers protect playback from cascading failures when auxiliary services degrade.</li>
 </ul>
 </div>
 </div><footer>

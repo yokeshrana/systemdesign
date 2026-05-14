@@ -92,6 +92,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/trade-offs/">Trade-offs and Rules of Thumb</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
@@ -183,6 +185,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#interviewer-lens">Interviewer Lens</a>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#likely-follow-up-questions">Likely Follow-Up Questions</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#trade-offs-to-call-out">Trade-Offs To Call Out</a>
 </li>
 </ul>
 </li>
@@ -324,6 +328,14 @@
 <li>What happens when expired links are still cached?</li>
 <li>How would you shard the database and cache hot mappings?</li>
 <li>How do you prevent brute-force enumeration of short URLs?</li>
+</ul>
+<h2 id="trade-offs-to-call-out">Trade-Offs To Call Out<a class="headerlink" href="#trade-offs-to-call-out" title="Permanent link">¶</a></h2>
+<ul>
+<li>A 302 redirect preserves analytics visibility, while a 301 redirect improves client-side caching.</li>
+<li>Key pre-generation reduces collision risk, but it adds operational complexity to the key service.</li>
+<li>A NoSQL key-value store scales well for redirects, but it sacrifices relational flexibility.</li>
+<li>Cached mappings improve redirect latency, but cache invalidation must respect expiration.</li>
+<li>Base62 short codes are compact and human-friendly, but they still need protection against enumeration.</li>
 </ul>
 </div>
 </div><footer>

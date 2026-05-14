@@ -92,6 +92,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/trade-offs/">Trade-offs and Rules of Thumb</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
@@ -201,6 +203,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#interviewer-lens">Interviewer Lens</a>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#likely-follow-up-questions">Likely Follow-Up Questions</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#trade-offs-to-call-out">Trade-Offs To Call Out</a>
 </li>
 </ul>
 </li>
@@ -378,6 +382,14 @@
 <li>What happens if matching fails after a rider request is created?</li>
 <li>How do you avoid double-charging during payment retries?</li>
 <li>How would surge pricing or ETA recalculation fit into the design?</li>
+</ul>
+<h2 id="trade-offs-to-call-out">Trade-Offs To Call Out<a class="headerlink" href="#trade-offs-to-call-out" title="Permanent link">¶</a></h2>
+<ul>
+<li>Strong consistency is more important for trip state and payments than for live map freshness.</li>
+<li>Geospatial partitioning improves lookup speed, but it can create regional hotspots that need balancing.</li>
+<li>Consistent hashing helps distribute location updates, but the geo layer still needs locality-aware routing.</li>
+<li>Push-based location updates give low latency, but stale drivers must expire quickly to avoid bad matches.</li>
+<li>Idempotency keys are essential because retries are normal in real-time mobile systems.</li>
 </ul>
 </div>
 </div><footer>

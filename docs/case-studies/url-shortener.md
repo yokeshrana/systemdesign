@@ -102,3 +102,11 @@ URL shortener interviews are usually about key generation, uniqueness, and fast 
 - What happens when expired links are still cached?
 - How would you shard the database and cache hot mappings?
 - How do you prevent brute-force enumeration of short URLs?
+
+## Trade-Offs To Call Out
+
+- A 302 redirect preserves analytics visibility, while a 301 redirect improves client-side caching.
+- Key pre-generation reduces collision risk, but it adds operational complexity to the key service.
+- A NoSQL key-value store scales well for redirects, but it sacrifices relational flexibility.
+- Cached mappings improve redirect latency, but cache invalidation must respect expiration.
+- Base62 short codes are compact and human-friendly, but they still need protection against enumeration.

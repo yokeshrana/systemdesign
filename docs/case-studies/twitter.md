@@ -160,3 +160,11 @@ Twitter is a feed system, so the real interview signal is how well you balance w
 - How would you rank tweets beyond simple recency?
 - How would you shard tweets and follow relationships separately?
 - What changes if search becomes a first-class feature instead of an add-on?
+
+## Trade-Offs To Call Out
+
+- Push fan-out gives very fast reads, but it creates write amplification for celebrity accounts.
+- Pull fan-out keeps celebrity writes cheap, but it shifts work to read time.
+- Eventual consistency is acceptable for feeds, but not for actions like follow or unfollow.
+- Search needs a separate indexing path because tweet timelines and keyword lookup have different access patterns.
+- Rate limiting matters because feed and search endpoints are attractive targets for scraping.
