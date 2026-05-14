@@ -69,6 +69,7 @@ Shard the Redis cluster by `user_id` to ensure that a single user's feed is alwa
 <details>
 <summary><strong>How do you ensure feed staleness is acceptable to users?</strong></summary>
 
+
 Feed staleness (delay before new post appears) affects user experience:
 
 - **Push staleness**: With push fan-out, post appears within 100-500ms (network + Redis update latency).
@@ -84,6 +85,7 @@ Strategy: Use push for fast posts; async indexing for search/archival (can be sl
 <details>
 <summary><strong>How do you handle real-time notifications alongside feed updates?</strong></summary>
 
+
 Notifications inform users of likes, comments, and new posts from close friends:
 
 - **Real-time delivery**: Notifications sent via WebSocket or long-polling; appear immediately.
@@ -98,6 +100,7 @@ Architecture: Separate notification service listening to post/like/comment event
 
 <details>
 <summary><strong>What happens when ranking service is slow or down?</strong></summary>
+
 
 Ranking is computationally expensive (ML models); failures degrade gracefully:
 

@@ -127,6 +127,7 @@ Netflix is a media delivery system with a control plane and a data plane, so the
 <details>
 <summary><strong>How does adaptive bitrate streaming react to a bad network?</strong></summary>
 
+
 Adaptive bitrate (ABR) streaming adjusts video quality in real-time based on available bandwidth:
 
 - **Bandwidth detection**: Client measures throughput by monitoring download speed of 6-10s video chunks.
@@ -143,6 +144,7 @@ Challenge: Balance between video quality and playback smoothness. Users prefer s
 <details>
 <summary><strong>Why is a custom CDN better than relying only on third-party delivery?</strong></summary>
 
+
 Netflix's Open Connect CDN provides advantages over traditional CDNs:
 
 - **Cost**: Netflix caches content at ISP datacenters, paying ISPs a one-time fee instead of per-GB delivery costs.
@@ -157,6 +159,7 @@ Trade-off: Custom CDN requires partnerships with ISPs and significant operationa
 
 <details>
 <summary><strong>How do you support offline viewing while keeping content secure?</strong></summary>
+
 
 Offline viewing requires downloading content to device while preventing piracy:
 
@@ -174,6 +177,7 @@ Challenge: Balancing user convenience (long offline window) with security (preve
 <details>
 <summary><strong>What data belongs in Cassandra versus MySQL versus search?</strong></summary>
 
+
 Different data types have different access patterns:
 
 | Data | Storage | Reason |
@@ -190,6 +194,7 @@ Design: Write playback events to Cassandra; async process into recommendations e
 
 <details>
 <summary><strong>What happens if recommendations are down during playback?</strong></summary>
+
 
 Graceful degradation when recommendation service fails:
 

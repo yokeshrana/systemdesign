@@ -168,6 +168,7 @@ Instagram is a media-heavy feed system, so it combines the hard parts of uploads
 <details>
 <summary><strong>How do you handle the celebrity fan-out problem?</strong></summary>
 
+
 Celebrities with 100M+ followers create extreme write amplification:
 
 - **Hybrid fan-out**: For normal users, fan-out on write (pre-compute feeds). For celebrities, fan-out on read.
@@ -182,6 +183,7 @@ Challenge: Consistency—when Kardashian posts, millions of feeds need to update
 
 <details>
 <summary><strong>What changes between photos, videos, and mixed media posts?</strong></summary>
+
 
 Different media types have different storage and processing requirements:
 
@@ -199,6 +201,7 @@ Architecture: Separate pipelines for photos (fast CDN) and videos (transcoding w
 <details>
 <summary><strong>How do you keep likes and comments consistent enough for users?</strong></summary>
 
+
 Likes and comments are high-volume, and eventual consistency causes confusion (user likes post, count doesn't increase for 10s):
 
 - **Consistency level**: Use **strong consistency for comments** (important to order), **eventual consistency for likes** (only the count matters, not order).
@@ -213,6 +216,7 @@ Implementation: Dual-write pattern—write like count to Redis + Kafka; consumer
 
 <details>
 <summary><strong>What data should live in object storage versus the metadata database?</strong></summary>
+
 
 Different data types have different access patterns and durability requirements:
 
@@ -231,6 +235,7 @@ Strategy: Use PostgreSQL for metadata, S3 for media, Redis for hot counts, Elast
 
 <details>
 <summary><strong>How would you support search over users, hashtags, and locations?</strong></summary>
+
 
 Search is a separate concern from the main feed system:
 

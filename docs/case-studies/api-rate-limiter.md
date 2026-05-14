@@ -79,6 +79,7 @@ We can shard based on the `UserID` using Consistent Hashing to distribute the us
 <details>
 <summary><strong>How do you handle distributed rate limiting across multiple servers?</strong></summary>
 
+
 Rate limiting must be consistent across all servers in a cluster:
 
 - **Centralized store**: Use Redis or Memcached as single source of truth for request counts.
@@ -93,6 +94,7 @@ Trade-off: Centralized Redis adds latency (~10ms per request); worth it for corr
 
 <details>
 <summary><strong>What algorithm is best for different use cases?</strong></summary>
+
 
 Different algorithms have different trade-offs:
 
@@ -109,6 +111,7 @@ Recommendation: Start with token bucket; migrate to sliding window if accuracy c
 
 <details>
 <summary><strong>How do you communicate rate limit info to clients?</strong></summary>
+
 
 Clients need to know their quota and remaining requests:
 

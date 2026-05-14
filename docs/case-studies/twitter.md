@@ -158,6 +158,7 @@ Twitter is a feed system, so the real interview signal is how well you balance w
 <details>
 <summary><strong>How do you handle a user with tens of millions of followers?</strong></summary>
 
+
 For celebrities with massive followers, push fan-out on write becomes prohibitively expensive (writing to millions of caches). Solutions:
 
 - **Hybrid approach**: For celebrities, use pull fan-out. Readers query a "celebrity feed" partition instead of pre-computing their timeline.
@@ -171,6 +172,7 @@ Trade-off: Celebrity reads are slightly slower, but celebrity writes remain chea
 
 <details>
 <summary><strong>What happens if the timeline cache is stale or partially missing?</strong></summary>
+
 
 Cache invalidation is one of the hardest problems. Strategies:
 
@@ -187,6 +189,7 @@ Recovery: If cache completely misses, query timeline from database (slower but c
 <details>
 <summary><strong>How would you rank tweets beyond simple recency?</strong></summary>
 
+
 Ranking algorithms determine timeline quality and engagement:
 
 - **ML-based ranking**: Train a model on engagement signals (likes, retweets, replies, dwell time). Score each tweet in real-time.
@@ -201,6 +204,7 @@ Challenge: Ranking at scale requires efficient model serving (TensorFlow Serving
 
 <details>
 <summary><strong>How would you shard tweets and follow relationships separately?</strong></summary>
+
 
 Tweets and follows have different access patterns, so they need different sharding strategies:
 
@@ -218,6 +222,7 @@ Use Kafka or message queue to decouple fan-out from write path.
 
 <details>
 <summary><strong>What changes if search becomes a first-class feature instead of an add-on?</strong></summary>
+
 
 Search adds significant complexity and new architecture:
 

@@ -140,6 +140,7 @@ Uber is mainly about real-time geospatial matching under tight latency and corre
 <details>
 <summary><strong>How would you partition drivers and riders by region or city?</strong></summary>
 
+
 Geographic partitioning improves locality and reduces cross-region latency:
 
 - **Shard by region (e.g., US East, US West, EU)**: Each region has its own matching and database cluster.
@@ -155,6 +156,7 @@ Trade-off: More shards reduce latency but add operational complexity and rebalan
 <details>
 <summary><strong>How do you handle driver location updates arriving out of order?</strong></summary>
 
+
 Location updates from GPS can arrive delayed, and network issues cause reordering:
 
 - **Timestamp-based acceptance**: Only update if new location's timestamp > current timestamp.
@@ -169,6 +171,7 @@ Implementation: Use write-through cache with conditional updates; only update if
 
 <details>
 <summary><strong>What happens if matching fails after a rider request is created?</strong></summary>
+
 
 Matching can fail for many reasons: no drivers available, all drivers decline, network issues, etc.
 
@@ -186,6 +189,7 @@ Monitoring: Alert if match failure rate > 5%; indicates driver shortage or syste
 <details>
 <summary><strong>How do you avoid double-charging during payment retries?</strong></summary>
 
+
 Payment retries are a major source of bugs and fraud risk:
 
 - **Idempotent payment key**: Use (trip_id, payment_attempt_id) as idempotency key; payment processor deduplicates.
@@ -201,6 +205,7 @@ Implementation: Store payment idempotency key in database; payment service check
 
 <details>
 <summary><strong>How would surge pricing or ETA recalculation fit into the design?</strong></summary>
+
 
 Surge pricing and ETA are complex features that interact with matching and pricing:
 

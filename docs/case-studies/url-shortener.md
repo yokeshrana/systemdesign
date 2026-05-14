@@ -100,6 +100,7 @@ URL shortener interviews are usually about key generation, uniqueness, and fast 
 <details>
 <summary><strong>How would you support custom aliases without collisions?</strong></summary>
 
+
 Custom aliases (e.g., "bit.ly/my-campaign") add user personalization but risk collisions:
 
 - **Alias lookup first**: Check if alias already exists before allowing creation.
@@ -115,6 +116,7 @@ Implementation: Add unique constraint on (alias, user_id); return 409 Conflict i
 
 <details>
 <summary><strong>Why use 302 instead of 301 for redirects?</strong></summary>
+
 
 HTTP redirects affect analytics, caching, and user experience differently:
 
@@ -132,6 +134,7 @@ For most URL shorteners, 302 is better because clicks are a key business metric.
 <details>
 <summary><strong>What happens when expired links are still cached?</strong></summary>
 
+
 Cached redirects can outlive their expiration time, causing confusing user experience:
 
 - **Cache expiration**: Set Cache-Control header to match URL TTL. If URL expires in 30 days, set max-age=2592000 (30 days).
@@ -147,6 +150,7 @@ Monitoring: Track 404 rates; spike indicates many requests hitting expired links
 <details>
 <summary><strong>How would you shard the database and cache hot mappings?</strong></summary>
 
+
 Sharding strategy for URL mapping lookups:
 
 - **Shard by short_code**: Hash short code, mod by number of shards. Distributes writes and reads evenly.
@@ -161,6 +165,7 @@ Typical scale: Single database shard handles ~1M requests/day; scale horizontall
 
 <details>
 <summary><strong>How do you prevent brute-force enumeration of short URLs?</strong></summary>
+
 
 Brute-force attacks try to guess short URLs (e.g., bit.ly/a, bit.ly/b, etc.) and scan for valid mappings:
 

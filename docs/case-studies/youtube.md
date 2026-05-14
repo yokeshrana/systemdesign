@@ -133,20 +133,24 @@ When a video is uploaded, it must be processed to support various devices and ne
 
 <details>
 <summary>How do we handle copyright infringement and DMCA takedowns?</summary>
+
 We use a Content ID system that generates fingerprints for uploaded videos and compares them against a database of copyrighted material. Matches can trigger automatic blocking or monetization by the copyright owner.
 </details>
 
 <details>
 <summary>What happens if a video upload is interrupted?</summary>
+
 We support resumable uploads by chunking the video file and tracking the uploaded offsets. The client can resume from the last successful chunk instead of restarting the entire process.
 </details>
 
 <details>
 <summary>How do we optimize for low-latency playback globally?</summary>
+
 Videos are replicated across multiple CDNs and edge points of presence (PoPs) to ensure content is served from the closest geographical location to the user.
 </details>
 
 <details>
 <summary>How do we manage different resolution versions of the same video?</summary>
+
 An adaptive bitrate streaming (ABR) protocol like DASH or HLS is used. The server prepares multiple encodings, and the player dynamically switches between them based on the user's current bandwidth.
 </details>
