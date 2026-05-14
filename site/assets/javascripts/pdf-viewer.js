@@ -129,6 +129,28 @@ async function initPDF() {
       }
     };
     
+    // Fullscreen functionality
+    document.getElementById('fullscreen-btn').onclick = () => {
+      const container = document.getElementById('pdf-container');
+      if (!document.fullscreenElement) {
+        container.requestFullscreen().catch(err => {
+          alert(`Fullscreen request failed: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    };
+    
+    // Update fullscreen button text
+    document.addEventListener('fullscreenchange', () => {
+      const btn = document.getElementById('fullscreen-btn');
+      if (document.fullscreenElement) {
+        btn.textContent = '⛶ Exit Fullscreen';
+      } else {
+        btn.textContent = '⛶ Fullscreen';
+      }
+    });
+    
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft') renderPage(currentPage - 1);

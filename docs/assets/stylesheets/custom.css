@@ -292,3 +292,37 @@ details li {
     object-fit: contain !important;
     box-shadow: none !important;
 }
+
+/* Fullscreen mode */
+#pdf-container:fullscreen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+}
+
+#pdf-container:fullscreen .pdf-controls {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 100000 !important;
+    width: 100vw !important;
+}
+
+#pdf-container:fullscreen #pdf-viewer {
+    position: fixed !important;
+    top: 50px !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: calc(100vh - 50px) !important;
+}

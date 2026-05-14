@@ -16,6 +16,7 @@ body { margin: 0; padding: 0; overflow: hidden; }
     <button id="next-page" title="Next page">Next →</button>
     <button id="toggle-bookmarks" title="Show/hide bookmarks">🔖 Bookmarks</button>
     <button id="bookmark-page" title="Bookmark this page">⭐ Bookmark</button>
+    <button id="fullscreen-btn" title="Fullscreen">⛶ Fullscreen</button>
     <a id="download-pdf" href="../../assets/system_design.pdf" download="Grokking_System_Design_Interview.pdf" title="Download PDF">📥 Download</a>
   </div>
   
