@@ -67,6 +67,8 @@ nav:
     - Twitter Design: case-studies/twitter.md
     - Dropbox / Google Drive: case-studies/dropbox.md
     - Facebook Newsfeed: case-studies/facebook-newsfeed.md
+    - Facebook Messenger: case-studies/facebook-messenger.md
+    - Twitter Search: case-studies/twitter-search.md
     - Yelp (Proximity Server): case-studies/yelp.md
     - Ticketmaster: case-studies/ticketmaster.md
     - URL Shortener: case-studies/url-shortener.md
@@ -75,3 +77,5 @@ nav:
     - Uber ETA: case-studies/uber.md
     - Netflix Design: case-studies/netflix.md
     - YouTube Design: case-studies/youtube.md
+    - Typeahead Suggestion: case-studies/typeahead-suggestion.md
+    - API Rate Limiter: case-studies/api-rate-limiter.md
