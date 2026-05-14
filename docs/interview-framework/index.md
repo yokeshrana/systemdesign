@@ -1,12 +1,12 @@
 # System Design Interview Framework
 
-The PDF framework used in this project follows a consistent seven-step flow. Use it as the default outline for every system design answer, whether you are designing a URL shortener, a news feed, a ride-sharing backend, or an internal platform.
+The System Design Framework used in this project follows a consistent seven-step flow. Use it as the default outline for every system design answer, whether you are designing a URL shortener, a news feed, a ride-sharing backend, or an internal platform.
 
 ## Why this structure works
 
 This sequence forces you to move from problem definition to scale, then from architecture to failure handling. It keeps the interview grounded in requirements instead of jumping straight to diagrams.
 
-## What the PDF emphasizes
+## What the framework emphasizes
 
 - Clarify scope before designing anything.
 - Define the API contract early so the system has a concrete shape.

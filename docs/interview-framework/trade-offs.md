@@ -1,6 +1,6 @@
 # Trade-offs and Rules of Thumb
 
-The PDF repeatedly returns to a few practical trade-offs and estimation shortcuts. This page collects them in one place so you can reuse the same reasoning across different case studies.
+The framework repeatedly returns to a few practical trade-offs and estimation shortcuts. This page collects them in one place so you can reuse the same reasoning across different case studies.
 
 ## Consistency vs. Availability
 

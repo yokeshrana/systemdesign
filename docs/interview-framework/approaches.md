@@ -1,6 +1,6 @@
 # Alternative Frameworks
 
-The PDF uses a 7-step Grokking-style approach, but other resources emphasize different interview frameworks. This page compares the main approaches so you can adapt to your interviewer's style.
+This framework uses a 7-step approach, but other resources emphasize different interview frameworks. This page compares the main approaches so you can adapt to your interviewer's style.
 
 ## Four-Step Framework (System Design Primer)
 
@@ -15,9 +15,9 @@ The donnemartin System Design Primer and many tech companies use a 4-step approa
 
 This framework works well when the interviewer expects rapid iteration and broad coverage rather than depth on one area first. It's common at Google, Facebook, and other large tech companies.
 
-## Seven-Step Framework (Grokking)
+## Seven-Step Framework
 
-The PDF uses this structure:
+This framework uses this structure:
 
 1. Requirements Clarification
 2. System Interface Definition
@@ -33,7 +33,7 @@ This framework works well when the interviewer values a methodical, step-by-step
 
 ## Comparison
 
-| Step | Grokking (7-step) | System Design Primer (4-step) |
+| Step | Seven-Step Framework | System Design Primer (4-step) |
 | :--- | :--- | :--- |
 | 1 | Requirements clarification | Clarify constraints and use cases |
 | 2 | System interface definition | Create high-level design |
