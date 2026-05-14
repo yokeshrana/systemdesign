@@ -31,6 +31,52 @@ This step draws the overall architecture. It shows the major components and how 
 - Background workers and queues.
 - Search or analytics pipelines when relevant.
 
+## Typical Scalable Architecture Stack
+
+A reference pattern for most systems:
+
+```
+Clients
+  ↓
+CDN (static assets, media)
+  ↓
+Load Balancer (distribute traffic)
+  ↓
+API Gateway / Reverse Proxy (auth, rate limiting, routing)
+  ↓
+Application Servers (stateless, horizontally scalable)
+  ↓
+Cache Layer (Redis/Memcached for hot data)
+  ↓
+Primary Database (writes)
+  ↓
+Read Replicas (scale read traffic)
+  ↓
+Message Queue (async jobs: Kafka, RabbitMQ)
+  ↓
+Workers (background processing)
+  ↓
+Search Index (Elasticsearch for queries)
+  ↓
+Object Storage (S3 for media)
+```
+
+## Component-Based Checklist
+
+For each major component, ask:
+
+| Component | Design Decisions |
+| :--- | :--- |
+| **Load Balancer** | Round-robin, least-loaded, layer-7 routing? Active-passive or active-active? |
+| **Reverse Proxy / API Gateway** | Centralized auth, rate limiting, request transformation, circuit breaker? |
+| **Application Servers** | Stateless? Horizontal scaling? Auto-scaling triggers? |
+| **Cache Layer** | Redis or Memcached? Which data is hot? TTL and eviction (LRU, LFU)? |
+| **Primary Database** | SQL for transactions, NoSQL for scale? Sharding key? Replication lag tolerance? |
+| **Read Replicas** | How many? Cross-region? Eventual consistency OK? |
+| **Search Index** | Elasticsearch for text? Inverted indexes? Real-time indexing or batch? |
+| **Message Queue** | Kafka for streams, RabbitMQ for tasks? Ordering guarantees? |
+| **Object Storage** | S3 for media. Versioning, lifecycle policies, CDN integration? |
+
 ## How to Present the Flow
 
 1. Start with the user request.

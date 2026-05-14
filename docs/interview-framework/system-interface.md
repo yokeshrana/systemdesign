@@ -24,6 +24,29 @@ This step defines the public contract of the system. It explains how clients, se
 - File upload and download flows.
 - Callback or webhook delivery for long-running tasks.
 
+## Choosing a Communication Protocol
+
+| Protocol | Use Case | Reliability | Latency | When to Use |
+| :--- | :--- | :--- | :--- | :--- |
+| **HTTP/REST** | Web APIs, public endpoints | High (TCP-based) | Medium | Default for most services, stateless, cacheable |
+| **TCP** | Database connections, internal services | Guaranteed delivery | Medium | When you need all data intact, transactions |
+| **UDP** | Real-time applications | Best-effort | Low | VoIP, video chat, gaming, streaming (loss OK) |
+| **RPC** | Internal microservices | High (depends on transport) | Low | Performance-critical, internal-only calls, tight coupling acceptable |
+| **gRPC** | Modern microservices | High (HTTP/2 + Protobuf) | Very Low | High throughput, language-agnostic, streaming |
+| **Message Queue** | Async, event-driven | High (persisted) | Decoupled | Decoupling producers/consumers, background jobs |
+
+### REST vs RPC Decision
+
+- **REST** – Stateless, HTTP-native, better for public APIs, easier to cache, supports standard HTTP features.
+- **RPC** (gRPC, Thrift) – Tightly coupled, lower latency, better for internal services, performance-first.
+
+### Idempotency and Error Handling
+
+- Every mutating operation should be idempotent (safe to retry).
+- Use version headers or ETags for concurrent update conflicts.
+- Return proper HTTP status codes: 2xx (success), 4xx (client error), 5xx (server error).
+- Provide error codes and messages in response body for debugging.
+
 ## API Design Notes
 
 - Keep the contract small and easy to explain.

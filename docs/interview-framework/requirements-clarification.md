@@ -32,6 +32,23 @@ This first step defines the problem before any design work begins. It is where y
 - Is offline processing acceptable for any part of the workflow?
 - Are there any legal, privacy, or compliance constraints?
 
+## Read vs. Write Heavy?
+
+Understanding the workload type drives architectural choices:
+
+- **Read-heavy** (e.g., Twitter timeline, YouTube views): Optimize for caching, read replicas, CDN, denormalization.
+- **Write-heavy** (e.g., real-time analytics, sensor data): Optimize for throughput, partitioning, async queues, batch processing.
+- **Balanced** (e.g., banking, messaging): Optimize for consistency, transactions, replication.
+
+## Define Your Constraints Precisely
+
+- **Requests per second (RPS)**: How many concurrent users? Peak vs. average?
+- **Data volume**: Initial, 1-year, 5-year projections (in GB/TB)?
+- **Latency requirements**: P50, P99, P99.9 latencies acceptable?
+- **Availability target**: 99.9% (8h downtime/year), 99.99% (52min/year), 99.999% (5min/year)?
+- **Consistency needs**: Strong (ACID), eventual (BASE), or eventual with bounded staleness?
+- **Geographic distribution**: Single region, multi-region, global?
+
 ## Output of This Step
 
 - A short problem statement.

@@ -59,6 +59,7 @@ nav:
     - Top 'K' Frequent Items: advanced/top-k.md
   - Interview Framework:
     - Overview: interview-framework/index.md
+    - Alternative Frameworks: interview-framework/approaches.md
     - Trade-offs and Rules of Thumb: interview-framework/trade-offs.md
     - 1. Requirements Clarification: interview-framework/requirements-clarification.md
     - 2. System Interface Definition: interview-framework/system-interface.md

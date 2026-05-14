@@ -23,6 +23,36 @@ This final step makes the design production-ready. It addresses what breaks firs
 - Do we know how to detect the problem quickly?
 - Can we slow down or shed load safely?
 
+## Availability Targets and SLAs
+
+Availability measured in "nines":
+
+| Target | Downtime/Year | Downtime/Month | Use Case |
+| :--- | :--- | :--- | :--- |
+| 99% (2 nines) | 3.6 days | 7.2 hours | Internal tools |
+| 99.9% (3 nines) | 8.8 hours | 43 minutes | Most web services |
+| 99.99% (4 nines) | 52 minutes | 4.3 minutes | SaaS, payments |
+| 99.999% (5 nines) | 5 minutes | 26 seconds | Critical infrastructure |
+
+## Failover Patterns
+
+### Active-Passive
+- Primary handles all traffic, passive is standby.
+- Failure → passive takes over (10-30 sec downtime).
+- Simple, used with master-slave databases.
+
+### Active-Active
+- Both servers handle traffic, balanced by DNS/load balancer.
+- Failure → degraded service (no downtime).
+- Complex, needs master-master databases or distributed consensus.
+
+## Availability in Series vs Parallel
+
+- **Series**: 99.9% × 99.9% = 99.8% overall (multiply).
+- **Parallel**: 1 - (1 - 99.9%)² = 99.9999% (use redundancy).
+
+Lesson: Redundancy in parallel improves availability; avoid single points of failure.
+
 ## Scaling Questions
 
 - What is the next bottleneck after the first optimization?

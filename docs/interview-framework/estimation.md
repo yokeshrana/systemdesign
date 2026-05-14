@@ -33,6 +33,46 @@ This step justifies scale with simple math. The goal is not exact precision; it 
 - Compare hot-path storage against cold storage requirements.
 - Use simple per-user or per-item assumptions instead of complex formulas.
 
+### Quick Capacity Rules
+
+- 1 server at 1000 QPS → ~1,000 servers for 1M QPS.
+- 1 GB storage per day → ~365 GB/year, ~1.8 TB/5 years.
+- Latency rule: Round-trip within datacenter ~500 µs; across world ~150 ms.
+- Bandwidth: 1 Gbps = 125 MB/s; typical server egress ~10 Gbps.
+- Cache hit rate 80% reduces DB load by 5x on read-heavy workloads.
+
+## Performance vs Scalability
+
+- **Performance Problem**: Your system is slow for a *single user*.
+- **Scalability Problem**: Your system is fast for one user but slow under *heavy load*.
+
+Optimize for performance first, then scalability.
+
+## Latency Numbers Every Programmer Should Know
+
+```
+L1 cache reference                    0.5 ns
+Main memory reference                 100 ns   (200x slower than L1)
+Compress 1K with Zippy               10 µs
+Send 1 KB over 1 Gbps                10 µs
+Read 4 KB randomly from SSD         150 µs   (1.5GB/sec)
+Read 1 MB from memory               250 µs
+Round trip within datacenter        500 µs
+Read 1 MB from SSD                    1 ms   (1GB/sec, 4x slower than memory)
+Disk seek                            10 ms   (20x datacenter roundtrip)
+Read 1 MB from HDD                   30 ms   (120x memory, 30x SSD)
+Send packet CA→Netherlands→CA       150 ms
+```
+
+**Key Insight**: Disk is ~100,000x slower than L1 cache. Caching decisions drive architecture.
+
+## Throughput vs Latency
+
+- **Throughput**: Actions per unit time (req/sec, MB/sec).
+- **Latency**: Time for single action (milliseconds).
+
+Goal: Maximize throughput with acceptable latency. Batch systems have high throughput + high latency; streaming has lower throughput + low latency.
+
 ## Example Dimensions
 
 - Requests per second.

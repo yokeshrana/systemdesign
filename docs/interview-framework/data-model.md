@@ -31,6 +31,41 @@ This step anchors the system in persistence. It explains what entities exist, ho
 - Use object storage for large blobs such as images or video.
 - Use search indexes for text, filtering, and ranking.
 
+### SQL vs NoSQL Decision Tree
+
+**Choose SQL (RDBMS) When:**
+- Structured data with rigid schema (users, transactions, orders).
+- Relational data with complex joins.
+- Need ACID transactions (banking, payments).
+- Developers familiar with SQL.
+- Examples: PostgreSQL, MySQL.
+
+**Choose NoSQL When:**
+- Semi-structured or dynamic schema (JSON documents).
+- Very large data volumes (TB/PB scale).
+- Very high throughput (millions of writes/sec).
+- Eventual consistency acceptable.
+
+**NoSQL Types:**
+- **Key-Value**: O(1) reads/writes (Redis, DynamoDB).
+- **Document Store**: JSON queries (MongoDB, CouchDB).
+- **Wide Column Store**: High write throughput (Cassandra, HBase).
+- **Graph Database**: Complex relationships (Neo4j).
+
+## Consistency Patterns (CAP Theorem)
+
+You can guarantee 2 of 3: Consistency, Availability, Partition Tolerance. Since networks fail, choose Consistency or Availability:
+
+| Pattern | Speed | Reliability | Use Case |
+| :--- | :--- | :--- | :--- |
+| **Strong Consistency** | Slower | High | Transactions, banking |
+| **Eventual Consistency** | Faster | Medium | Feeds, DNS, S3 |
+| **Weak Consistency** | Fastest | Low | Gaming, real-time |
+
+**ACID vs BASE:**
+- **ACID** (SQL): Atomicity, Consistency, Isolation, Durability → strong guarantees.
+- **BASE** (NoSQL): Basically Available, Soft state, Eventually consistent → higher throughput.
+
 ## Output of This Step
 
 - A simple schema or entity model.
