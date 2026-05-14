@@ -2,7 +2,7 @@
 // Uses PDF.js to render the PDF and localStorage to save bookmarks
 
 const STORAGE_KEY = 'pdf-bookmarks';
-const PDF_URL = '../assets/system_design.pdf';
+const PDF_URL = '../../assets/system_design.pdf';
 
 let pdfDoc = null;
 let currentPage = 1;
