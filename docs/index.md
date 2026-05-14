@@ -31,6 +31,7 @@ Use this sequence first, then apply the same flow to the case studies.
 **[Fundamentals](fundamentals/scalability.md)**
 
 Master the foundational concepts that power all system designs:
+
 - [Scalability](fundamentals/scalability.md) – Horizontal vs vertical scaling
 - [Load Balancing](fundamentals/load-balancing.md) – Distributing traffic efficiently
 - [Consistency Models](fundamentals/consistency.md) – CAP theorem and data consistency
@@ -39,6 +40,7 @@ Master the foundational concepts that power all system designs:
 **[Components](components/caching.md)**
 
 Learn the building blocks of scalable systems:
+
 - [Caching](components/caching.md) – Redis, Memcached, cache strategies
 - [Message Queues](components/message-queues.md) – Kafka, RabbitMQ, async processing
 - [Databases](components/databases.md) – SQL, NoSQL, sharding techniques
@@ -47,6 +49,7 @@ Learn the building blocks of scalable systems:
 **[Advanced Topics](advanced/microservices.md)**
 
 Deep dive into enterprise-scale architecture patterns:
+
 - [Microservices](advanced/microservices.md) – Service architecture and patterns
 - [API Design](advanced/api-design.md) – REST, gRPC, GraphQL best practices
 - [Authentication](advanced/authentication.md) – OAuth, JWT, security patterns
@@ -54,6 +57,7 @@ Deep dive into enterprise-scale architecture patterns:
 ### Interview Framework
 
 Use this seven-step sequence to structure every system design answer before you dive into examples:
+
 - [Overview](interview-framework/index.md)
 - [Requirements Clarification](interview-framework/requirements-clarification.md)
 - [System Interface Definition](interview-framework/system-interface.md)
@@ -66,6 +70,7 @@ Use this seven-step sequence to structure every system design answer before you 
 **[Operations](operations/monitoring.md)**
 
 Learn how to ship and maintain systems in production:
+
 - [Monitoring & Logging](operations/monitoring.md) – Observability and debugging
 - [Deployment](operations/deployment.md) – CI/CD, blue-green deployments
 
@@ -88,21 +93,25 @@ Learn how to ship and maintain systems in production:
 ### For Interview Prep (4-6 weeks)
 
 **Week 1-2: Fundamentals**
+
 - Understand scalability concepts
 - Learn load balancing strategies
 - Study consistency models
 
 **Week 3-4: Components**
+
 - Master caching techniques
 - Learn message queue patterns
 - Study database design
 
 **Week 5: Advanced**
+
 - Explore microservices architecture
 - Study API design patterns
 - Learn authentication methods
 
 **Week 6: Review**
+
 - Practice mock interviews
 - Review trade-offs and decisions
 - Prepare system design answers
@@ -110,6 +119,7 @@ Learn how to ship and maintain systems in production:
 ### For Self-Paced Learning
 
 Start here if you're new to system design:
+
 - Learn the interview flow in [Interview Framework](interview-framework/index.md)
 - Begin with [Scalability Fundamentals](fundamentals/scalability.md)
 - Move to [Core Components](components/caching.md)
@@ -120,24 +130,28 @@ Start here if you're new to system design:
 ## Key Concepts Covered
 
 **Scalability & Performance**
+
 - Horizontal and vertical scaling
 - Database sharding and replication
 - Caching strategies and invalidation
 - Load balancing algorithms
 
 **Data Management**
+
 - SQL vs NoSQL trade-offs
 - ACID vs eventual consistency
 - CAP theorem applications
 - Data replication patterns
 
 **Architecture Patterns**
+
 - Microservices vs monolithic
 - Service communication methods
 - API design best practices
 - Authentication and authorization
 
 **Operations & DevOps**
+
 - Monitoring and alerting
 - Logging and debugging
 - Deployment strategies
@@ -160,6 +174,7 @@ Start here if you're new to system design:
 ### Before Your Interview
 
 Make sure you can explain:
+
 - When to use SQL vs NoSQL databases
 - How caching improves performance
 - Database sharding and replication strategies
@@ -172,6 +187,7 @@ Make sure you can explain:
 ### During Your Interview
 
 Remember to:
+
 - Ask clarifying questions about requirements
 - Clearly state your assumptions
 - Draw system diagrams
@@ -220,16 +236,19 @@ Remember to:
 ## Tips for Success
 
 **Study Smart**
+
 - Focus on understanding concepts, not memorizing details
 - Learn trade-offs for every technology choice
 - Practice estimating system capacity
 
 **Practice Design**
+
 - Draw system diagrams for each design
 - Discuss your assumptions out loud
 - Consider failure modes and edge cases
 
 **Stay Updated**
+
 - Follow tech blogs and engineering publications
 - Understand emerging technologies and patterns
 - Learn from open-source projects and case studies
