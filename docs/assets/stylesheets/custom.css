@@ -1,5 +1,5 @@
 /* Remove max-width constraints for the entire content area */
-.wy-nav-content {
+/*.wy-nav-content {
     max-width: none !important;
 }
 
@@ -10,7 +10,7 @@
 /* Ensure the main grid also scales */
 .wy-grid-for-nav {
     max-width: none !important;
-}
+}*/
 
 /* Remove the "Built with MkDocs" footer label */
 footer {

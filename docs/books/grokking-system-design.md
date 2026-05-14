@@ -11,6 +11,8 @@
     <button id="next-page" title="Next page">Next →</button>
     <button id="toggle-bookmarks" title="Show/hide bookmarks">🔖 Bookmarks</button>
     <button id="bookmark-page" title="Bookmark this page">⭐ Bookmark</button>
+    <button id="fit-width" class="fit-btn active" title="Fit width">↔ Fit Width</button>
+    <button id="fit-height" class="fit-btn" title="Fit height">↕ Fit Height</button>
     <button id="fullscreen-btn" title="Fullscreen">⛶ Fullscreen</button>
     <a id="download-pdf" href="../../assets/system_design.pdf" download="Grokking_System_Design_Interview.pdf" title="Download PDF">📥 Download</a>
   </div>
