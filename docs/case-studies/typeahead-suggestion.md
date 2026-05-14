@@ -78,26 +78,18 @@ We should have replicas for our trie servers. We can use a master-slave configur
 
 ## Likely Follow-Up Questions
 
-<details>
-<summary>How do we handle trending or "breaking news" terms that aren't in the Trie yet?</summary>
+??? "How do we handle trending or "breaking news" terms that aren't in the Trie yet?"
 
-We can have a fast-path ingestion pipeline that process recent search logs every few minutes to update a small "trending" Trie or a cache that takes precedence over the main Trie.
-</details>
+    We can have a fast-path ingestion pipeline that process recent search logs every few minutes to update a small "trending" Trie or a cache that takes precedence over the main Trie.
 
-<details>
-<summary>How do we limit the memory usage of the Trie?</summary>
+??? "How do we limit the memory usage of the Trie?"
 
-We can prune the Trie by removing nodes that haven't been searched for in a long time, or by only storing the top $K$ suggestions at each node instead of all possible continuations.
-</details>
+    We can prune the Trie by removing nodes that haven't been searched for in a long time, or by only storing the top $K$ suggestions at each node instead of all possible continuations.
 
-<details>
-<summary>How do we handle typos or fuzzy matching in suggestions?</summary>
+??? "How do we handle typos or fuzzy matching in suggestions?"
 
-Instead of a simple Trie, we can use an Edit Distance algorithm like Levenshtein distance or a fuzzy search index (e.g., using n-grams) to find terms that are "close" to the user's input.
-</details>
+    Instead of a simple Trie, we can use an Edit Distance algorithm like Levenshtein distance or a fuzzy search index (e.g., using n-grams) to find terms that are "close" to the user's input.
 
-<details>
-<summary>How do we personalize suggestions based on user history?</summary>
+??? "How do we personalize suggestions based on user history?"
 
-We can maintain a small user-specific Trie or weighted list in a low-latency cache like Redis. When a user starts typing, we merge these personal results with the global ones.
-</details>
+    We can maintain a small user-specific Trie or weighted list in a low-latency cache like Redis. When a user starts typing, we merge these personal results with the global ones.

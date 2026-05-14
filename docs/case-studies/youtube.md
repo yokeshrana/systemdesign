@@ -131,26 +131,18 @@ When a video is uploaded, it must be processed to support various devices and ne
 
 ## Likely Follow-Up Questions
 
-<details>
-<summary>How do we handle copyright infringement and DMCA takedowns?</summary>
+??? "How do we handle copyright infringement and DMCA takedowns?"
 
-We use a Content ID system that generates fingerprints for uploaded videos and compares them against a database of copyrighted material. Matches can trigger automatic blocking or monetization by the copyright owner.
-</details>
+    We use a Content ID system that generates fingerprints for uploaded videos and compares them against a database of copyrighted material. Matches can trigger automatic blocking or monetization by the copyright owner.
 
-<details>
-<summary>What happens if a video upload is interrupted?</summary>
+??? "What happens if a video upload is interrupted?"
 
-We support resumable uploads by chunking the video file and tracking the uploaded offsets. The client can resume from the last successful chunk instead of restarting the entire process.
-</details>
+    We support resumable uploads by chunking the video file and tracking the uploaded offsets. The client can resume from the last successful chunk instead of restarting the entire process.
 
-<details>
-<summary>How do we optimize for low-latency playback globally?</summary>
+??? "How do we optimize for low-latency playback globally?"
 
-Videos are replicated across multiple CDNs and edge points of presence (PoPs) to ensure content is served from the closest geographical location to the user.
-</details>
+    Videos are replicated across multiple CDNs and edge points of presence (PoPs) to ensure content is served from the closest geographical location to the user.
 
-<details>
-<summary>How do we manage different resolution versions of the same video?</summary>
+??? "How do we manage different resolution versions of the same video?"
 
-An adaptive bitrate streaming (ABR) protocol like DASH or HLS is used. The server prepares multiple encodings, and the player dynamically switches between them based on the user's current bandwidth.
-</details>
+    An adaptive bitrate streaming (ABR) protocol like DASH or HLS is used. The server prepares multiple encodings, and the player dynamically switches between them based on the user's current bandwidth.

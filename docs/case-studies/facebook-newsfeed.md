@@ -66,50 +66,38 @@ Shard the Redis cluster by `user_id` to ensure that a single user's feed is alwa
 
 ## Likely Follow-Up Questions
 
-<details>
-<summary><strong>How do you ensure feed staleness is acceptable to users?</strong></summary>
+??? "How do you ensure feed staleness is acceptable to users?"
 
+    Feed staleness (delay before new post appears) affects user experience:
 
-Feed staleness (delay before new post appears) affects user experience:
+    - **Push staleness**: With push fan-out, post appears within 100-500ms (network + Redis update latency).
+    - **Pull staleness**: With pull fan-out, staleness depends on cache TTL (0-5 minutes).
+    - **User tolerance**: Users tolerate 1-2 second delays; >5 seconds feels broken.
+    - **Eventual consistency**: For normal posts, show within 100ms. For sensitive content (policy violations), delay review (24hr OK).
+    - **Monitoring**: Track p50, p99 staleness; alert if >1s consistently.
 
-- **Push staleness**: With push fan-out, post appears within 100-500ms (network + Redis update latency).
-- **Pull staleness**: With pull fan-out, staleness depends on cache TTL (0-5 minutes).
-- **User tolerance**: Users tolerate 1-2 second delays; >5 seconds feels broken.
-- **Eventual consistency**: For normal posts, show within 100ms. For sensitive content (policy violations), delay review (24hr OK).
-- **Monitoring**: Track p50, p99 staleness; alert if >1s consistently.
+    Strategy: Use push for fast posts; async indexing for search/archival (can be slower).
 
-Strategy: Use push for fast posts; async indexing for search/archival (can be slower).
+??? "How do you handle real-time notifications alongside feed updates?"
 
-</details>
+    Notifications inform users of likes, comments, and new posts from close friends:
 
-<details>
-<summary><strong>How do you handle real-time notifications alongside feed updates?</strong></summary>
+    - **Real-time delivery**: Notifications sent via WebSocket or long-polling; appear immediately.
+    - **Persistence**: Store notifications in database for 30 days; queryable via API if user was offline.
+    - **Batching**: Don't notify user for every like; batch into "5 people liked your post" after 5 minutes.
+    - **Filtering**: Don't notify for posts you've already seen in feed; use deduplication.
+    - **Importance**: Distinguish urgent (messages from friends) vs casual (stranger liked post).
 
+    Architecture: Separate notification service listening to post/like/comment events; push via Kafka to notification delivery service.
 
-Notifications inform users of likes, comments, and new posts from close friends:
+??? "What happens when ranking service is slow or down?"
 
-- **Real-time delivery**: Notifications sent via WebSocket or long-polling; appear immediately.
-- **Persistence**: Store notifications in database for 30 days; queryable via API if user was offline.
-- **Batching**: Don't notify user for every like; batch into "5 people liked your post" after 5 minutes.
-- **Filtering**: Don't notify for posts you've already seen in feed; use deduplication.
-- **Importance**: Distinguish urgent (messages from friends) vs casual (stranger liked post).
+    Ranking is computationally expensive (ML models); failures degrade gracefully:
 
-Architecture: Separate notification service listening to post/like/comment events; push via Kafka to notification delivery service.
+    - **Fallback**: If ranking times out, serve posts in reverse chronological order.
+    - **Cache**: Pre-compute rankings for top users hourly; serve cached rankings if ranking service down.
+    - **Approximation**: Use simpler ranking (likes count only) instead of full ML model when under load.
+    - **Circuit breaker**: If ranking fails >5% of requests, disable ranking; use chronological order.
+    - **Monitoring**: Track ranking latency; alert if >500ms (target <100ms).
 
-</details>
-
-<details>
-<summary><strong>What happens when ranking service is slow or down?</strong></summary>
-
-
-Ranking is computationally expensive (ML models); failures degrade gracefully:
-
-- **Fallback**: If ranking times out, serve posts in reverse chronological order.
-- **Cache**: Pre-compute rankings for top users hourly; serve cached rankings if ranking service down.
-- **Approximation**: Use simpler ranking (likes count only) instead of full ML model when under load.
-- **Circuit breaker**: If ranking fails >5% of requests, disable ranking; use chronological order.
-- **Monitoring**: Track ranking latency; alert if >500ms (target <100ms).
-
-Result: Feed always available, just less personalized during ranking issues.
-
-</details>
+    Result: Feed always available, just less personalized during ranking issues.

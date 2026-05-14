@@ -70,26 +70,18 @@ graph TD
 
 ## Likely Follow-Up Questions
 
-<details>
-<summary>How do we handle a massive surge in traffic during a popular artist's tour sale?</summary>
+??? "How do we handle a massive surge in traffic during a popular artist's tour sale?"
 
-We use a virtual waiting room (queue) to throttle the number of users entering the checkout flow, combined with aggressive CDN caching for the event browsing pages.
-</details>
+    We use a virtual waiting room (queue) to throttle the number of users entering the checkout flow, combined with aggressive CDN caching for the event browsing pages.
 
-<details>
-<summary>How do we prevent double-booking of the same seat?</summary>
+??? "How do we prevent double-booking of the same seat?"
 
-We use distributed locking (e.g., Redis Lock or database row-level locking) with a short TTL. When a user selects a seat, it is "held" for ~10 minutes while they complete the payment.
-</details>
+    We use distributed locking (e.g., Redis Lock or database row-level locking) with a short TTL. When a user selects a seat, it is "held" for ~10 minutes while they complete the payment.
 
-<details>
-<summary>How do we mitigate bot attacks buying up all the tickets?</summary>
+??? "How do we mitigate bot attacks buying up all the tickets?"
 
-We implement CAPTCHA, rate limiting per IP/Account, and behavioral analysis to detect automated scraping and purchasing.
-</details>
+    We implement CAPTCHA, rate limiting per IP/Account, and behavioral analysis to detect automated scraping and purchasing.
 
-<details>
-<summary>What happens if the payment goes through but the session expires?</summary>
+??? "What happens if the payment goes through but the session expires?"
 
-The system should perform a reconciliation process. If the payment is confirmed but the lock was released, it either attempts to finalize the reservation if the seat is still available or issues an automatic refund.
-</details>
+    The system should perform a reconciliation process. If the payment is confirmed but the lock was released, it either attempts to finalize the reservation if the seat is still available or issues an automatic refund.

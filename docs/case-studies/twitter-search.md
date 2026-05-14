@@ -87,20 +87,14 @@ Using a Round Robin or intelligent load-based approach will help balance the tra
 
 ## Likely Follow-Up Questions
 
-<details>
-<summary>How do we handle the "thundering herd" problem when a major event occurs?</summary>
+??? "How do we handle the "thundering herd" problem when a major event occurs?"
 
-We scale our ingestion workers and use message queues (like Kafka) to buffer the surge in tweets, ensuring our indexing pipeline doesn't crash under pressure.
-</details>
+    We scale our ingestion workers and use message queues (like Kafka) to buffer the surge in tweets, ensuring our indexing pipeline doesn't crash under pressure.
 
-<details>
-<summary>How do we prioritize search results for trending topics?</summary>
+??? "How do we prioritize search results for trending topics?"
 
-We use a ranking algorithm that factors in tweet recency, engagement metrics (likes, retweets), and user authority, combined with a real-time "trending" service.
-</details>
+    We use a ranking algorithm that factors in tweet recency, engagement metrics (likes, retweets), and user authority, combined with a real-time "trending" service.
 
-<details>
-<summary>How do we efficiently search across billions of historical tweets?</summary>
+??? "How do we efficiently search across billions of historical tweets?"
 
-We use a tiered storage approach where recent tweets are in memory/SSD for fast access, and older tweets are stored in a distributed inverted index across a large cluster (e.g., Lucene-based).
-</details>
+    We use a tiered storage approach where recent tweets are in memory/SSD for fast access, and older tweets are stored in a distributed inverted index across a large cluster (e.g., Lucene-based).

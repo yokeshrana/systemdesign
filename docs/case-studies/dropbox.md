@@ -66,26 +66,18 @@ To speed up lookups, metadata for active users is cached in Redis.
 
 ## Likely Follow-Up Questions
 
-<details>
-<summary>How do we efficiently handle very large files (e.g., several GBs)?</summary>
+??? "How do we efficiently handle very large files (e.g., several GBs)?"
 
-Files are broken into fixed-size chunks (e.g., 4MB). Only the chunks that have changed are re-uploaded and synced, significantly reducing bandwidth and storage usage (Differential Sync).
-</details>
+    Files are broken into fixed-size chunks (e.g., 4MB). Only the chunks that have changed are re-uploaded and synced, significantly reducing bandwidth and storage usage (Differential Sync).
 
-<details>
-<summary>How do we ensure data consistency across multiple devices?</summary>
+??? "How do we ensure data consistency across multiple devices?"
 
-We use a centralized Metadata Database to keep track of file versions. When a client modifies a file, it updates the metadata server, which then notifies other connected clients via a notification service (long polling/WebSockets).
-</details>
+    We use a centralized Metadata Database to keep track of file versions. When a client modifies a file, it updates the metadata server, which then notifies other connected clients via a notification service (long polling/WebSockets).
 
-<details>
-<summary>How do we handle file versioning and recovery?</summary>
+??? "How do we handle file versioning and recovery?"
 
-Each change to a file creates a new version of the metadata record. Older versions of chunks are kept in storage for a set period (e.g., 30 days), allowing users to roll back to previous states.
-</details>
+    Each change to a file creates a new version of the metadata record. Older versions of chunks are kept in storage for a set period (e.g., 30 days), allowing users to roll back to previous states.
 
-<details>
-<summary>How can we optimize the upload of many small files?</summary>
+??? "How can we optimize the upload of many small files?"
 
-Small files can be bundled into a single upload request or batch-processed to reduce the overhead of multiple HTTP requests and metadata updates.
-</details>
+    Small files can be bundled into a single upload request or batch-processed to reduce the overhead of multiple HTTP requests and metadata updates.

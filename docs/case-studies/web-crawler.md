@@ -74,26 +74,18 @@ DNS resolution is a common bottleneck. The system uses a dedicated, high-perform
 
 ## Likely Follow-Up Questions
 
-<details>
-<summary>How do we avoid "spider traps" (infinite loops)?</summary>
+??? "How do we avoid "spider traps" (infinite loops)?"
 
-We limit the depth of the crawl, use URL canonicalization to identify duplicates, and monitor for patterns where the same domain generates an endless number of unique-looking URLs.
-</details>
+    We limit the depth of the crawl, use URL canonicalization to identify duplicates, and monitor for patterns where the same domain generates an endless number of unique-looking URLs.
 
-<details>
-<summary>How can we respect robots.txt efficiently?</summary>
+??? "How can we respect robots.txt efficiently?"
 
-We cache the `robots.txt` file for each domain in memory (Redis) and check it before every request to ensure we are following the site's crawling rules.
-</details>
+    We cache the `robots.txt` file for each domain in memory (Redis) and check it before every request to ensure we are following the site's crawling rules.
 
-<details>
-<summary>How do we handle JavaScript-heavy websites?</summary>
+??? "How do we handle JavaScript-heavy websites?"
 
-We use a headless browser (like Playwright or Puppeteer) to render the page and execute JavaScript before extracting the content, though this is significantly more resource-intensive than static parsing.
-</details>
+    We use a headless browser (like Playwright or Puppeteer) to render the page and execute JavaScript before extracting the content, though this is significantly more resource-intensive than static parsing.
 
-<details>
-<summary>How do we prioritize which pages to crawl first?</summary>
+??? "How do we prioritize which pages to crawl first?"
 
-We use a PageRank-like algorithm or BFS with priority queuing, giving higher weight to pages with more inbound links or those that are updated frequently.
-</details>
+    We use a PageRank-like algorithm or BFS with priority queuing, giving higher weight to pages with more inbound links or those that are updated frequently.

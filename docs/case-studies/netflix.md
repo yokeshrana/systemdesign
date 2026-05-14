@@ -124,91 +124,71 @@ Netflix is a media delivery system with a control plane and a data plane, so the
 
 ## Likely Follow-Up Questions
 
-<details>
-<summary><strong>How does adaptive bitrate streaming react to a bad network?</strong></summary>
+??? "How does adaptive bitrate streaming react to a bad network?"
 
+    Adaptive bitrate (ABR) streaming adjusts video quality in real-time based on available bandwidth:
+    
+    - **Bandwidth detection**: Client measures throughput by monitoring download speed of 6-10s video chunks.
+    - **Quality selection**: Client picks bitrate that fits within detected bandwidth with headroom (e.g., use 70% of detected bandwidth).
+    - **Switching logic**: If throughput drops, switch to lower bitrate (720p → 480p). If improves, switch up (480p → 720p).
+    - **Startup**: Start with low bitrate (480p) to minimize buffering, then increase quality as chunks buffer.
+    - **Buffer size**: Maintain 30-60s of buffered content; pause playback if buffer < 5s.
+    - **Codec efficiency**: Use HEVC (H.265) instead of H.264 for 30-40% better compression.
+    
+    Challenge: Balance between video quality and playback smoothness. Users prefer steady quality over frequent switching.
 
-Adaptive bitrate (ABR) streaming adjusts video quality in real-time based on available bandwidth:
+??? "Why is a custom CDN better than relying only on third-party delivery?"
 
-- **Bandwidth detection**: Client measures throughput by monitoring download speed of 6-10s video chunks.
-- **Quality selection**: Client picks bitrate that fits within detected bandwidth with headroom (e.g., use 70% of detected bandwidth).
-- **Switching logic**: If throughput drops, switch to lower bitrate (720p → 480p). If improves, switch up (480p → 720p).
-- **Startup**: Start with low bitrate (480p) to minimize buffering, then increase quality as chunks buffer.
-- **Buffer size**: Maintain 30-60s of buffered content; pause playback if buffer < 5s.
-- **Codec efficiency**: Use HEVC (H.265) instead of H.264 for 30-40% better compression.
+    Netflix's Open Connect CDN provides advantages over traditional CDNs:
+    
+    - **Cost**: Netflix caches content at ISP datacenters, paying ISPs a one-time fee instead of per-GB delivery costs.
+    - **Control**: Netflix controls bitrates, caching policies, and content placement instead of relying on third-party SLAs.
+    - **Quality**: Direct ISP integration provides better streaming quality and fewer buffering interruptions.
+    - **Scale**: Open Connect handles 40%+ of North American internet traffic; third-party CDNs couldn't handle this volume cost-effectively.
+    - **Custom optimization**: Netflix can fine-tune encoding, chunk sizes, and push strategies per ISP/region.
+    
+    Trade-off: Custom CDN requires partnerships with ISPs and significant operational overhead. Works for Netflix's scale; not practical for smaller companies.
 
-Challenge: Balance between video quality and playback smoothness. Users prefer steady quality over frequent switching.
+??? "How do you support offline viewing while keeping content secure?"
 
-</details>
+    Offline viewing requires downloading content to device while preventing piracy:
+    
+    - **Licensing**: Each device-download pair is tied to a specific Netflix account. Download encrypted; license tied to account.
+    - **DRM (Digital Rights Management)**: Videos encrypted with AES-128; decryption key stored securely on device.
+    - **License expiration**: Downloaded content expires after 30 days (for subscription content) or shorter for rentals.
+    - **Device binding**: License tied to device; can't copy encrypted file to another device and play.
+    - **Secure storage**: Download cached in app's sandbox directory, not accessible to other apps.
+    - **Revocation**: If account is suspended, downloaded licenses are invalidated (periodic online check required).
+    
+    Challenge: Balancing user convenience (long offline window) with security (preventing piracy).
 
-<details>
-<summary><strong>Why is a custom CDN better than relying only on third-party delivery?</strong></summary>
+??? "What data belongs in Cassandra versus MySQL versus search?"
 
+    Different data types have different access patterns:
+    
+    | Data | Storage | Reason |
+    | :--- | :--- | :--- |
+    | **User account, subscription** | MySQL | Transactional, strong consistency, indexed by user_id. |
+    | **Playback history** | Cassandra | High write throughput, time-series data, eventual consistency OK. |
+    | **Recommendations** | Redis/cache | Hot data, frequently accessed, fast retrieval. |
+    | **Search (titles, genres)** | Elasticsearch | Full-text search, faceted filtering, ranking. |
+    | **Real-time metrics** | Kafka + Druid | Event streaming, time-series analysis, real-time dashboards. |
+    
+    Design: Write playback events to Cassandra; async process into recommendations engine; serve from Redis.
 
-Netflix's Open Connect CDN provides advantages over traditional CDNs:
+??? "What happens if recommendations are down during playback?"
 
-- **Cost**: Netflix caches content at ISP datacenters, paying ISPs a one-time fee instead of per-GB delivery costs.
-- **Control**: Netflix controls bitrates, caching policies, and content placement instead of relying on third-party SLAs.
-- **Quality**: Direct ISP integration provides better streaming quality and fewer buffering interruptions.
-- **Scale**: Open Connect handles 40%+ of North American internet traffic; third-party CDNs couldn't handle this volume cost-effectively.
-- **Custom optimization**: Netflix can fine-tune encoding, chunk sizes, and push strategies per ISP/region.
-
-Trade-off: Custom CDN requires partnerships with ISPs and significant operational overhead. Works for Netflix's scale; not practical for smaller companies.
-
-</details>
-
-<details>
-<summary><strong>How do you support offline viewing while keeping content secure?</strong></summary>
-
-
-Offline viewing requires downloading content to device while preventing piracy:
-
-- **Licensing**: Each device-download pair is tied to a specific Netflix account. Download encrypted; license tied to account.
-- **DRM (Digital Rights Management)**: Videos encrypted with AES-128; decryption key stored securely on device.
-- **License expiration**: Downloaded content expires after 30 days (for subscription content) or shorter for rentals.
-- **Device binding**: License tied to device; can't copy encrypted file to another device and play.
-- **Secure storage**: Download cached in app's sandbox directory, not accessible to other apps.
-- **Revocation**: If account is suspended, downloaded licenses are invalidated (periodic online check required).
-
-Challenge: Balancing user convenience (long offline window) with security (preventing piracy).
-
-</details>
-
-<details>
-<summary><strong>What data belongs in Cassandra versus MySQL versus search?</strong></summary>
-
-
-Different data types have different access patterns:
-
-| Data | Storage | Reason |
-| :--- | :--- | :--- |
-| **User account, subscription** | MySQL | Transactional, strong consistency, indexed by user_id. |
-| **Playback history** | Cassandra | High write throughput, time-series data, eventual consistency OK. |
-| **Recommendations** | Redis/cache | Hot data, frequently accessed, fast retrieval. |
-| **Search (titles, genres)** | Elasticsearch | Full-text search, faceted filtering, ranking. |
-| **Real-time metrics** | Kafka + Druid | Event streaming, time-series analysis, real-time dashboards. |
-
-Design: Write playback events to Cassandra; async process into recommendations engine; serve from Redis.
-
-</details>
-
-<details>
-<summary><strong>What happens if recommendations are down during playback?</strong></summary>
-
-
-Graceful degradation when recommendation service fails:
-
-- **Cache fallback**: Use cached recommendations from previous call (5min-1hr old).
-- **Default recommendations**: Show trending shows, new releases, or popular by genre if cache miss.
-- **Trending**: Pre-compute and cache trending content every hour; serves as fallback.
-- **Manual curation**: Maintain hand-curated lists for top genres; always available even if ML is down.
-- **Partial degradation**: If recommendation service is slow (>500ms), timeout and use fallback.
-- **Circuit breaker**: If recommendation service fails 5 times in a row, circuit breaker opens; use fallback for 1 minute, then retry.
-- **Monitoring**: Alert if recommendation success rate drops below 99%.
-
-Result: User always sees something to watch, even if recommendations aren't personalized.
-
-</details>
+    Graceful degradation when recommendation service fails:
+    
+    - **Cache fallback**: Use cached recommendations from previous call (5min-1hr old).
+    - **Default recommendations**: Show trending shows, new releases, or popular by genre if cache miss.
+    - **Trending**: Pre-compute and cache trending content every hour; serves as fallback.
+    - **Manual curation**: Maintain hand-curated lists for top genres; always available even if ML is down.
+    - **Partial degradation**: If recommendation service is slow (>500ms), timeout and use fallback.
+    - **Circuit breaker**: If recommendation service fails 5 times in a row, circuit breaker opens; use fallback for 1 minute, then retry.
+    - **Monitoring**: Alert if recommendation success rate drops below 99%.
+    
+    Result: User always sees something to watch, even if recommendations aren't personalized.
 
 ## Trade-Offs To Call Out
 
