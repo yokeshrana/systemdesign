@@ -4,7 +4,7 @@
 
 ## PDF Viewer
 
-<div id="pdf-container" class="pdf-viewer-container pdf-fullscreen">
+<div id="pdf-container" class="pdf-viewer-container">
   <div class="pdf-controls">
     <button id="prev-page" title="Previous page">← Previous</button>
     <span id="page-info">Loading...</span>
@@ -15,7 +15,7 @@
     <a id="download-pdf" href="../../assets/system_design.pdf" download="Grokking_System_Design_Interview.pdf" title="Download PDF">📥 Download</a>
   </div>
   
-  <div id="pdf-viewer" class="pdf-viewer-fullscreen">
+  <div id="pdf-viewer" class="pdf-viewer">
     <canvas id="pdf-canvas"></canvas>
   </div>
   

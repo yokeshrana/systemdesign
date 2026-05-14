@@ -241,93 +241,25 @@ details li {
 .clear-btn:hover {
     background: #c0392b;
 }
-/* Full-screen PDF viewer */
-.pdf-fullscreen {
-    position: fixed !important;
-    top: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    max-width: 100vw !important;
-    height: 100vh !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-    border-radius: 0 !important;
-    z-index: 9999 !important;
-    background: white !important;
+
+/* Viewer: keep styles scoped and avoid overriding theme rules. */
+.pdf-viewer-container {
+    /* allow the site theme to control layout; use only lightweight scoping */
+    margin: 1.5rem 0;
 }
 
-.pdf-fullscreen .pdf-controls {
-    position: fixed !important;
-    top: 0 !important;
-    right: 0 !important;
-    left: 0 !important;
-    z-index: 10001 !important;
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
-    width: 100vw !important;
+/* Responsive canvas sizing inside content area */
+.pdf-viewer canvas {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
-.pdf-viewer-fullscreen {
-    position: fixed !important;
-    top: 50px !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: calc(100vh - 50px) !important;
-    overflow: auto !important;
-    background: white !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin: 0 !important;
-    padding: 0 !important;
+/* Keep controls visually distinct but non-invasive */
+.pdf-controls {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
-.pdf-viewer-fullscreen canvas {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: contain !important;
-    box-shadow: none !important;
-}
-
-/* Fullscreen mode - fill content panel */
-#pdf-container:fullscreen {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: 90vh !important;
-    z-index: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: white !important;
-}
-
-#pdf-container:fullscreen .pdf-controls {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    z-index: auto !important;
-    width: 100% !important;
-}
-
-#pdf-container:fullscreen #pdf-viewer {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    width: 100% !important;
-    height: calc(90vh - 50px) !important;
-}
-
-#pdf-container:fullscreen .bookmarks-panel {
-    max-height: calc(90vh - 100px) !important;
+@media (min-width: 1024px) {
+    .pdf-viewer-container { margin: 2rem 0; }
 }

@@ -34,15 +34,27 @@ async function renderPage(pageNum) {
   const canvas = document.getElementById('pdf-canvas');
   const ctx = canvas.getContext('2d');
   
-  const viewport = page.getViewport({ scale: 2.5 });
-  canvas.width = viewport.width;
-  canvas.height = viewport.height;
-  
+  // Compute an adaptive scale so PDF fills the content area while
+  // keeping crisp rendering on high-DPI displays.
+  const unscaledViewport = page.getViewport({ scale: 1 });
+  const container = document.getElementById('pdf-viewer');
+  const containerWidth = Math.max(container.clientWidth || 800, 800);
+  const devicePixelRatio = window.devicePixelRatio || 1;
+
+  // Desired scale to fit width, with a small padding factor.
+  let desiredScale = (containerWidth / unscaledViewport.width) * devicePixelRatio * 0.95;
+  // Clamp scale to reasonable bounds for performance and clarity.
+  desiredScale = Math.max(1.0, Math.min(desiredScale, 2.5));
+
+  const viewport = page.getViewport({ scale: desiredScale });
+  canvas.width = Math.floor(viewport.width);
+  canvas.height = Math.floor(viewport.height);
+
   const renderContext = {
     canvasContext: ctx,
     viewport: viewport
   };
-  
+
   await page.render(renderContext).promise;
   
   // Update page info
