@@ -293,36 +293,40 @@ details li {
     box-shadow: none !important;
 }
 
-/* Fullscreen mode */
+/* Fullscreen mode - keep sidebar visible */
 #pdf-container:fullscreen {
     position: fixed !important;
     top: 0 !important;
-    left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
-    width: 100vw !important;
+    width: calc(100vw - 300px) !important;
     height: 100vh !important;
     z-index: 99999 !important;
     margin: 0 !important;
     padding: 0 !important;
     background: white !important;
+    left: 300px !important;
 }
 
 #pdf-container:fullscreen .pdf-controls {
     position: fixed !important;
     top: 0 !important;
-    left: 0 !important;
     right: 0 !important;
     z-index: 100000 !important;
-    width: 100vw !important;
+    width: calc(100vw - 300px) !important;
+    left: 300px !important;
 }
 
 #pdf-container:fullscreen #pdf-viewer {
     position: fixed !important;
     top: 50px !important;
-    left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
-    width: 100vw !important;
+    left: 300px !important;
+    width: calc(100vw - 300px) !important;
     height: calc(100vh - 50px) !important;
+}
+
+#pdf-container:fullscreen .bookmarks-panel {
+    max-height: calc(100vh - 100px) !important;
 }

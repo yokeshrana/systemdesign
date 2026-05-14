@@ -2,8 +2,6 @@
 
 <style>
 body { margin: 0; padding: 0; overflow: hidden; }
-.wy-nav-side { display: none !important; }
-.wy-nav-content-wrap { margin-left: 0 !important; }
 .wy-nav-content { padding: 0 !important; margin: 0 !important; }
 </style>
 
