@@ -47,6 +47,9 @@ nav:
     - 5. High-Level Design: interview-framework/high-level-design.md
     - 6. Detailed Design: interview-framework/detailed-design.md
     - 7. Bottlenecks and Scaling: interview-framework/bottlenecks.md
+  - Books:
+    - Overview: books/index.md
+    - Grokking System Design Interview: books/grokking-system-design.md
   - Fundamentals:
     - Overview: fundamentals/index.md
     - System Design Basics: fundamentals/basics.md

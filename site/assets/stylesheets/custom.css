@@ -120,3 +120,124 @@ details li {
     margin: 0.5rem 0;
     line-height: 1.6;
 }
+
+/* PDF Viewer Styling */
+.pdf-viewer-container {
+    margin: 2rem 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-bottom: 1px solid #ddd;
+    flex-wrap: wrap;
+}
+
+.pdf-controls button,
+.pdf-controls a {
+    padding: 8px 14px;
+    background: #2980b9;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.pdf-controls button:hover,
+.pdf-controls a:hover {
+    background: #1e5fa3;
+    box-shadow: 0 2px 6px rgba(41, 128, 185, 0.3);
+    transform: translateY(-1px);
+}
+
+.pdf-controls button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.pdf-controls button.bookmarked {
+    background: #f39c12;
+}
+
+.pdf-controls button.bookmarked:hover {
+    background: #d68910;
+}
+
+#page-info {
+    flex: 1;
+    text-align: center;
+    font-weight: 600;
+    color: #333;
+    min-width: 100px;
+}
+
+#pdf-viewer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9f9f9;
+    position: relative;
+    overflow: auto;
+}
+
+#pdf-canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: auto;
+}
+
+.bookmarks-panel {
+    padding: 12px;
+    background: #f5f5f5;
+    border-top: 1px solid #ddd;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.bookmarks-panel h3 {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+#bookmarks-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
+}
+
+#bookmarks-list li {
+    margin: 0;
+    padding: 0;
+}
+
+.clear-btn {
+    width: 100%;
+    padding: 8px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.clear-btn:hover {
+    background: #c0392b;
+}

@@ -41,6 +41,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://yokeshrana.github.io/systemdesign/books/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://yokeshrana.github.io/systemdesign/books/grokking-system-design/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://yokeshrana.github.io/systemdesign/case-studies/</loc>
          <lastmod>2026-05-14</lastmod>
          <changefreq>daily</changefreq>
