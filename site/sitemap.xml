@@ -6,6 +6,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://yokeshrana.github.io/systemdesign/advanced/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://yokeshrana.github.io/systemdesign/advanced/api-design/</loc>
          <lastmod>2026-05-14</lastmod>
          <changefreq>daily</changefreq>
@@ -126,6 +131,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://yokeshrana.github.io/systemdesign/components/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://yokeshrana.github.io/systemdesign/components/caching/</loc>
          <lastmod>2026-05-14</lastmod>
          <changefreq>daily</changefreq>
@@ -147,6 +157,11 @@
     </url>
     <url>
          <loc>https://yokeshrana.github.io/systemdesign/components/proxies/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://yokeshrana.github.io/systemdesign/fundamentals/</loc>
          <lastmod>2026-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -191,6 +206,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://yokeshrana.github.io/systemdesign/interview-framework/approaches/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://yokeshrana.github.io/systemdesign/interview-framework/bottlenecks/</loc>
          <lastmod>2026-05-14</lastmod>
          <changefreq>daily</changefreq>
@@ -227,6 +247,11 @@
     </url>
     <url>
          <loc>https://yokeshrana.github.io/systemdesign/interview-framework/trade-offs/</loc>
+         <lastmod>2026-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://yokeshrana.github.io/systemdesign/operations/</loc>
          <lastmod>2026-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>

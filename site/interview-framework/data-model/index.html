@@ -47,8 +47,51 @@
                 <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
                 </li>
               </ul>
+              <p class="caption"><span class="caption-text">Interview Framework</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../approaches/">Alternative Frameworks</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../trade-offs/">Trade-offs and Rules of Thumb</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../requirements-clarification/">1. Requirements Clarification</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../system-interface/">2. System Interface Definition</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../estimation/">3. Back-of-the-Envelope Estimation</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">4. Data Model Definition</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#what-to-define">What to Define</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#design-questions">Design Questions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#data-modeling-choices">Data Modeling Choices</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#sql-vs-nosql-decision-tree">SQL vs NoSQL Decision Tree</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#consistency-patterns-cap-theorem">Consistency Patterns (CAP Theorem)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output-of-this-step">Output of This Step</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#common-mistakes">Common Mistakes</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../high-level-design/">5. High-Level Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../detailed-design/">6. Detailed Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../bottlenecks/">7. Bottlenecks and Scaling</a>
+                  </li>
+              </ul>
               <p class="caption"><span class="caption-text">Fundamentals</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/">Overview</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
@@ -66,19 +109,23 @@
               </ul>
               <p class="caption"><span class="caption-text">Components</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/">Overview</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Advanced</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/">Overview</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../advanced/microservices/">Microservices</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../advanced/api-design/">API Design</a>
@@ -92,41 +139,10 @@
                   <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Interview Framework</span></p>
-              <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../trade-offs/">Trade-offs and Rules of Thumb</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../requirements-clarification/">1. Requirements Clarification</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../system-interface/">2. System Interface Definition</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../estimation/">3. Back-of-the-Envelope Estimation</a>
-                  </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="./">4. Data Model Definition</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#what-to-define">What to Define</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#design-questions">Design Questions</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#data-modeling-choices">Data Modeling Choices</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#output-of-this-step">Output of This Step</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#common-mistakes">Common Mistakes</a>
-    </li>
-    </ul>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../high-level-design/">5. High-Level Design</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../detailed-design/">6. Detailed Design</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../bottlenecks/">7. Bottlenecks and Scaling</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Operations</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../operations/">Overview</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking & CDN</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../operations/monitoring/">Monitoring & Logging</a>
@@ -136,9 +152,9 @@
               </ul>
               <p class="caption"><span class="caption-text">Case Studies</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Overview</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
                   </li>
@@ -227,6 +243,66 @@
 <li>Use time-series or log-oriented storage when events arrive continuously.</li>
 <li>Use object storage for large blobs such as images or video.</li>
 <li>Use search indexes for text, filtering, and ranking.</li>
+</ul>
+<h3 id="sql-vs-nosql-decision-tree">SQL vs NoSQL Decision Tree<a class="headerlink" href="#sql-vs-nosql-decision-tree" title="Permanent link">&para;</a></h3>
+<p><strong>Choose SQL (RDBMS) When:</strong></p>
+<ul>
+<li>Structured data with rigid schema (users, transactions, orders).</li>
+<li>Relational data with complex joins.</li>
+<li>Need ACID transactions (banking, payments).</li>
+<li>Developers familiar with SQL.</li>
+<li>Examples: PostgreSQL, MySQL.</li>
+</ul>
+<p><strong>Choose NoSQL When:</strong></p>
+<ul>
+<li>Semi-structured or dynamic schema (JSON documents).</li>
+<li>Very large data volumes (TB/PB scale).</li>
+<li>Very high throughput (millions of writes/sec).</li>
+<li>Eventual consistency acceptable.</li>
+</ul>
+<p><strong>NoSQL Types:</strong></p>
+<ul>
+<li><strong>Key-Value</strong>: O(1) reads/writes (Redis, DynamoDB).</li>
+<li><strong>Document Store</strong>: JSON queries (MongoDB, CouchDB).</li>
+<li><strong>Wide Column Store</strong>: High write throughput (Cassandra, HBase).</li>
+<li><strong>Graph Database</strong>: Complex relationships (Neo4j).</li>
+</ul>
+<h2 id="consistency-patterns-cap-theorem">Consistency Patterns (CAP Theorem)<a class="headerlink" href="#consistency-patterns-cap-theorem" title="Permanent link">&para;</a></h2>
+<p>You can guarantee 2 of 3: Consistency, Availability, Partition Tolerance. Since networks fail, choose Consistency or Availability:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Pattern</th>
+<th style="text-align: left;">Speed</th>
+<th style="text-align: left;">Reliability</th>
+<th style="text-align: left;">Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Strong Consistency</strong></td>
+<td style="text-align: left;">Slower</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">Transactions, banking</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Eventual Consistency</strong></td>
+<td style="text-align: left;">Faster</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Feeds, DNS, S3</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Weak Consistency</strong></td>
+<td style="text-align: left;">Fastest</td>
+<td style="text-align: left;">Low</td>
+<td style="text-align: left;">Gaming, real-time</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ACID vs BASE:</strong></p>
+<ul>
+<li><strong>ACID</strong> (SQL): Atomicity, Consistency, Isolation, Durability → strong guarantees.</li>
+<li><strong>BASE</strong> (NoSQL): Basically Available, Soft state, Eventually consistent → higher throughput.</li>
 </ul>
 <h2 id="output-of-this-step">Output of This Step<a class="headerlink" href="#output-of-this-step" title="Permanent link">&para;</a></h2>
 <ul>

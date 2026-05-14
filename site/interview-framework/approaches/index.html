@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="yokeshrana" /><link rel="canonical" href="https://yokeshrana.github.io/systemdesign/interview-framework/trade-offs/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="yokeshrana" /><link rel="canonical" href="https://yokeshrana.github.io/systemdesign/interview-framework/approaches/" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Trade-offs and Rules of Thumb - System Design Prep Notes</title>
+    <title>Alternative Frameworks - System Design Prep Notes</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,9 +13,9 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Trade-offs and Rules of Thumb";
-        var mkdocs_page_input_path = "interview-framework/trade-offs.md";
-        var mkdocs_page_url = "/systemdesign/interview-framework/trade-offs/";
+        var mkdocs_page_name = "Alternative Frameworks";
+        var mkdocs_page_input_path = "interview-framework/approaches.md";
+        var mkdocs_page_url = "/systemdesign/interview-framework/approaches/";
       </script>
     
     <!--[if lt IE 9]>
@@ -51,25 +51,33 @@
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../approaches/">Alternative Frameworks</a>
-                  </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Trade-offs and Rules of Thumb</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Alternative Frameworks</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#consistency-vs-availability">Consistency vs. Availability</a>
+    <li class="toctree-l2"><a class="reference internal" href="#four-step-framework-system-design-primer">Four-Step Framework (System Design Primer)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#when-to-use">When to Use</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#common-rate-limiting-algorithms">Common Rate Limiting Algorithms</a>
+        </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#search-notifications-and-delivery">Search, Notifications, and Delivery</a>
+    <li class="toctree-l2"><a class="reference internal" href="#seven-step-framework">Seven-Step Framework</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#when-to-use_1">When to Use</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#estimation-rules-of-thumb">Estimation Rules of Thumb</a>
+        </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#partitioning-and-scaling-patterns">Partitioning and Scaling Patterns</a>
+    <li class="toctree-l2"><a class="reference internal" href="#comparison">Comparison</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#how-to-apply-this-in-an-interview">How to Apply This in an Interview</a>
+    <li class="toctree-l2"><a class="reference internal" href="#how-to-adapt">How to Adapt</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#hybrid-approach-recommended-for-interviews">Hybrid Approach (Recommended for Interviews)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#key-takeaway">Key Takeaway</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#related-reading">Related Reading</a>
     </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../trade-offs/">Trade-offs and Rules of Thumb</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../requirements-clarification/">1. Requirements Clarification</a>
                   </li>
@@ -202,7 +210,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Interview Framework</li>
-      <li class="breadcrumb-item active">Trade-offs and Rules of Thumb</li>
+      <li class="breadcrumb-item active">Alternative Frameworks</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -211,67 +219,107 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="trade-offs-and-rules-of-thumb">Trade-offs and Rules of Thumb<a class="headerlink" href="#trade-offs-and-rules-of-thumb" title="Permanent link">&para;</a></h1>
-<p>The framework repeatedly returns to a few practical trade-offs and estimation shortcuts. This page collects them in one place so you can reuse the same reasoning across different case studies.</p>
-<h2 id="consistency-vs-availability">Consistency vs. Availability<a class="headerlink" href="#consistency-vs-availability" title="Permanent link">&para;</a></h2>
-<p>Distributed systems often have to choose between stronger consistency and better availability under partition.</p>
-<ul>
-<li>Use stronger consistency when correctness matters more than freshness, such as payments, trip state, or billing.</li>
-<li>Use eventual consistency when user experience can tolerate slight lag, such as feed counts, likes, or recommendations.</li>
-<li>Separate metadata from blob storage so large objects can live in object storage while transactional state stays in a database.</li>
-<li>Prefer read replicas, queues, or cached views when the system can absorb short delays.</li>
-</ul>
-<h2 id="common-rate-limiting-algorithms">Common Rate Limiting Algorithms<a class="headerlink" href="#common-rate-limiting-algorithms" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Token Bucket: allows bursts up to a bucket capacity while enforcing a steady refill rate.</li>
-<li>Leaky Bucket: smooths traffic by processing requests at a fixed outflow rate.</li>
-<li>Fixed Window: simple but can allow bursts at window boundaries.</li>
-<li>Sliding Window Log: precise but more expensive because it tracks individual timestamps.</li>
-<li>Sliding Window Counter: a practical compromise between accuracy and cost.</li>
-</ul>
-<h2 id="search-notifications-and-delivery">Search, Notifications, and Delivery<a class="headerlink" href="#search-notifications-and-delivery" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Use inverted indexes for text search and typeahead-style lookup.</li>
-<li>Use tries when prefix matching is the dominant operation.</li>
-<li>Use push notifications when immediacy matters and pull when clients can fetch on demand.</li>
-<li>Use WebSockets or long polling when real-time presence or chat-style updates matter.</li>
-<li>Use CDNs for media-heavy systems so repeated reads stay close to users.</li>
-</ul>
-<h2 id="estimation-rules-of-thumb">Estimation Rules of Thumb<a class="headerlink" href="#estimation-rules-of-thumb" title="Permanent link">&para;</a></h2>
-<ul>
-<li>QPS = requests per period divided by seconds in the period.</li>
-<li>Storage grows with both object size and retention duration, not just traffic volume.</li>
-<li>Incoming bandwidth = writes per second multiplied by average object size.</li>
-<li>Outgoing bandwidth = reads per second multiplied by average response size.</li>
-<li>Cache sizing should start with hot data, not full-data storage.</li>
-<li>A 100:1 or 80/20 split is often a reasonable starting assumption when the problem is read-heavy.</li>
-</ul>
-<h2 id="partitioning-and-scaling-patterns">Partitioning and Scaling Patterns<a class="headerlink" href="#partitioning-and-scaling-patterns" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Use consistent hashing to reduce data movement when nodes are added or removed.</li>
-<li>Use key-based or user-based sharding when locality matters.</li>
-<li>Use geographic partitioning when the workload is tied to regions or cities.</li>
-<li>Watch for hot keys and celebrity-like outliers that can defeat naive partitioning.</li>
-</ul>
-<h2 id="how-to-apply-this-in-an-interview">How to Apply This in an Interview<a class="headerlink" href="#how-to-apply-this-in-an-interview" title="Permanent link">&para;</a></h2>
+                <h1 id="alternative-frameworks">Alternative Frameworks<a class="headerlink" href="#alternative-frameworks" title="Permanent link">&para;</a></h1>
+<p>This framework uses a 7-step approach, but other resources emphasize different interview frameworks. This page compares the main approaches so you can adapt to your interviewer's style.</p>
+<h2 id="four-step-framework-system-design-primer">Four-Step Framework (System Design Primer)<a class="headerlink" href="#four-step-framework-system-design-primer" title="Permanent link">&para;</a></h2>
+<p>The donnemartin System Design Primer and many tech companies use a 4-step approach:</p>
 <ol>
-<li>Name the trade-off instead of hiding it.</li>
-<li>Pick one rule of thumb and show the estimate.</li>
-<li>Explain what gets stronger, weaker, cheaper, or slower.</li>
-<li>Tie the answer back to the user-facing requirement.</li>
+<li><strong>Clarify constraints and identify use cases</strong> – Ask questions to set scope.</li>
+<li><strong>Create a high-level design</strong> – Sketch the architecture with major components.</li>
+<li><strong>Design core components</strong> – Deep dive into each piece (APIs, schemas, algorithms).</li>
+<li><strong>Scale the design</strong> – Address bottlenecks, trade-offs, and scalability issues.</li>
 </ol>
+<h3 id="when-to-use">When to Use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h3>
+<p>This framework works well when the interviewer expects rapid iteration and broad coverage rather than depth on one area first. It's common at Google, Facebook, and other large tech companies.</p>
+<h2 id="seven-step-framework">Seven-Step Framework<a class="headerlink" href="#seven-step-framework" title="Permanent link">&para;</a></h2>
+<p>This framework uses this structure:</p>
+<ol>
+<li>Requirements Clarification</li>
+<li>System Interface Definition</li>
+<li>Back-of-the-Envelope Estimation</li>
+<li>Data Model Definition</li>
+<li>High-Level Design</li>
+<li>Detailed Design</li>
+<li>Bottlenecks and Scaling</li>
+</ol>
+<h3 id="when-to-use_1">When to Use<a class="headerlink" href="#when-to-use_1" title="Permanent link">&para;</a></h3>
+<p>This framework works well when the interviewer values a methodical, step-by-step approach that forces you to justify each decision with data. It's more common in interviews designed to test communication and design depth.</p>
+<h2 id="comparison">Comparison<a class="headerlink" href="#comparison" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Step</th>
+<th style="text-align: left;">Seven-Step Framework</th>
+<th style="text-align: left;">System Design Primer (4-step)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Requirements clarification</td>
+<td style="text-align: left;">Clarify constraints and use cases</td>
+</tr>
+<tr>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">System interface definition</td>
+<td style="text-align: left;">Create high-level design</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Back-of-the-envelope estimation</td>
+<td style="text-align: left;">Design core components</td>
+</tr>
+<tr>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Data model definition</td>
+<td style="text-align: left;">Scale the design</td>
+</tr>
+<tr>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">High-level design</td>
+<td style="text-align: left;"><em>(Covered in step 3)</em></td>
+</tr>
+<tr>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">Detailed design</td>
+<td style="text-align: left;"><em>(Covered in step 3)</em></td>
+</tr>
+<tr>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">Bottlenecks and scaling</td>
+<td style="text-align: left;"><em>(Covered in step 4)</em></td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-to-adapt">How to Adapt<a class="headerlink" href="#how-to-adapt" title="Permanent link">&para;</a></h2>
+<ul>
+<li>If the interviewer says "high-level first," use the 4-step framework; move faster and sketch broadly.</li>
+<li>If the interviewer asks "what are the requirements?," use the 7-step framework; dig into each area methodically.</li>
+<li>If the interviewer interrupts with follow-ups, acknowledge their direction and pivot to whichever framework aligns with their style.</li>
+</ul>
+<h2 id="hybrid-approach-recommended-for-interviews">Hybrid Approach (Recommended for Interviews)<a class="headerlink" href="#hybrid-approach-recommended-for-interviews" title="Permanent link">&para;</a></h2>
+<p>In practice, most interviews blend both:</p>
+<ol>
+<li><strong>Start with requirements</strong> – 5-10 minutes.</li>
+<li><strong>Sketch high-level design</strong> – 5-10 minutes, then iterate based on feedback.</li>
+<li><strong>Design core components</strong> – 10-20 minutes, focusing on the area the interviewer probes.</li>
+<li><strong>Scale and optimize</strong> – 5-10 minutes, addressing bottlenecks they raise.</li>
+</ol>
+<p>The flexibility to switch frameworks mid-interview is a strength, not a weakness. Interviewers notice and reward adaptability.</p>
+<h2 id="key-takeaway">Key Takeaway<a class="headerlink" href="#key-takeaway" title="Permanent link">&para;</a></h2>
+<p>Both frameworks reach the same destination—a well-reasoned, scalable design. Choose the one that feels natural to you, but be ready to adapt.</p>
 <h2 id="related-reading">Related Reading<a class="headerlink" href="#related-reading" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../">Overview</a></li>
-<li><a href="../requirements-clarification/">Requirements Clarification</a></li>
-<li><a href="../estimation/">Back-of-the-Envelope Estimation</a></li>
+<li><a href="../trade-offs/">Trade-offs and Rules of Thumb</a></li>
+<li><a href="../../case-studies/playbook/">Case Study Playbook</a></li>
 </ul>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../approaches/" class="btn btn-neutral float-left" title="Alternative Frameworks"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../requirements-clarification/" class="btn btn-neutral float-right" title="1. Requirements Clarification">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../" class="btn btn-neutral float-left" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../trade-offs/" class="btn btn-neutral float-right" title="Trade-offs and Rules of Thumb">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -294,10 +342,10 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../approaches/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../requirements-clarification/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../trade-offs/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

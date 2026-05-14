@@ -47,54 +47,11 @@
                 <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
                 </li>
               </ul>
-              <p class="caption"><span class="caption-text">Fundamentals</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication & Redundancy</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
-                  </li>
-              </ul>
-              <p class="caption"><span class="caption-text">Components</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
-                  </li>
-              </ul>
-              <p class="caption"><span class="caption-text">Advanced</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/microservices/">Microservices</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/api-design/">API Design</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/authentication/">Authentication</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/consistent-hashing/">Consistent Hashing</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/sharding/">Database Sharding</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Interview Framework</span></p>
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../approaches/">Alternative Frameworks</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../trade-offs/">Trade-offs and Rules of Thumb</a>
                   </li>
@@ -105,6 +62,14 @@
     <li class="toctree-l2"><a class="reference internal" href="#what-to-define">What to Define</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#what-may-come-up">What May Come Up</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#choosing-a-communication-protocol">Choosing a Communication Protocol</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#rest-vs-rpc-decision">REST vs RPC Decision</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#idempotency-and-error-handling">Idempotency and Error Handling</a>
+    </li>
+        </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#api-design-notes">API Design Notes</a>
     </li>
@@ -125,8 +90,61 @@
                   <li class="toctree-l1"><a class="reference internal" href="../bottlenecks/">7. Bottlenecks and Scaling</a>
                   </li>
               </ul>
+              <p class="caption"><span class="caption-text">Fundamentals</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication & Redundancy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Components</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Advanced</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/microservices/">Microservices</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/api-design/">API Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/authentication/">Authentication</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/consistent-hashing/">Consistent Hashing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/sharding/">Database Sharding</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
+                  </li>
+              </ul>
               <p class="caption"><span class="caption-text">Operations</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../operations/">Overview</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking & CDN</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../operations/monitoring/">Monitoring & Logging</a>
@@ -136,9 +154,9 @@
               </ul>
               <p class="caption"><span class="caption-text">Case Studies</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Overview</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
                   </li>
@@ -220,6 +238,74 @@
 <li>Webhooks, message queues, and background jobs.</li>
 <li>File upload and download flows.</li>
 <li>Callback or webhook delivery for long-running tasks.</li>
+</ul>
+<h2 id="choosing-a-communication-protocol">Choosing a Communication Protocol<a class="headerlink" href="#choosing-a-communication-protocol" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Protocol</th>
+<th style="text-align: left;">Use Case</th>
+<th style="text-align: left;">Reliability</th>
+<th style="text-align: left;">Latency</th>
+<th style="text-align: left;">When to Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>HTTP/REST</strong></td>
+<td style="text-align: left;">Web APIs, public endpoints</td>
+<td style="text-align: left;">High (TCP-based)</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Default for most services, stateless, cacheable</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>TCP</strong></td>
+<td style="text-align: left;">Database connections, internal services</td>
+<td style="text-align: left;">Guaranteed delivery</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">When you need all data intact, transactions</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>UDP</strong></td>
+<td style="text-align: left;">Real-time applications</td>
+<td style="text-align: left;">Best-effort</td>
+<td style="text-align: left;">Low</td>
+<td style="text-align: left;">VoIP, video chat, gaming, streaming (loss OK)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RPC</strong></td>
+<td style="text-align: left;">Internal microservices</td>
+<td style="text-align: left;">High (depends on transport)</td>
+<td style="text-align: left;">Low</td>
+<td style="text-align: left;">Performance-critical, internal-only calls, tight coupling acceptable</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>gRPC</strong></td>
+<td style="text-align: left;">Modern microservices</td>
+<td style="text-align: left;">High (HTTP/2 + Protobuf)</td>
+<td style="text-align: left;">Very Low</td>
+<td style="text-align: left;">High throughput, language-agnostic, streaming</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Message Queue</strong></td>
+<td style="text-align: left;">Async, event-driven</td>
+<td style="text-align: left;">High (persisted)</td>
+<td style="text-align: left;">Decoupled</td>
+<td style="text-align: left;">Decoupling producers/consumers, background jobs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rest-vs-rpc-decision">REST vs RPC Decision<a class="headerlink" href="#rest-vs-rpc-decision" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>REST</strong> – Stateless, HTTP-native, better for public APIs, easier to cache, supports standard HTTP features.</li>
+<li><strong>RPC</strong> (gRPC, Thrift) – Tightly coupled, lower latency, better for internal services, performance-first.</li>
+</ul>
+<h3 id="idempotency-and-error-handling">Idempotency and Error Handling<a class="headerlink" href="#idempotency-and-error-handling" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Every mutating operation should be idempotent (safe to retry).</li>
+<li>Use version headers or ETags for concurrent update conflicts.</li>
+<li>Return proper HTTP status codes: 2xx (success), 4xx (client error), 5xx (server error).</li>
+<li>Provide error codes and messages in response body for debugging.</li>
 </ul>
 <h2 id="api-design-notes">API Design Notes<a class="headerlink" href="#api-design-notes" title="Permanent link">&para;</a></h2>
 <ul>

@@ -47,54 +47,11 @@
                 <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
                 </li>
               </ul>
-              <p class="caption"><span class="caption-text">Fundamentals</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication & Redundancy</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
-                  </li>
-              </ul>
-              <p class="caption"><span class="caption-text">Components</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
-                  </li>
-              </ul>
-              <p class="caption"><span class="caption-text">Advanced</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/microservices/">Microservices</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/api-design/">API Design</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/authentication/">Authentication</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/consistent-hashing/">Consistent Hashing</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/sharding/">Database Sharding</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Interview Framework</span></p>
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../approaches/">Alternative Frameworks</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../trade-offs/">Trade-offs and Rules of Thumb</a>
                   </li>
@@ -105,6 +62,10 @@
     <li class="toctree-l2"><a class="reference internal" href="#useful-questions">Useful Questions</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#good-clarification-targets">Good Clarification Targets</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#read-vs-write-heavy">Read vs. Write Heavy?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#define-your-constraints-precisely">Define Your Constraints Precisely</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#output-of-this-step">Output of This Step</a>
     </li>
@@ -125,8 +86,61 @@
                   <li class="toctree-l1"><a class="reference internal" href="../bottlenecks/">7. Bottlenecks and Scaling</a>
                   </li>
               </ul>
+              <p class="caption"><span class="caption-text">Fundamentals</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication & Redundancy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Components</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Advanced</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/microservices/">Microservices</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/api-design/">API Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/authentication/">Authentication</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/consistent-hashing/">Consistent Hashing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/sharding/">Database Sharding</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
+                  </li>
+              </ul>
               <p class="caption"><span class="caption-text">Operations</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../operations/">Overview</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking & CDN</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../operations/monitoring/">Monitoring & Logging</a>
@@ -136,9 +150,9 @@
               </ul>
               <p class="caption"><span class="caption-text">Case Studies</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Overview</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
                   </li>
@@ -228,6 +242,22 @@
 <li>Should the system support notifications, analytics, or audit trails?</li>
 <li>Is offline processing acceptable for any part of the workflow?</li>
 <li>Are there any legal, privacy, or compliance constraints?</li>
+</ul>
+<h2 id="read-vs-write-heavy">Read vs. Write Heavy?<a class="headerlink" href="#read-vs-write-heavy" title="Permanent link">&para;</a></h2>
+<p>Understanding the workload type drives architectural choices:</p>
+<ul>
+<li><strong>Read-heavy</strong> (e.g., Twitter timeline, YouTube views): Optimize for caching, read replicas, CDN, denormalization.</li>
+<li><strong>Write-heavy</strong> (e.g., real-time analytics, sensor data): Optimize for throughput, partitioning, async queues, batch processing.</li>
+<li><strong>Balanced</strong> (e.g., banking, messaging): Optimize for consistency, transactions, replication.</li>
+</ul>
+<h2 id="define-your-constraints-precisely">Define Your Constraints Precisely<a class="headerlink" href="#define-your-constraints-precisely" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Requests per second (RPS)</strong>: How many concurrent users? Peak vs. average?</li>
+<li><strong>Data volume</strong>: Initial, 1-year, 5-year projections (in GB/TB)?</li>
+<li><strong>Latency requirements</strong>: P50, P99, P99.9 latencies acceptable?</li>
+<li><strong>Availability target</strong>: 99.9% (8h downtime/year), 99.99% (52min/year), 99.999% (5min/year)?</li>
+<li><strong>Consistency needs</strong>: Strong (ACID), eventual (BASE), or eventual with bounded staleness?</li>
+<li><strong>Geographic distribution</strong>: Single region, multi-region, global?</li>
 </ul>
 <h2 id="output-of-this-step">Output of This Step<a class="headerlink" href="#output-of-this-step" title="Permanent link">&para;</a></h2>
 <ul>

@@ -36,27 +36,6 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Fundamentals:
-    - System Design Basics: fundamentals/basics.md
-    - Scalability: fundamentals/scalability.md
-    - Load Balancing: fundamentals/load-balancing.md
-    - Consistency Models: fundamentals/consistency.md
-    - Replication & Redundancy: fundamentals/replication.md
-    - Client-Server Communication: fundamentals/communication.md
-    - High Level Design vs Low Level Design: fundamentals/hld-vs-lld.md
-  - Components:
-    - Caching: components/caching.md
-    - Indexing: components/indexing.md
-    - Message Queues: components/message-queues.md
-    - Databases: components/databases.md
-    - Proxies: components/proxies.md
-  - Advanced:
-    - Microservices: advanced/microservices.md
-    - API Design: advanced/api-design.md
-    - Authentication: advanced/authentication.md
-    - Consistent Hashing: advanced/consistent-hashing.md
-    - Database Sharding: advanced/sharding.md
-    - Top 'K' Frequent Items: advanced/top-k.md
   - Interview Framework:
     - Overview: interview-framework/index.md
     - Alternative Frameworks: interview-framework/approaches.md
@@ -68,13 +47,38 @@ nav:
     - 5. High-Level Design: interview-framework/high-level-design.md
     - 6. Detailed Design: interview-framework/detailed-design.md
     - 7. Bottlenecks and Scaling: interview-framework/bottlenecks.md
+  - Fundamentals:
+    - Overview: fundamentals/index.md
+    - System Design Basics: fundamentals/basics.md
+    - Scalability: fundamentals/scalability.md
+    - Load Balancing: fundamentals/load-balancing.md
+    - Consistency Models: fundamentals/consistency.md
+    - Replication & Redundancy: fundamentals/replication.md
+    - Client-Server Communication: fundamentals/communication.md
+    - High Level Design vs Low Level Design: fundamentals/hld-vs-lld.md
+  - Components:
+    - Overview: components/index.md
+    - Caching: components/caching.md
+    - Databases: components/databases.md
+    - Message Queues: components/message-queues.md
+    - Indexing: components/indexing.md
+    - Proxies: components/proxies.md
+  - Advanced:
+    - Overview: advanced/index.md
+    - Microservices: advanced/microservices.md
+    - API Design: advanced/api-design.md
+    - Authentication: advanced/authentication.md
+    - Consistent Hashing: advanced/consistent-hashing.md
+    - Database Sharding: advanced/sharding.md
+    - Top 'K' Frequent Items: advanced/top-k.md
   - Operations:
+    - Overview: operations/index.md
     - Networking & CDN: operations/networking.md
     - Monitoring & Logging: operations/monitoring.md
     - Deployment: operations/deployment.md
   - Case Studies:
+    - Overview: case-studies/index.md
     - Case Study Playbook: case-studies/playbook.md
-    - Popular Services: case-studies/index.md
     - Instagram Design: case-studies/instagram.md
     - Twitter Design: case-studies/twitter.md
     - Dropbox / Google Drive: case-studies/dropbox.md

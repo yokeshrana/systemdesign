@@ -43,8 +43,33 @@
 <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Interview Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/approaches/">Alternative Frameworks</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/trade-offs/">Trade-offs and Rules of Thumb</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/estimation/">3. Back-of-the-Envelope Estimation</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/data-model/">4. Data Model Definition</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/high-level-design/">5. High-Level Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/detailed-design/">6. Detailed Design</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/bottlenecks/">7. Bottlenecks and Scaling</a>
+</li>
+</ul>
 <p class="caption"><span class="caption-text">Fundamentals</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../fundamentals/">Overview</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
@@ -62,19 +87,23 @@
 </ul>
 <p class="caption"><span class="caption-text">Components</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../components/">Overview</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
+<li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
+<li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
 </li>
 </ul>
 <p class="caption"><span class="caption-text">Advanced</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../microservices/">Microservices</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api-design/">API Design</a>
@@ -118,29 +147,10 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Interview Framework</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/">Overview</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/trade-offs/">Trade-offs and Rules of Thumb</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/requirements-clarification/">1. Requirements Clarification</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/system-interface/">2. System Interface Definition</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/estimation/">3. Back-of-the-Envelope Estimation</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/data-model/">4. Data Model Definition</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/high-level-design/">5. High-Level Design</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/detailed-design/">6. Detailed Design</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../interview-framework/bottlenecks/">7. Bottlenecks and Scaling</a>
-</li>
-</ul>
 <p class="caption"><span class="caption-text">Operations</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/">Overview</a>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking &amp; CDN</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../operations/monitoring/">Monitoring &amp; Logging</a>
@@ -150,9 +160,9 @@
 </ul>
 <p class="caption"><span class="caption-text">Case Studies</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Overview</a>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
+<li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
 </li>
@@ -228,8 +238,10 @@
 <li><strong>Bandwidth:</strong> 10M events/sec * 100 bytes/event $\approx$ 1GB/s.</li>
 </ul>
 <h2 id="3-apis">3. APIs<a class="headerlink" href="#3-apis" title="Permanent link">¶</a></h2>
-<p><code>GET /v1/top-k?k=10&amp;window=1h</code>
-*   <strong>Response:</strong> <code>{"items": [{"id": "item1", "count": 5000}, ...], "window": "1h"}</code></p>
+<p><code>GET /v1/top-k?k=10&amp;window=1h</code></p>
+<ul>
+<li><strong>Response:</strong> <code>{"items": [{"id": "item1", "count": 5000}, ...], "window": "1h"}</code></li>
+</ul>
 <h2 id="4-db-design">4. DB Design<a class="headerlink" href="#4-db-design" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>In-Memory:</strong> Redis (Sorted Sets) for real-time storage.</li>
@@ -247,9 +259,11 @@
 </div>
 <h2 id="6-detailed-design">6. Detailed Design<a class="headerlink" href="#6-detailed-design" title="Permanent link">¶</a></h2>
 <h3 id="count-min-sketch">Count-Min Sketch<a class="headerlink" href="#count-min-sketch" title="Permanent link">¶</a></h3>
-<p>To handle massive cardinality, we use a Count-Min Sketch (probabilistic data structure).
-*   Uses a 2D array of counters and multiple hash functions.
-*   Provides an upper bound on frequency with fixed memory.</p>
+<p>To handle massive cardinality, we use a Count-Min Sketch (probabilistic data structure).</p>
+<ul>
+<li>Uses a 2D array of counters and multiple hash functions.</li>
+<li>Provides an upper bound on frequency with fixed memory.</li>
+</ul>
 <h3 id="heavy-keepers-space-saving-algorithm">Heavy Keepers / Space Saving Algorithm<a class="headerlink" href="#heavy-keepers-space-saving-algorithm" title="Permanent link">¶</a></h3>
 <p>Used to track the actual IDs of the top items, as Count-Min Sketch only tracks counts.</p>
 <h3 id="data-aggregation">Data Aggregation<a class="headerlink" href="#data-aggregation" title="Permanent link">¶</a></h3>
@@ -268,7 +282,7 @@
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
 <a class="btn btn-neutral float-left" href="../sharding/" title="Database Sharding"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-<a class="btn btn-neutral float-right" href="../../interview-framework/" title="Overview">Next <span class="icon icon-circle-arrow-right"></span></a>
+<a class="btn btn-neutral float-right" href="../../operations/" title="Overview">Next <span class="icon icon-circle-arrow-right"></span></a>
 </div>
 <hr/>
 <div role="contentinfo">
@@ -284,7 +298,7 @@
 <div aria-label="Versions" class="rst-versions" role="note">
 <span class="rst-current-version" data-toggle="rst-current-version">
 <span><a href="../sharding/" style="color: #fcfcfc">« Previous</a></span>
-<span><a href="../../interview-framework/" style="color: #fcfcfc">Next »</a></span>
+<span><a href="../../operations/" style="color: #fcfcfc">Next »</a></span>
 </span>
 </div>
 <script src="../../js/jquery-3.6.0.min.js"></script>

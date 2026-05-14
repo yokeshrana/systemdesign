@@ -47,54 +47,11 @@
                 <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
                 </li>
               </ul>
-              <p class="caption"><span class="caption-text">Fundamentals</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication & Redundancy</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
-                  </li>
-              </ul>
-              <p class="caption"><span class="caption-text">Components</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
-                  </li>
-              </ul>
-              <p class="caption"><span class="caption-text">Advanced</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/microservices/">Microservices</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/api-design/">API Design</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/authentication/">Authentication</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/consistent-hashing/">Consistent Hashing</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/sharding/">Database Sharding</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Interview Framework</span></p>
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../approaches/">Alternative Frameworks</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../trade-offs/">Trade-offs and Rules of Thumb</a>
                   </li>
@@ -109,6 +66,16 @@
     <li class="toctree-l2"><a class="reference internal" href="#questions-to-answer">Questions to Answer</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#useful-rule-of-thumb-checks">Useful Rule-of-Thumb Checks</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#quick-capacity-rules">Quick Capacity Rules</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#performance-vs-scalability">Performance vs Scalability</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#latency-numbers-every-programmer-should-know">Latency Numbers Every Programmer Should Know</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#throughput-vs-latency">Throughput vs Latency</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#example-dimensions">Example Dimensions</a>
     </li>
@@ -127,8 +94,61 @@
                   <li class="toctree-l1"><a class="reference internal" href="../bottlenecks/">7. Bottlenecks and Scaling</a>
                   </li>
               </ul>
+              <p class="caption"><span class="caption-text">Fundamentals</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/basics/">System Design Basics</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/scalability/">Scalability</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/load-balancing/">Load Balancing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/consistency/">Consistency Models</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/replication/">Replication & Redundancy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/communication/">Client-Server Communication</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../fundamentals/hld-vs-lld/">High Level Design vs Low Level Design</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Components</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/caching/">Caching</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/databases/">Databases</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/message-queues/">Message Queues</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/indexing/">Indexing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../components/proxies/">Proxies</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Advanced</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/microservices/">Microservices</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/api-design/">API Design</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/authentication/">Authentication</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/consistent-hashing/">Consistent Hashing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/sharding/">Database Sharding</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../advanced/top-k/">Top 'K' Frequent Items</a>
+                  </li>
+              </ul>
               <p class="caption"><span class="caption-text">Operations</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../operations/">Overview</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../operations/networking/">Networking & CDN</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../operations/monitoring/">Monitoring & Logging</a>
@@ -138,9 +158,9 @@
               </ul>
               <p class="caption"><span class="caption-text">Case Studies</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Overview</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/">Popular Services</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../case-studies/playbook/">Case Study Playbook</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../case-studies/instagram/">Instagram Design</a>
                   </li>
@@ -232,6 +252,40 @@
 <li>Compare hot-path storage against cold storage requirements.</li>
 <li>Use simple per-user or per-item assumptions instead of complex formulas.</li>
 </ul>
+<h3 id="quick-capacity-rules">Quick Capacity Rules<a class="headerlink" href="#quick-capacity-rules" title="Permanent link">&para;</a></h3>
+<ul>
+<li>1 server at 1000 QPS → ~1,000 servers for 1M QPS.</li>
+<li>1 GB storage per day → ~365 GB/year, ~1.8 TB/5 years.</li>
+<li>Latency rule: Round-trip within datacenter ~500 µs; across world ~150 ms.</li>
+<li>Bandwidth: 1 Gbps = 125 MB/s; typical server egress ~10 Gbps.</li>
+<li>Cache hit rate 80% reduces DB load by 5x on read-heavy workloads.</li>
+</ul>
+<h2 id="performance-vs-scalability">Performance vs Scalability<a class="headerlink" href="#performance-vs-scalability" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Performance Problem</strong>: Your system is slow for a <em>single user</em>.</li>
+<li><strong>Scalability Problem</strong>: Your system is fast for one user but slow under <em>heavy load</em>.</li>
+</ul>
+<p>Optimize for performance first, then scalability.</p>
+<h2 id="latency-numbers-every-programmer-should-know">Latency Numbers Every Programmer Should Know<a class="headerlink" href="#latency-numbers-every-programmer-should-know" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>L1 cache reference                    0.5 ns
+Main memory reference                 100 ns   (200x slower than L1)
+Compress 1K with Zippy               10 µs
+Send 1 KB over 1 Gbps                10 µs
+Read 4 KB randomly from SSD         150 µs   (1.5GB/sec)
+Read 1 MB from memory               250 µs
+Round trip within datacenter        500 µs
+Read 1 MB from SSD                    1 ms   (1GB/sec, 4x slower than memory)
+Disk seek                            10 ms   (20x datacenter roundtrip)
+Read 1 MB from HDD                   30 ms   (120x memory, 30x SSD)
+Send packet CA→Netherlands→CA       150 ms
+</code></pre></div>
+<p><strong>Key Insight</strong>: Disk is ~100,000x slower than L1 cache. Caching decisions drive architecture.</p>
+<h2 id="throughput-vs-latency">Throughput vs Latency<a class="headerlink" href="#throughput-vs-latency" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Throughput</strong>: Actions per unit time (req/sec, MB/sec).</li>
+<li><strong>Latency</strong>: Time for single action (milliseconds).</li>
+</ul>
+<p>Goal: Maximize throughput with acceptable latency. Batch systems have high throughput + high latency; streaming has lower throughput + low latency.</p>
 <h2 id="example-dimensions">Example Dimensions<a class="headerlink" href="#example-dimensions" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Requests per second.</li>

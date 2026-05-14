@@ -7,11 +7,22 @@ hide:
 
 Welcome to your complete System Design Interview Preparation Guide. This comprehensive resource covers everything you need to ace your system design interviews at top tech companies.
 
+## Learning Path
+
+1. [Interview Framework](interview-framework/index.md)
+2. [Fundamentals](fundamentals/index.md)
+3. [Components](components/index.md)
+4. [Advanced Topics](advanced/index.md)
+5. [Operations](operations/index.md)
+6. [Case Studies](case-studies/index.md)
+
+Start with the framework, then build the supporting concepts in order. The section landing pages are designed to guide you through each layer without forcing you to read every page at once.
+
 ---
 
 ## Start Here
 
-If you want the fastest path to a strong system design answer, begin with the [Interview Framework](interview-framework/index.md). It gives you the seven-step structure used throughout the rest of this site and in the Grokking-style PDF reference.
+If you want the fastest path to a strong system design answer, begin with the [Interview Framework](interview-framework/index.md). It gives you the seven-step structure used throughout the rest of this site.
 
 ### The Default Interview Flow
 
