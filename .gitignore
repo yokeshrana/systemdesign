@@ -1,3 +1,4 @@
 *.pdf
 !docs/assets/*.pdf
 .DS_Store
+site/
